@@ -1,0 +1,56 @@
+%#######################################################################
+% This module combine PI and OE DB and provide more comprehensive
+% information about events and unit status
+%######################################################################
+
+\documentclass[a4paper]{article}
+
+\begin{document}
+
+<<calc,echo=FALSE>>=
+source('functions.r')
+
+units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
+eCode <- readRDS('DBCopy/OE_EventUnit.rds')
+rCode <- readRDS('DBCopy/OE_EventReport.rds')
+event <- readRDS('DBCopy/OE_Event.rds')
+
+uNo<-as.numeric(readline('Enter PI DBunit ID:'))
+qtr<-as.numeric(readline('Enter the last quarter you are interested in format YYYYMM'))
+mns<-as.numeric(readline('Enter the data window (in months) you are interested:'))
+
+lastDate <- dateToReal(qtr,'e')
+startDate <- lastDate-31*mns
+
+#print(paste(startDate,lastDate))
+
+oeid <- unlist(subset(units,units$INPORef==uNo,OEDBID))[1]
+eventCodes <- unlist(subset(eCode,eCode$UnitCode==oeid,EventCode)) # list of events for selected unit
+repCodes <- unlist(subset(rCode,rCode$EventCode %in% eventCodes,ReportCode))
+events <- subset(event, event$EventCode %in% eventCodes & as.Date(event$EventDate)<=lastDate & as.Date(event$EventDate)>=startDate,c(EventDate, EventTitle))
+uName <- unlist(subset(units,units$INPORef==uNo,ShortName))[1]
+#print(events)
+@
+
+This is information for unit \Sexpr{uName} from \Sexpr{startDate} till
+\Sexpr{lastDate} for \Sexpr{mns} months data window
+
+
+\begin{tabular}{p{2cm}p{10cm}}
+<<oe,echo=FALSE,results=tex>>=
+
+r <- readRDS('DBCopy/PI_Results.rds')
+indicators <- c('UCF  ','UCLF ','FLR  ','UA7  ','SP1  ','SP2  ','SP5  ','FRI  ','CY   ','CRE  ',
+	'ISA','CISA','GRLF ','US7  ')#,'TISA')
+### TODO: there is only one row of events instead of two ###
+  for (i in length(events)) cat(paste(events[[1]][i],'&',events[[2]][i],'\\\\'))
+  cat('&\\\\')
+  for (i in indicators){
+      res <- unlist(subset(r,r$LocId==uNo & r$IndicatorCode==i & PeriodEndYrMn==qtr & NumOfMonths==mns & NonQualCode==' ',ResultsValue))
+      if (length(res)) cat(paste(i,'&',signif(res,2),'\\\\'))
+}
+@
+\end{tabular}
+
+\end{document}
+

@@ -1,0 +1,361 @@
+%--------------------------------------------------------------------------------------------------
+%  This is tex/pdf report generator to produce Long-Term Target Performance Table
+%  to replace the existing one at http://www.wano.org/xwp10webapp/reports/TableReport.pdf?x=774741
+%  Please check that QReport.r has been started beforehand
+%--------------------------------------------------------------------------------------------------
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{times}
+\usepackage{multirow}
+
+\setlength\parindent{0pt}
+
+\usepackage{geometry}
+ \geometry{
+ letterpaper,
+ total={170mm,257mm},
+ left=20mm,
+ top=5mm,
+ }
+
+%\textwidth=18cm
+%\textheight=26cm
+%\parskip=.3cm
+%\oddsidemargin=.1in
+%\evensidemargin=.1in
+%\headheight=-.3in
+
+\begin{document}
+
+%------------------------------------------------------------
+\title{Regional Centre Target Performance Reports}
+%------------------------------------------------------------
+
+%\author{WANO London Office}
+%\date{}
+
+
+\SweaveOpts{highlight=TRUE, tidy=TRUE, keep.space=TRUE, keep.blank.space=FALSE, keep.comment=TRUE}
+\SweaveOpts{prefix.string=Fig}
+\SweaveOpts{echo=FALSE}
+
+%\maketitle
+
+<<ld>>=
+lastDate <- 201606
+dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201606)
+fn <- paste('LTT/Worldwide_LTT_',lastDate,'.rds',sep='')
+ww <- readRDS(fn)
+fn <- paste('LTT/RCs_LTT_',lastDate,'.rds',sep='')
+rc <- readRDS(fn)
+@
+<<printLd>>=
+<<ld>>
+dateToQ <- function(date)
+	{
+	yr <- substr(date,1,4)
+	mn <- substr(date,5,6)
+	if (mn==03)	{mn <- 'Q1'}
+	if (mn==06)	{mn <- 'Q2'}
+	if (mn==09)	{mn <- 'Q3'}
+	if (mn==12)	{mn <- 'Q4'}
+	return(paste(yr,mn,sep=''))
+	}
+cat('Results through',dateToQ(lastDate),'have been generated on',date())
+@
+
+%\tableofcontents
+%------------------------------------------------------------
+\section*{Long-Term Targets Performance Table}
+%------------------------------------------------------------
+\begin{center}
+\begin{tabular}{|p{5cm}||p{5cm}|p{5cm}|}
+\hline
+
+% ---------------------- Worldwide_LTT -------------------------
+<<wwtable,results=tex>>=
+<<ld>>
+column <- c('Key Indicator (Reactor types combined for applicable indicators)',
+'Percentage Achieving Individual Target (Objective 100 percent)',
+'Percentage Achieving Industry Worst Quartile Target (Objective 75 percent)')
+
+cat(column[1],"&",column[2],"&",column[3],"\\\\\n\\hline\\hline","\n")
+for (i in 1:5)
+	{
+	cat(paste(ww[i,2],"&",ww[i,3],"&",ww[i,4],"\\\\\n\\hline","\n"))
+	}
+@
+\end{tabular}
+\end{center}
+
+% ------------------------ LTT by Regional Centre -----------------------
+<<rcTable,results=tex>>=
+<<ld>>
+rcs <- c('Atlanta Centre','Moscow Centre','Paris Centre','Tokyo Centre')
+for (rcNum in 1:4)
+	{
+	#cat(rcs[rcNum])
+	cat('\\begin{center}',
+		'\\begin{tabular}{|p{1.5cm}||p{2.5cm}||p{2.5cm}|p{2.5cm}||p{2.5cm}|p{2.5cm}|}',
+		'\\hline')
+	cat('\\multicolumn{2}{|c||}{\\textbf{',rcs[rcNum],'}}','&',
+		'\\multicolumn{2}{|c||}{Individual Target Related Performance}','&',
+		'\\multicolumn{2}{|c|}{Industry Target Related Performance}',
+		'\\\\\n\\hline','\n')
+	cat('Key Indicator','&',
+		'Number of units with qualified results','&',
+		'Number of units achieving individual target','&',
+		'Percentage of regional centre units achieving individual target','&',
+		'Number of units achieving industry worst quartile target','&',
+		'Percentage of regional centre units achieving industry worst quartile target',
+		'\\\\\n\\hline','\n')
+	for (i in 1:5)
+		{
+		l <- i+(rcNum-1)*5
+		cat(paste(rc[l,2],"&",rc[l,7],"&",rc[l,5],"&",rc[l,3],"&",rc[l,6],"&",rc[l,4],"\\\\\n\\hline","\n"))
+		}
+	cat('\\end{tabular}','\\end{center}')
+	}
+@
+
+%------------------------------------------------------------
+\clearpage
+\section*{Long-Term Targets Performance Bar Charts}
+\subsection*{Number of Units Not Meeting Individual Target per Regional Centre}
+%------------------------------------------------------------
+<<IdvCharts, fig=TRUE, height=5, width=6>>=
+<<ld>>
+par(mfrow=c(2,3))
+#library(plotrix)
+
+# Data in format non-archieved AC - MC - PC - TC
+
+ind <- c('FLR','CRE','TISA','US7','SSPI')
+for (i in 1:5)
+	{
+	# Charts
+	slices <- c(as.integer(rc[i,7])-as.integer(rc[i,5]),
+		as.integer(rc[i+5,7])-as.integer(rc[i+5,5]),
+		as.integer(rc[i+10,7])-as.integer(rc[i+10,5]),
+		as.integer(rc[i+15,7])-as.integer(rc[i+15,5]))
+	lbls <- c("AC", "MC", "PC", "TC")
+	lbls <- paste(lbls, slices) # add percents to labels
+	#pie(slices,labels = lbls, col=c('green','red','blue','yellow'),
+	#	main=ind[i])
+	barplot(slices, names.arg=lbls, horiz=T, las=1, cex.names=1.0, border=NA,
+		col=c('green','red','blue','yellow'),main=ind[i])
+	}
+@
+
+\subsection*{Number of Units Not Meeting Industry Target per Regional Centre}
+
+<<IdsCharts, fig=TRUE, height=5, width=6>>=
+<<ld>>
+ind <- c('FLR','CRE','TISA','US7','SSPI')
+par(mfrow=c(2,3))
+for (i in 1:5)
+	{
+	# Charts
+	slices <- c(as.integer(rc[i,7])-as.integer(rc[i,6]),
+		as.integer(rc[i+5,7])-as.integer(rc[i+5,6]),
+		as.integer(rc[i+10,7])-as.integer(rc[i+10,6]),
+		as.integer(rc[i+15,7])-as.integer(rc[i+15,6]))
+	lbls <- c("AC", "MC", "PC", "TC")
+	lbls <- paste(lbls, slices) # add percents to labels
+	barplot(slices, names.arg=lbls, horiz=T, las=1, cex.names=1.0, border=NA,
+		col=c('green','red','blue','yellow'),main=ind[i])
+	}
+@
+
+<<PerfTrendCalc>>=
+<<ld>>
+rcs <- c('Atlanta Centre','Moscow Centre','Paris Centre','Tokyo Centre')
+ind <- c('FLR','CRE','TISA','US7','SSPI')
+cName <- c('FLR Individual Target','FLR Industry Target',
+	'CRE Individual Target','CRE Industry Target','TISA Individual Target','TISA Industry Target',
+	'US7 Individual Target','US7 Industry Target','SSPI Individual Target','SSPI Industry Target')
+res <- data.frame()
+ac <- data.frame()
+mc <- data.frame()
+pc <- data.frame()
+tc <- data.frame()
+
+for (d in dateRange)
+	{
+	fn <- paste('LTT/Worldwide_LTT_',d,'.rds',sep='')
+	fnRc <- paste('LTT/RCs_LTT_',d,'.rds',sep='')
+	ww <- readRDS(fn)
+	rc <- readRDS(fnRc)
+	r <- t(c(ww[1,3],ww[1,4],ww[2,3],ww[2,4],ww[3,3],ww[3,4],ww[4,3],ww[4,4],ww[5,3],ww[5,4]))
+	a <- t(c(rc[1,3],rc[1,4],rc[2,3],rc[2,4],rc[3,3],rc[3,4],rc[4,3],rc[4,4],rc[5,3],rc[5,4]))
+	m <- t(c(rc[6,3],rc[6,4],rc[7,3],rc[7,4],rc[8,3],rc[8,4],rc[9,3],rc[9,4],rc[10,3],rc[10,4]))
+	p <- t(c(rc[11,3],rc[11,4],rc[12,3],rc[12,4],rc[13,3],rc[13,4],rc[14,3],rc[14,4],rc[15,3],rc[15,4]))
+	t <- t(c(rc[16,3],rc[16,4],rc[17,3],rc[17,4],rc[18,3],rc[18,4],rc[19,3],rc[19,4],rc[20,3],rc[20,4]))
+
+	res <- rbind(res,r)
+	ac <- rbind(ac,a)
+	mc <- rbind(mc,m)
+	pc <- rbind(pc,p)
+	tc <- rbind(tc,t)
+	}
+colnames(res) <- cName
+colnames(ac) <- cName
+colnames(mc) <- cName
+colnames(pc) <- cName
+colnames(tc) <- cName
+
+s <- function(x) {substr(x,1,4)}
+dates <- lapply(dateRange,s)
+@
+
+\section*{Long-Term Target Performance Trends \footnote{Please see more detailed definition regarding new and updated targets and indicators on the last pages}}
+\subsection*{Worldwide Trends (percentage of units achieving targets)}
+
+<<PerfTrendWW, fig=TRUE, height=11, width=6>>=
+<<PerfTrendCalc>>
+par(mfrow=c(5,2))
+for (i in 1:10)
+	{
+	if (i%%2) lim <- 100 else lim <- 75
+	ymin <- min(unlist(res[i]),na.rm=TRUE)
+	if (ymin>75 & !i%%2) ymin <- 75
+	plot(dates,t(res[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
+	abline(lim,0,col="red")
+	}
+@
+
+\subsection*{AC Trends (percentage of units achieving targets)}
+<<PerfTrendAC, fig=TRUE, height=11, width=6>>=
+<<PerfTrendCalc>>
+par(mfrow=c(5,2))
+for (i in 1:10)
+	{
+	if (i%%2) lim <- 100 else lim <- 75
+	ymin <- min(unlist(ac[i]),na.rm=TRUE)
+	if (ymin>75 & !i%%2) ymin <- 75
+	plot(dates,t(ac[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
+	abline(lim,0,col="red")
+	}
+@
+
+\subsection*{MC Trends (percentage of units achieving targets)}
+<<PerfTrendMC, fig=TRUE, height=11, width=6>>=
+<<PerfTrendCalc>>
+par(mfrow=c(5,2))
+for (i in 1:10)
+	{
+	if (i%%2) lim <- 100 else lim <- 75
+	ymin <- min(unlist(mc[i]),na.rm=TRUE)
+	if (ymin>75 & !i%%2) ymin <- 75
+	plot(dates,t(mc[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
+	abline(lim,0,col="red")
+	}
+@
+
+\subsection*{PC Trends (percentage of units achieving targets)}
+<<PerfTrendPC, fig=TRUE, height=11, width=6>>=
+<<PerfTrendCalc>>
+par(mfrow=c(5,2))
+for (i in 1:10)
+	{
+	if (i%%2) lim <- 100 else lim <- 75
+	ymin <- min(unlist(pc[i]),na.rm=TRUE)
+	if (ymin>75 & !i%%2) ymin <- 75
+	plot(dates,t(pc[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
+	abline(lim,0,col="red")
+	}
+@
+
+\subsection*{TC Trends (percentage of units achieving targets)}
+<<PerfTrendTC, fig=TRUE, height=11, width=6>>=
+<<PerfTrendCalc>>
+par(mfrow=c(5,2))
+for (i in 1:10)
+	{
+	if (i%%2) lim <- 100 else lim <- 75
+	ymin <- min(unlist(tc[i]),na.rm=TRUE)
+	if (ymin>75 & !i%%2) ymin <- 75
+	plot(dates,t(tc[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
+	abline(lim,0,col="red")
+	}
+@
+
+\subsection*{Targets definition}
+
+For most performance indicators, the industry values were developed based on 2007 industry results. The industry-level targets are based on 75 percent of the industry achieving the 2007 industry median values. This would mean that overall industry performance has improved, with an additional one-fourth of the industry units or stations achieving performance indicators results better than the 2007 industry median. The individual unit or station performance targets are based on all units and stations achieving results that are better than the 2007 lowest quartile values.
+The safety system performance targets are based on a continuing reduction of the industry average safety system unavailability to below 2007 industry average values. The unit/station safety system targets are based on first keeping the unavailability below a threshold value (0.020 or 0.025 depending on the system) and also either maintaining or decreasing the individual unit/station safety system unavailability.
+
+\subsubsection*{WANO Performance Indicator Targets 2020}
+
+The 2020 long-term targets for the WANO Performance Indicators will now begin to be implemented, following the comparisons of the 2015 year-end performance against the 2015 targets.
+
+The targets have been updated to reflect the fact that WANO members and the industry as a whole have met the challenging goals previously set by the organisation. Therefore, new goals for some indicators have had to be established. These were discussed within the PI programme teams across WANO, and then presented to and approved by the Executive Leadership Team (ELT) in its meeting in December 2014.
+
+The most of the targets LTT-2020 are the same as those set out in LTT-2015, except for the following changes:
+\begin{itemize}
+\item{Collective Radiation Exposure targets for AGRs have been changed due to the change in plant conditions since 2000;}
+\item{Personnel safety performance will be monitored against targets for a new Total Industry Safety Accident (TISA) indicator, which replaces the ISA indicator used for the 2015 targets;}
+\item{The safety system performance indicator industry target is now based on the percentage of units achieving all the individual SSPI targets (100 percent);}
+\item{Individual and industry targets have been added for the total unplanned scram rate per 7,000 hours critical indicator (US7). The US7 2020 industry target is based on the third quartile of the worldwide industry by reactor type.}
+\end{itemize}
+
+The LTT-2020 below should be met by the end of 2020, i.e., the unit and industry indicator values should be less than or equal to the values defined below for each indicator.
+
+\begin{center}
+\begin{tabular}{|p{5cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Indicator} & \textbf{Unit} & \textbf{Individual target} & \textbf{Industry target} \\
+\hline
+Operating Period Forced Loss Rate (FLR) & percent & 5.0 & 2.0 \\
+\hline
+Collective Radiation Exposure (CRE) & man-rem/man-Sievert & AGR: 10/0.10 & AGR: 5.0/0.05 \\
+&&BWR: 180/1.80 & BWR: 125/1.25 \\
+&&LWCGR: 320/3.20 & LWCGR: 240/2.40 \\
+&&PHWR: 200/2.00 & PHWR: 115/1.15\\
+&&PWR: 90/0.90 & PWR: 70/0.70 \\
+\hline
+Total Industry Safety Accident rate (TISA) & number per 200,000 hours worked & 0.50 & 0.20 \\
+\hline
+Safety System Performance Indicator (SSPI) & unavailability & SP1 and SP2: 0.020 & 100 percent of worldwide units achieve the individual targets\\
+&&SP5 (EAC): 0.025&\\
+\hline
+Unplanned total Scrams per 7,000 hours critical (US7) & rate & BWR, PWR, LWCGR: 1.0 & BWR, PWR, LWCGR: 0.5 \\
+&&PHWR: 1.5 & PHWR: 1.0 \\
+&&AGR: 2.0 & AGR: 1.0 \\
+\hline
+\end{tabular}
+\end{center}
+
+Unfortunately, system modifications need to be carried out before we can produce reports on the new long term targets in the usual manner. Therefore, WANO London Office provides all LTT-related reports and calculations until these modifications have been completed.
+
+\subsubsection*{Forced Loss Rate (FLR)}
+
+The forced loss rate (FLR) is defined as the ratio of all unplanned forced energy losses during a given period of time to the reference energy generation minus energy generation losses corresponding to planned outages and any unplanned outage extensions of planned outages, during the same period, expressed as a percentage.
+Unplanned energy losses are either unplanned forced energy losses (unplanned energy generation losses not resulting from an outage extension) or unplanned outage extension of planned outage energy losses.
+Planned energy losses are those corresponding to outages or power reductions which were planned and scheduled at least 4 weeks in advance (see clarifying notes for exceptions).
+
+\subsubsection*{Collective Radiation Exposure (CRE)}
+
+Collective radiation exposure, for purposes of this indicator, is the total external and internal whole body exposure determined by primary dosimeter (thermoluminescent dosimeter (TLD) or film badge), and internal exposure calculations. All measured exposure should be reported for station personnel, contractors, and those personnel visiting the site or station on official utility business.
+Visitors, for purposes of this indicator, include only those monitored visitors who are visiting the site or station on official utility business.
+
+\subsubsection*{Total Industrial Safety Accident Rate (TISA)}
+
+This indicator is defined as the number of accidents for all plant personnel, including all staff, contractors, supplemental personnel, and all other non-utility personnel working onsite that result in one or more days away from work (excluding the day of the accident) or fatalities per 200,000 (TISA2) or per 1,000,000 (TISA1) man-hours worked. The selection of 200,000 man-hours worked or 1,000,000 man-hours worked for the indicator will be made by the country collecting the data, and international data will be displayed using both scales.
+
+\subsubsection*{Safety System Performance (SSPI)}
+
+The purpose of the safety system performance indicator is to monitor the readiness of important safety systems to perform certain functions in response to off-normal events or accidents. This indicator also indirectly monitors the effectiveness of operation and maintenance practices in managing the unavailability of safety system components.
+The safety system performance indicator provides a simple indication of safety system unavailability that shows good correlation with results of system unavailability calculations using more precise system modelling techniques (e.g. fault trees). A low value of the safety system performance indicator indicates a greater margin of safety for preventing reactor core damage and less chance of extended plant shutdown due to failure of a safety system to function during an operational event.
+However, the objective should not be to attain a safety system performance indicator (unavailability) value that is near zero over a long term. Rather, the objective should be to attain a value that, while low, allows for maintenance activities to help maintain system reliability and availability consistent with safety analyses.
+The safety system performance indicator is defined for the many different types of nuclear reactors within the WANO membership. To facilitate better understanding of the indicator and applicable system scope for these different type reactors a separate section has been developed for each reactor type.
+
+\subsubsection*{Unplanned Total Scrams Per 7,000 Hours Critical (US7)}
+
+The indicator is defined as the sum of the number of unplanned automatic scrams (reactor protection system logic actuations) and unplanned manual scrams that occur per 7,000 hours of critical operation.
+The value of 7,000 hours is representative of the critical hours of operation during a year for most plants. It provides an indicator value that typically approximates the actual number of scrams occurring during the year.
+
+\end{document}
