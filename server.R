@@ -1,6 +1,8 @@
 library(shiny)
 library(datasets)
 
+source('functions.r')
+
 elByInd <- list('CISA1' = c('M5   ','M6   ','M7   ','M8   '), # Elements By Indicators
                 'CISA2' = c('M5   ','M6   ','M7   ','M8   '),
                 'ISA1 ' = c('M1   ','M2   ','M3   ','M4   '),
@@ -41,10 +43,8 @@ eCode <- readRDS('DBCopy/OE_EventUnit.rds')
 rCode <- readRDS('DBCopy/OE_EventReport.rds')
 event <- readRDS('DBCopy/OE_Event.rds')
 
-source('functions.r')
-
 shinyServer(function(input, output) {
-
+    # OE DB
     uID <- reactive(subset(place,place$AbbrevLocName==input$name)[[1]]) # define unit ID
 
     oeid <- reactive(unlist(subset(units,units$INPORef==uID(),OEDBID))[[1]])
@@ -54,15 +54,15 @@ shinyServer(function(input, output) {
     startDate <- reactive(lastDate()-31*as.numeric(input$window))
     events <- reactive(subset(event, event$EventCode %in% eventCodes() & as.Date(event$EventDate)<=lastDate()
                      & as.Date(event$EventDate)>=startDate(),c(EventDate, EventTitle)))
-    output$events <- renderTable(events())
-
+    output$events <- renderDataTable(events())
+    # Is it unit or plant?
     uNo <- reactive({
         pNo <-  as.integer(unique(subset(relation,
                                          relation$LocId == subset(place,place$AbbrevLocName==input$name)[[1]]
 	& relation$RelationId == 4
 	& as.Date(relation$EndDate) >= Sys.Date(),
 	select=ParentLocId)))
-        if(input$ind %in% c('SP5  ','ISA1  ','ISA2  ','CISA1','CISA2')) uNo <- pNo
+        if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2')) uNo <- pNo
         else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
     })
 
@@ -76,8 +76,8 @@ shinyServer(function(input, output) {
                                  comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
 
     output$sourceData <- renderTable(table())
-    output$result <- renderTable(res())
-    output$unitStatus <- renderTable(date())
+    output$result <- renderDataTable(res())
+    output$unitStatus <- renderDataTable(date()) #renderDataTable()
     output$comments <- renderTable(com())
 
     #output$Indicator <- reactive(input$ind)
