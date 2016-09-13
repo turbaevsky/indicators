@@ -28,7 +28,7 @@ elByInd <- list('CISA1' = c('M5   ','M6   ','M7   ','M8   '), # Elements By Indi
 # dataset
 
 data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
-#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 #dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
 r <- readRDS('DBCopy/PI_Results.rds')
 dates <- readRDS('DBCopy/PI_UnitDate.rds')
@@ -41,8 +41,20 @@ dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 shinyServer(function(input, output) {
 
 #    uID <- reactive(subset(place,place$AbbrevLocName==input$name)[[1]]) # define unit ID
-
 #    ind <- reactive(as.character(input$ind))
+
+    uNo <- reactive({
+        pNo <-  as.integer(unique(subset(relation,
+                                         relation$LocId == subset(place,place$AbbrevLocName==input$name)[[1]]
+	& relation$RelationId == 4
+	& as.Date(relation$EndDate) >= Sys.Date(),
+	select=ParentLocId)))
+        if(input$ind %in% c('SP5  ','ISA1  ','ISA2  ','CISA1','CISA2')) uNo <- pNo
+        else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
+    })
+
+#    output$Indicator = uNo
+
 #    if (ind %in% c('SP5  ','ISA1  ','ISA2  ','CISA1','CISA2')) # Station's value
 #	{
 #	uNo <- as.integer(unique(subset(relation,relation$LocId == uID
@@ -54,13 +66,13 @@ shinyServer(function(input, output) {
 
 #    uNo <- uID
 
-    table <- reactive(subset(data,data$SourceId == subset(place,place$AbbrevLocName==input$name)[[1]] & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]]))
+    table <- reactive(subset(data,data$SourceId ==  uNo() & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]]))
 
-    res <- reactive(subset(r,r$LocId == subset(place,place$AbbrevLocName==input$name)[[1]] & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
+    res <- reactive(subset(r,r$LocId == uNo() & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
 
-    date <- reactive(subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$name)[[1]]))
+    date <- reactive(subset(dates,dates$LocId == uNo()))
 
-    com <- reactive(subset(comms,comms$SourceId == subset(place,place$AbbrevLocName==input$name)[[1]] &
+    com <- reactive(subset(comms,comms$SourceId == uNo() &
                                  comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
 
     output$sourceData <- renderTable(table())

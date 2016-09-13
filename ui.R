@@ -39,8 +39,8 @@ shinyUI(fluidPage(
 	 # requested number of observations
     mainPanel(
         tableOutput("unitStatus"),
-        #verbatimTextOutput("Indicator"),
-        #verbatimTextOutput("Elements"),
+        verbatimTextOutput("Indicator"),
+        verbatimTextOutput("Elements"),
         tableOutput("sourceData"),
         tableOutput("comments"),
         tableOutput("result")
