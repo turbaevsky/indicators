@@ -36,12 +36,25 @@ stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 comms <- readRDS('DBCopy/PI_IndComments.rds')
 dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 
-#source('../functions.r')
+units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
+eCode <- readRDS('DBCopy/OE_EventUnit.rds')
+rCode <- readRDS('DBCopy/OE_EventReport.rds')
+event <- readRDS('DBCopy/OE_Event.rds')
+
+source('functions.r')
 
 shinyServer(function(input, output) {
 
-#    uID <- reactive(subset(place,place$AbbrevLocName==input$name)[[1]]) # define unit ID
-#    ind <- reactive(as.character(input$ind))
+    uID <- reactive(subset(place,place$AbbrevLocName==input$name)[[1]]) # define unit ID
+
+    oeid <- reactive(unlist(subset(units,units$INPORef==uID(),OEDBID))[[1]])
+    eventCodes <- reactive(unlist(subset(eCode,eCode$UnitCode==oeid(),EventCode))) # list of events for selected unit
+    repCodes <- reactive(unlist(subset(rCode,rCode$EventCode %in% eventCodes(),ReportCode)))
+    lastDate <- reactive(dateToReal(input$qtr,'e'))
+    startDate <- reactive(lastDate()-31*as.numeric(input$window))
+    events <- reactive(subset(event, event$EventCode %in% eventCodes() & as.Date(event$EventDate)<=lastDate()
+                     & as.Date(event$EventDate)>=startDate(),c(EventDate, EventTitle)))
+    output$events <- renderTable(events())
 
     uNo <- reactive({
         pNo <-  as.integer(unique(subset(relation,
@@ -53,24 +66,11 @@ shinyServer(function(input, output) {
         else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
     })
 
-#    output$Indicator = uNo
-
-#    if (ind %in% c('SP5  ','ISA1  ','ISA2  ','CISA1','CISA2')) # Station's value
-#	{
-#	uNo <- as.integer(unique(subset(relation,relation$LocId == uID
-#	& relation$RelationId == 4
-#	& as.Date(relation$EndDate) >= Sys.Date(),
-#	select=ParentLocId)))
-#	}
-#    else uNo <- uID
-
-#    uNo <- uID
-
     table <- reactive(subset(data,data$SourceId ==  uNo() & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]]))
 
     res <- reactive(subset(r,r$LocId == uNo() & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
 
-    date <- reactive(subset(dates,dates$LocId == uNo()))
+    date <- reactive(subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$name)[[1]]))
 
     com <- reactive(subset(comms,comms$SourceId == uNo() &
                                  comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))

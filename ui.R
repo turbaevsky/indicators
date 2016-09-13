@@ -43,7 +43,8 @@ shinyUI(fluidPage(
         verbatimTextOutput("Elements"),
         tableOutput("sourceData"),
         tableOutput("comments"),
-        tableOutput("result")
+        tableOutput("result"),
+        tableOutput("events")
       #textOutput("dataset")
     )
   )
