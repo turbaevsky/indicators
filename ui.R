@@ -38,9 +38,11 @@ shinyUI(fluidPage(
     # Show a summary of the dataset and an HTML table with the
 	 # requested number of observations
     mainPanel(
-        verbatimTextOutput("Indicator"),
-        verbatimTextOutput("Elements"),
+        tableOutput("unitStatus"),
+        #verbatimTextOutput("Indicator"),
+        #verbatimTextOutput("Elements"),
         tableOutput("sourceData"),
+        tableOutput("comments"),
         tableOutput("result")
       #textOutput("dataset")
     )
