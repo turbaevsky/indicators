@@ -4,9 +4,9 @@
 #######################################################################################
 
 ### TODO ###
-# [ ] Check the start data calculation for OEDB
-# [ ] change unit status code for status
-# [ ] change element codes for names
+# [X] Check the start data calculation for OEDB
+# [X] change unit status code for status
+# [X] change element codes for names
 
 library(shiny)
 library(datasets)
@@ -87,7 +87,7 @@ shinyServer(function(input, output) {
     {
     s <- subset(data,data$SourceId ==  uNo() & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]])
     sourceData <- s
-    sourceData <- cbind(s[1:3],apply(s[4],2,el),s[5:8])
+    sourceData <- cbind(s[1:3],apply(s[4],1,el),s[5:8])
     })
 
     res <- reactive(subset(r,r$LocId == uNo() & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
