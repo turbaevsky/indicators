@@ -2,10 +2,18 @@
 library(shiny)
 
 source('../functions.r')
-units <- activeStation(Sys.Date())
+#units <- activeStation(Sys.Date())
+units <- unique(unlist(subset(uData,select=LocId))) # show all units in the DB
 uNames <- sort(as.character(subset(place,place$LocId %in% units,AbbrevLocName)[[1]]))
 i <- readRDS('DBCopy/PI_IndicatorCodes.rds')
 i <- as.character(subset(i,i$IsActive==1,IndicatorCode)[[1]])
+
+data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
+#qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
+qtrs <- c(201303,201306,201309,201312,
+          201403,201406,201409,201412,
+          201503,201506,201509,201512,
+          201603,201606)
 
 # Define UI for dataset viewer application
 shinyUI(fluidPage(
@@ -20,10 +28,7 @@ shinyUI(fluidPage(
       selectInput("name", "Unit:",
                   choices = uNames),
       selectInput("qtr", "Quarter:",
-                  choices = c(201303,201306,201309,201312,
-                              201403,201406,201409,201412,
-                              201503,201506,201509,201512,
-                              201603,201606)),
+                  choices = qtrs),
       selectInput("ind","Indicator and source data for:",
                   choices = i),
       selectInput("window","Data window, months:",
@@ -39,10 +44,10 @@ shinyUI(fluidPage(
 	 # requested number of observations
     mainPanel(
         dataTableOutput("unitStatus"),
-        verbatimTextOutput("Indicator"),
-        verbatimTextOutput("Elements"),
-        tableOutput("sourceData"), #dataTableOutput
-        tableOutput("comments"),
+        #verbatimTextOutput("Indicator"),
+        #verbatimTextOutput("Elements"),
+        dataTableOutput("sourceData"),
+        dataTableOutput("comments"),
         dataTableOutput("result"),
         dataTableOutput("events")
       #textOutput("dataset")

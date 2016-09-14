@@ -1,3 +1,13 @@
+#######################################################################################
+# This shiny server script produces the source data, results, unit status, comments
+# and OE data for quick checking. Should work with ui.R under R environment
+#######################################################################################
+
+### TODO ###
+# [ ] Check the start data calculation for OEDB
+# [ ] change unit status code for status
+# [ ] change element codes for names
+
 library(shiny)
 library(datasets)
 
@@ -37,11 +47,17 @@ dates <- readRDS('DBCopy/PI_UnitDate.rds')
 stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 comms <- readRDS('DBCopy/PI_IndComments.rds')
 dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
+elem <- readRDS('DBCopy/PI_LabelCodes.rds')
 
 units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
 eCode <- readRDS('DBCopy/OE_EventUnit.rds')
 rCode <- readRDS('DBCopy/OE_EventReport.rds')
 event <- readRDS('DBCopy/OE_Event.rds')
+
+### Name of the elements ###
+el <- function(e) { return(subset(elem,elem$LabelCode==e,LabelText)[[1]]) }
+### Name of unit status ###
+status <- function(cs) { return(subset(stat,stat[1]==cs,Description)[[1]]) }
 
 shinyServer(function(input, output) {
     # OE DB
@@ -51,10 +67,11 @@ shinyServer(function(input, output) {
     eventCodes <- reactive(unlist(subset(eCode,eCode$UnitCode==oeid(),EventCode))) # list of events for selected unit
     repCodes <- reactive(unlist(subset(rCode,rCode$EventCode %in% eventCodes(),ReportCode)))
     lastDate <- reactive(dateToReal(input$qtr,'e'))
+    ########################## Start date calculation have to be fixed ####################
     startDate <- reactive(lastDate()-31*as.numeric(input$window))
     events <- reactive(subset(event, event$EventCode %in% eventCodes() & as.Date(event$EventDate)<=lastDate()
                      & as.Date(event$EventDate)>=startDate(),c(EventDate, EventTitle)))
-    output$events <- renderDataTable(events())
+
     # Is it unit or plant?
     uNo <- reactive({
         pNo <-  as.integer(unique(subset(relation,
@@ -66,19 +83,28 @@ shinyServer(function(input, output) {
         else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
     })
 
-    table <- reactive(subset(data,data$SourceId ==  uNo() & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]]))
+    sourceData <- reactive(
+    {
+    s <- subset(data,data$SourceId ==  uNo() & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]])
+    sourceData <- s
+    sourceData <- cbind(s[1:3],apply(s[4],2,el),s[5:8])
+    })
 
     res <- reactive(subset(r,r$LocId == uNo() & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
 
-    date <- reactive(subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$name)[[1]]))
+    udate <- reactive({
+        dt <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$name)[[1]])
+        udate <- cbind(dt[1:2],apply(dt[3],1,status),dt[4])
+        })
 
     com <- reactive(subset(comms,comms$SourceId == uNo() &
                                  comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
 
-    output$sourceData <- renderTable(table())
-    output$result <- renderDataTable(res())
-    output$unitStatus <- renderDataTable(date()) #renderDataTable()
-    output$comments <- renderTable(com())
+    output$sourceData <- renderDataTable(sourceData(),options=list(paging = FALSE,searching=FALSE))
+    output$result <- renderDataTable(res(),options=list(paging = FALSE,searching=FALSE))
+    output$unitStatus <- renderDataTable(udate(),options=list(paging = FALSE,searching=FALSE))
+    output$comments <- renderDataTable(com(),options=list(paging = FALSE,searching=FALSE))
+    output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE))
 
     #output$Indicator <- reactive(input$ind)
     #output$Elements <- reactive(elByInd[input$ind][[1]])
