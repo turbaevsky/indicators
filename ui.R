@@ -2,8 +2,8 @@
 library(shiny)
 
 source('../functions.r')
-#units <- activeStation(Sys.Date())
-units <- unique(unlist(subset(uData,select=LocId))) # show all units in the DB
+units <- activeStation(Sys.Date())
+#units <- unique(unlist(subset(uData,select=LocId))) # show all units in the DB
 uNames <- sort(as.character(subset(place,place$LocId %in% units,AbbrevLocName)[[1]]))
 i <- readRDS('DBCopy/PI_IndicatorCodes.rds')
 i <- as.character(subset(i,i$IsActive==1,IndicatorCode)[[1]])
@@ -49,6 +49,7 @@ shinyUI(fluidPage(
         dataTableOutput("sourceData"),
         dataTableOutput("comments"),
         dataTableOutput("result"),
+        plotOutput("resultChart", height = "300px"),
         dataTableOutput("events")
       #textOutput("dataset")
     )

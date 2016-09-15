@@ -100,11 +100,16 @@ shinyServer(function(input, output) {
     com <- reactive(subset(comms,comms$SourceId == uNo() &
                                  comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
 
+    rChart <- reactive({
+        barplot(unlist(subset(r,r$LocId == uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode == input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue))),xlab="Quarters",xaxt='n')
+        axis(side=1,at=c(1:length(qtrs)),labels=qtrs)})
+
     output$sourceData <- renderDataTable(sourceData(),options=list(paging = FALSE,searching=FALSE))
     output$result <- renderDataTable(res(),options=list(paging = FALSE,searching=FALSE))
     output$unitStatus <- renderDataTable(udate(),options=list(paging = FALSE,searching=FALSE))
     output$comments <- renderDataTable(com(),options=list(paging = FALSE,searching=FALSE))
     output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE))
+    output$resultChart <- renderPlot(rChart())
 
     #output$Indicator <- reactive(input$ind)
     #output$Elements <- reactive(elByInd[input$ind][[1]])
