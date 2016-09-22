@@ -7,7 +7,7 @@ dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
 attrib <- readRDS('DBCopy/PI_PlaceAttribute.rds')
 
 print(dataStatus)
-plants <- unique(dates[2])
+plants <- unique(unlist(subset(place,place$PlaceTypeId %in% c(19,22),LocId)))
 
 pdate <- data.frame()
 

@@ -49,8 +49,9 @@ his <- function(i)
  ))}
 
 #lims <- function(b){return(paste(b$stats[2],b$stats[3],b$stats[4],100/abs(as.numeric(b$stats[4])-as.numeric(b$stats[2]))))}
-# lims for LTT-2025
-lims <- function(b){return(paste('&',signif(b$stats[4],2),'&',signif(b$stats[3],2),'&',signif(100/abs(as.numeric(b$stats[4])-as.numeric(b$stats[2])),2),'\\'))}
+ # lims for LTT-2025
+limNum <- c(3,4) # Number of boxplot.stats limits; 3 means median, 4 means upper hinge
+lims <- function(b){return(paste('&',signif(b$stats[limNum[1]],2),'&',signif(b$stats[limNum[2]],2),'\\'))} #'&',signif(100/abs(as.numeric(b$stats[4])-as.numeric(b$stats[2])),2),'\\'))}
 
 r <- readRDS('DBCopy/PI_Results.rds')
 ic <- readRDS('DBCopy/PI_IndicatorCodes.rds')
@@ -74,9 +75,10 @@ unitsByCentre <- list()
 for (centre in c(1:4))
 	{ unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre]
 		& relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=LocId)) }
-
-dateList <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201603)
-lastDate <- 201603
+####################################################################################
+dateList <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201606)
+lastDate <- 201606
+####################################################################################
 NumOfMonths <- 36
 
 # Define list of units by RC
@@ -166,7 +168,7 @@ if (i %in% c("CRE  ","US7  "))
 		#text(1,hid,"Individual target",col="red",adj = c(-.1,-.5))
 		abline(h=his, col = 'green', lwd = 3)
 		#text(1,his,"Industry target",col="green",adj = c(-.1,-.5))
-		legend("bottomright", inset=.05, title="Targets",
+		legend("topright", inset=.05, title="Targets",
 			c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
 		#qplot(factor(PeriodEndYrMn),ResultsValue,data=res, geom=c("boxplot"),xlab='quarter',main=i,ylab=ylab)
 		title(main=mTitle,xlab='quarter',ylab = ylab)
@@ -178,7 +180,7 @@ if (i %in% c("CRE  ","US7  "))
 		abline(h=hid, col = 'red', lwd = 3)
 		abline(h=his, col = 'green', lwd = 3)
 		title(main=mTitle,xlab='quarter',ylab = ylab)
-		legend("bottomright", inset=.05, title="Targets",
+		legend("topright", inset=.05, title="Targets",
 			c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
 		dev.off()
 
@@ -283,7 +285,7 @@ else
 	#qplot(factor(PeriodEndYrMn),ResultsValue,data=res, geom=c("boxplot"),xlab='quarter',main=i,ylab=ylab)
 	title(main=i,xlab='quarter',ylab=ylab(i))
 	if (!is.null(his(i)) && !is.null(hid(i)))
-	{legend("bottomright", inset=.05, title="Targets",
+	{legend("topright", inset=.05, title="Targets",
 			c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)}
 	dev.off()
 	png(fn2)
@@ -294,7 +296,7 @@ else
 	abline(h=his(i), col = 'green', lwd = 3)
 	title(main=i,xlab='quarter',ylab=ylab(i))
 	if (!is.null(his(i)) && !is.null(hid(i)))
-	{legend("bottomright", inset=.05, title="Targets",
+	{legend("topright", inset=.05, title="Targets",
 			c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)}
 	dev.off()
 

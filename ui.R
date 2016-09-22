@@ -2,7 +2,7 @@
 library(shiny)
 
 source('../functions.r')
-units <- activeStation(Sys.Date())
+units <- activeStation(201606) ##################### Change to Sys.Date() but in the format YYYYMM
 #units <- unique(unlist(subset(uData,select=LocId))) # show all units in the DB
 uNames <- sort(as.character(subset(place,place$LocId %in% units,AbbrevLocName)[[1]]))
 i <- readRDS('DBCopy/PI_IndicatorCodes.rds')
@@ -28,7 +28,7 @@ shinyUI(fluidPage(
       selectInput("name", "Unit:",
                   choices = uNames),
       selectInput("qtr", "Quarter:",
-                  choices = qtrs),
+                  choices = qtrs,selected=tail(qtrs,1)),
       selectInput("ind","Indicator and source data for:",
                   choices = i),
       selectInput("window","Data window, months:",
