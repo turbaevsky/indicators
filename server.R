@@ -85,7 +85,8 @@ shinyServer(function(input, output) {
 
     sourceData <- reactive(
     {
-    s <- subset(data,data$SourceId ==  uNo() & data$YrMn == input$qtr & data$ElementCode %in% elByInd[input$ind][[1]])
+    quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
+    s <- subset(data,data$SourceId ==  uNo() & data$YrMn %in% quarters & data$ElementCode %in% elByInd[input$ind][[1]])
     sourceData <- s
     sourceData <- cbind(s[1:3],apply(s[4],1,el),s[5:8])
     })
