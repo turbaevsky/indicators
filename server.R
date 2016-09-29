@@ -72,7 +72,7 @@ shinyServer(function(input, output) {
         withProgress(message = 'Selected quarter TISA (re)calculating',value=0,tisa2(input$repqtr))})
     # (Re)create QReport ########################################################
     observeEvent(input$qreport,{
-        withProgress(message = 'Selected quarter LTT report (re)generation',value=0,generate(input$repqtr))
+        withProgress(message = 'Selected quarter LTT report (re)generation',value=0,generate(input$lttqtr))
         Sweave('Qreport.rnw')
         system("C:\\Users\\volodymyr.turbaevsky\\portable\\MKTex\\miktex\\bin\\pdflatex.exe Qreport.tex")
     })
@@ -102,6 +102,16 @@ shinyServer(function(input, output) {
 
     output$wwltt <- renderDataTable(ltt(),options=list(paging = FALSE,searching=FALSE))
     output$rcltt <- renderDataTable(rcltt(),options=list(paging = FALSE,searching=FALSE))
+
+
+############################ Downloads #########################
+
+############################ Metrics ###########################
+
+    metrics <- reactive(m(input$metricsqtr))
+    output$metrics <- renderPrint(metrics())
+
+
 
     #output$Indicator <- reactive(input$ind)
     #output$Elements <- reactive(elByInd[input$ind][[1]])

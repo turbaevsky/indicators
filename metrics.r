@@ -2,16 +2,18 @@
 # Calculates PI and PL metrics
 #######################################################################
 
-source('functions.r')
+m <- function(dates){
 
-setwd('c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators/')
+#source('functions.r')
+
+#setwd('c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators/')
 submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
-place <- readRDS('DBCopy/PI_Place.rds')
-r <- readRDS('DBCopy/PI_Results.rds')
-placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
+#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+#place <- readRDS('DBCopy/PI_Place.rds')
+#r <- readRDS('DBCopy/PI_Results.rds')
+#placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
 
-dates <- c(201606)
+#dates <- c(201606)
 
 # Units by centre ==================================
 centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
@@ -74,4 +76,4 @@ for (d in dates){
             name <- unlist(subset(place, place$LocId == p,AbbrevLocName))
             if (!pi2) print(paste(d,centreNames[centre],'Unit:',name,p))}
 
-    }}
+    }}}

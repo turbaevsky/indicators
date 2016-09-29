@@ -12,6 +12,7 @@ source('functions.r')
 source('fullDBCopy.R')
 source('Qreport.r')
 source('xlsGenerator.R')
+source('metrics.r')
 
 #qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
 

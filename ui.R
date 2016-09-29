@@ -61,7 +61,6 @@ navbarPage("Performance Analysis",
                    selectInput("repqtr", "Quarter:",
                                choices = qtrs,selected=tail(qtrs,1)),
                    actionButton("tisa","(Re)calculate TISA"),
-                   actionButton("qreport","(Re)create LTT report"),
                    actionButton("excel","(Re)generate Excel spreadsheet")
                ),
                mainPanel(
@@ -74,11 +73,21 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectInput("lttqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,1))),
+                               choices = qtrs,selected=tail(qtrs,1)),
+                   actionButton("qreport","(Re)create LTT report")
+                   #downloadButton('qRepDown', 'Download')
+               ),
                mainPanel(
                    dataTableOutput("wwltt"),
                    dataTableOutput("rcltt")
            ))),
-  tabPanel("PI metrics"),
+  tabPanel("PI metrics",
+           sidebarLayout(
+               sidebarPanel(
+                   selectInput("metricsqtr", "Quarter:",
+                               choices = qtrs,selected=tail(qtrs,1))),
+               mainPanel(
+                  verbatimTextOutput("metrics")))
+           ),
   tabPanel("ISA summary")
   )
