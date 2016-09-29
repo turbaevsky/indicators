@@ -69,15 +69,15 @@ shinyServer(function(input, output) {
     # TISA (re)calculation ######################################################
     observeEvent(input$tisa,{
         source('tisa2.r')
-        withProgress(message = 'Selected quarter TISA (re)calculating',value=0,tisa2(input$qtr))})
+        withProgress(message = 'Selected quarter TISA (re)calculating',value=0,tisa2(input$repqtr))})
     # (Re)create QReport ########################################################
     observeEvent(input$qreport,{
-        withProgress(message = 'Selected quarter LTT report (re)generation',value=0,generate(input$qtr))
+        withProgress(message = 'Selected quarter LTT report (re)generation',value=0,generate(input$repqtr))
         Sweave('Qreport.rnw')
         system("C:\\Users\\volodymyr.turbaevsky\\portable\\MKTex\\miktex\\bin\\pdflatex.exe Qreport.tex")
     })
     # Excel (re)generation ######################################################
-    observeEvent(input$excel,withProgress(message = 'Selected quarter excel (re)generation',value=0,xls(input$qtr)))
+    observeEvent(input$excel,withProgress(message = 'Selected quarter excel (re)generation',value=0,xls(input$repqtr)))
 
 
     output$dbcopydate <- renderPrint(dbcopy)
@@ -88,6 +88,20 @@ shinyServer(function(input, output) {
     output$comments <- renderDataTable(com(),options=list(paging = FALSE,searching=FALSE))
     output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE))
     output$resultChart <- renderPlot(rChart())
+
+
+############################### LTT ################################
+
+    ltt <- reactive({
+        fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
+        ltt <- readRDS(fn)})
+    rcltt <- reactive({
+        fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
+        rcltt <- readRDS(fn)})
+
+
+    output$wwltt <- renderDataTable(ltt(),options=list(paging = FALSE,searching=FALSE))
+    output$rcltt <- renderDataTable(rcltt(),options=list(paging = FALSE,searching=FALSE))
 
     #output$Indicator <- reactive(input$ind)
     #output$Elements <- reactive(elByInd[input$ind][[1]])

@@ -44,11 +44,11 @@ navbarPage("Performance Analysis",
   tabPanel("Outliers",
            sidebarLayout(
                sidebarPanel(
-                  selectInput("qtr", "Quarter:",
+                  selectInput("outqtr", "Quarter:",
                   choices = qtrs,selected=tail(qtrs,1)),
                   #selectInput("ind","Indicator and source data for:",
                   #choices = i),
-                  selectInput("window","Data window, months:",
+                  selectInput("outwindow","Data window, months:",
                               choices = c(3,12,18,24,36,48)),
                   sliderInput("coef","Coefficient for IQR:",min = 0, max = 3, value = 1.5, step = 0.1)),
                mainPanel()
@@ -58,7 +58,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    actionButton("update","Update DB"),
-                   selectInput("qtr", "Quarter:",
+                   selectInput("repqtr", "Quarter:",
                                choices = qtrs,selected=tail(qtrs,1)),
                    actionButton("tisa","(Re)calculate TISA"),
                    actionButton("qreport","(Re)create LTT report"),
@@ -70,6 +70,15 @@ navbarPage("Performance Analysis",
                ))
            ),
   tabPanel("PI report for Peer Review team"),
+  tabPanel("LTT report",
+           sidebarLayout(
+               sidebarPanel(
+                   selectInput("lttqtr", "Quarter:",
+                               choices = qtrs,selected=tail(qtrs,1))),
+               mainPanel(
+                   dataTableOutput("wwltt"),
+                   dataTableOutput("rcltt")
+           ))),
   tabPanel("PI metrics"),
   tabPanel("ISA summary")
   )
