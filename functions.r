@@ -1,7 +1,7 @@
 ####################################################################
 # This file contains the common for many other R files functions
 ####################################################################
-setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
+#setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
 placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
 uDate <- readRDS('DBCopy/PI_UnitDate.rds')
 uData <- readRDS('DBCopy/PI_UnitData.rds')

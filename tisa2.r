@@ -67,6 +67,7 @@ for (u in unique(ind$SourceId))
 	{
 	i <- i+1
 	setTxtProgressBar(pb, i)
+        incProgress(1/length(unique(ind$SourceId)),detail=u)
 	r <- list()
 	r <- c(r,as.integer(u),place[place$LocId==u,6])
 	for (m in month)

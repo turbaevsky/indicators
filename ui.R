@@ -1,25 +1,11 @@
 
-library(shiny)
-
-source('../functions.r')
-units <- activeStation(201606) ##################### Change to Sys.Date() but in the format YYYYMM
-#units <- unique(unlist(subset(uData,select=LocId))) # show all units in the DB
-uNames <- sort(as.character(subset(place,place$LocId %in% units,AbbrevLocName)[[1]]))
-i <- readRDS('DBCopy/PI_IndicatorCodes.rds')
-i <- as.character(subset(i,i$IsActive==1,IndicatorCode)[[1]])
-
-data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
-#qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
-qtrs <- c(201303,201306,201309,201312,
-          201403,201406,201409,201412,
-          201503,201506,201509,201512,
-          201603,201606)
+source('data.r')
 
 # Define UI for dataset viewer application
-shinyUI(fluidPage(
+navbarPage("Performance Analysis",
 
   # Application title
-  titlePanel("Performance Indicators"),
+  tabPanel("Performance Indicators and OEDB",
 
   # Sidebar with controls to select a dataset and specify the
   # number of observations to view
@@ -54,5 +40,36 @@ shinyUI(fluidPage(
       #textOutput("dataset")
     )
   )
-))
-
+  ),
+  tabPanel("Outliers",
+           sidebarLayout(
+               sidebarPanel(
+                  selectInput("qtr", "Quarter:",
+                  choices = qtrs,selected=tail(qtrs,1)),
+                  #selectInput("ind","Indicator and source data for:",
+                  #choices = i),
+                  selectInput("window","Data window, months:",
+                              choices = c(3,12,18,24,36,48)),
+                  sliderInput("coef","Coefficient for IQR:",min = 0, max = 3, value = 1.5, step = 0.1)),
+               mainPanel()
+    )
+    ),
+  tabPanel("Download reports",
+           sidebarLayout(
+               sidebarPanel(
+                   actionButton("update","Update DB"),
+                   selectInput("qtr", "Quarter:",
+                               choices = qtrs,selected=tail(qtrs,1)),
+                   actionButton("tisa","(Re)calculate TISA"),
+                   actionButton("qreport","(Re)create LTT report"),
+                   actionButton("excel","(Re)generate Excel spreadsheet")
+               ),
+               mainPanel(
+                   verbatimTextOutput("dbcopydate")
+                   #plotOutput('plot', width = "300px", height = "300px")
+               ))
+           ),
+  tabPanel("PI report for Peer Review team"),
+  tabPanel("PI metrics"),
+  tabPanel("ISA summary")
+  )

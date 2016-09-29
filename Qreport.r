@@ -4,32 +4,32 @@
 #  To generate pdf report the Sweave('QReport.rnw') command should be ran
 ##################################################################################################
 
-source('functions.r')
+#source('functions.r')
 
-if (readline('Need you update the Db copy (Y/n)?')=='Y')
-{
-source('fullDBCopy.R')
-#print('DB copying...')
-DBCopy()	# Provide the last DB copy
-}
+#if (readline('Need you update the Db copy (Y/n)?')=='Y')
+#{
+#source('fullDBCopy.R')
+##print('DB copying...')
+#DBCopy()	# Provide the last DB copy
+#}
 
 #dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201603)
-dateRange <- c(201606)
+#dateRange <- input$qtr
 
-if (readline('Need you update all TISA calculation (Y/n)?')=='Y')
-{
-source('tisa2.r')
-print('TISA2 calculation...')
-for (d in dateRange)
-	{
-	tisa2(d)	# Provide the last date for analysis
-	}
-}
+#if (readline('Need you update all TISA calculation (Y/n)?')=='Y')
+#{
+#source('tisa2.r')
+#print('TISA2 calculation...')
+#for (d in dateRange)
+#	{
+#	tisa2(d)	# Provide the last date for analysis
+#	}
+#}
 
-#placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
-r <- readRDS('DBCopy/PI_Results.rds')
-place <- readRDS('DBCopy/PI_Place.rds')
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+##placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
+#r <- readRDS('DBCopy/PI_Results.rds')
+#place <- readRDS('DBCopy/PI_Place.rds')
+#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 ic <- readRDS('DBCopy/PI_IndicatorCodes.rds')
 ic <- t(subset(ic,ic$IsActive== 1)[1])
 UnitData <- uData
@@ -119,6 +119,9 @@ rTypeResults <- function(centre,i,lastDate)
 
 # Calculate statistics by centre ==========================================================================
 # Key indicator list
+
+generate <- function(dateRange)
+    {
 indicators <- c('FLR','CRE','TISA','US7','SSPI')
 
 for (lastDate in dateRange)
@@ -191,6 +194,7 @@ for (centre in c(1:4))	# By centre
 			d <- rbind(d,t(list(as.character(centreNames[centre]),as.character(i),Id,Is,sum(lowerId),lowerIs,uNum)))
 			}
 		setTxtProgressBar(pb, count)
+                incProgress(1/(length(indicators)*4),detail=i)
 		}
 	}
 colnames(d) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units')
@@ -213,7 +217,7 @@ saveRDS(d,paste('LTT/RCs_LTT_',lastDate,'.rds',sep=''))
 close(pb)
 #print(w)
 #print(d)
-}
+}}
 
 #bot$sendMessage('QReport processing is completed')
 

@@ -1,43 +1,46 @@
-source('functions.r')
+#source('functions.r')
 
-dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
-print(dataStatus)
+#dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
+#print(dataStatus)
 
-if (readline('Need you update the Db copy (Y/n)?')=='Y')
-{
-source('fullDBCopy.R')
-#print('DB copying...')
-DBCopy()	# Provide the last Db copy
-#bot$sendMessage('DB has been updated')
-dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
-print(dataStatus)
-}
+#if (readline('Need you update the Db copy (Y/n)?')=='Y')
+#{
+#source('fullDBCopy.R')
+##print('DB copying...')
+#DBCopy()	# Provide the last Db copy
+##bot$sendMessage('DB has been updated')
+#dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
+#print(dataStatus)
+#}
 
 #dateRange <- c(201412,201512,201606)
 # 2-years in depth dates from the last one ###################################################
-#analisedDate <- c(201412,201512,201606)	# Next - 2014Q4,2015Q4 and 2016Q1
-analisedDate <- 201606
+                                        #analisedDate <- c(201412,201512,201606)	# Next - 2014Q4,2015Q4 and 2016Q1
+
+xls <- function(analisedDate)
+    {
+#analisedDate <- 201606
 dateRange <- analisedDate
 
 
-if (readline('Need you update all TISA calculation (Y/n)?')=='Y')
-{
-source('tisa2.r')
-print('TISA2 calculation...')
-for (d in dateRange)
-	{
-	tisa2(d)	# Provide the last date for analysis
-	}
-}
+#if (readline('Need you update all TISA calculation (Y/n)?')=='Y')
+#{
+#source('tisa2.r')
+#print('TISA2 calculation...')
+#for (d in dateRange)
+#	{
+#	tisa2(d)	# Provide the last date for analysis
+#	}
+#}
 
-place <- readRDS('DBCopy/PI_Place.rds')
-#placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
-results <- readRDS('DBCopy/PI_Results.rds')
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
-#uData <- readRDS('DBCopy/PI_UnitData.rds')
+#place <- readRDS('DBCopy/PI_Place.rds')
+##placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
+results <- r
+#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+##uData <- readRDS('DBCopy/PI_UnitData.rds')
 rTypes <- readRDS('DBCopy/PI_NsssTypeLookup.rds')
 CYGroups <- readRDS('DBCopy/PI_CategoryGroupUnits.rds')
-#uDate <- readRDS('DBCopy/PI_UnitDate.rds')
+##uDate <- readRDS('DBCopy/PI_UnitDate.rds')
 uCycle <- readRDS('DBCopy/PI_ResultsIndexCycleMns.rds')
 
 #place <- data.frame(lapply(place, as.character), stringsAsFactors=FALSE)
@@ -123,7 +126,8 @@ for (u in activeStation(startDate))
 	#print(u)
 	start.unit.time <-Sys.time()
 	print(paste('Unit ',u,': #',no,' from ',length(activeStation(startDate))))
-	#setTxtProgressBar(pb, no)
+        setTxtProgressBar(pb, no)
+        incProgress(1/length(activeStation(startDate)),detail=u)
 
 	centre <- unique(subset(relation,relation$LocId == u & relation$RelationId == 1
 		& as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))
@@ -242,3 +246,4 @@ for (u in activeStation(startDate))
 #end.time <- Sys.time()
 #taken.time <- end.time-start.time
 #print(paste('It has taken',secToTime(as.integer(taken.time))))
+}

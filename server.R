@@ -3,56 +3,10 @@
 # and OE data for quick checking. Should work with ui.R under R environment
 #######################################################################################
 
-### TODO ###
-# [X] Check the start data calculation for OEDB
-# [X] change unit status code for status
-# [X] change element codes for names
+# TODO:
+# Fix Qreport.r date transfer
 
-library(shiny)
-library(datasets)
-
-source('functions.r')
-
-elByInd <- list('CISA1' = c('M5   ','M6   ','M7   ','M8   '), # Elements By Indicators
-                'CISA2' = c('M5   ','M6   ','M7   ','M8   '),
-                'ISA1 ' = c('M1   ','M2   ','M3   ','M4   '),
-                'ISA2 ' = c('M1   ','M2   ','M3   ','M4   '),
-                'CRE  ' = c('D7   ','D8   '),
-                'UCF  ' = c('B1   ','B2   ','B3   ','B4   '),
-                'UCLF ' = c('B1   ','B3   ','B4   '),
-                'FLR  ' = c('B1   ','B2   ','B3   ','B4   '),
-                'GRLF ' = c('B1   ','B6   '),
-                'UA7  ' = c('C1   ','C2   '),
-                'US7  ' = c('C1   ','C2   ','C3   '),
-                'SP1  ' = c('F1   ','F2   ','F3   ','F4   '),
-                'SP2  ' = c('F5   ','F6   ','F7   ','F8   '),
-                'SP5  ' = c('H1   ','H2   ','H3   ','H4   '),
-                'FRI  ' = c('J1   ','J2   ','J3   ','K1   ','K2   ','K3   ','K4   ',
-                            'K5   ','K6   ','K7   ','K8   ',
-                            'N1   ','N2   ','N3   ','N4   '),
-                'CY   ' = c('L2   ','L3   ','L4   ','L5   ','L6   ','L7   ','L8   ',
-                            'L9   ','L10  ','L11  ','L12  ','L13  ','L14  ','L15  ',
-                            'L16  ','L17  ','L18  ','L19  ','L20  ','L21  ','L22  ',
-                            'L23  ','L24  ','L25  ','L26  ','L27  ','L28  ','L29  ',
-                            'L30  ','L31  ','L32  ','L33  ','L34  ','L35  ','L36  '))
-
-# Define server logic required to summarize and view the selected
-# dataset
-
-data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
-#dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
-r <- readRDS('DBCopy/PI_Results.rds')
-dates <- readRDS('DBCopy/PI_UnitDate.rds')
-stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
-comms <- readRDS('DBCopy/PI_IndComments.rds')
-dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
-elem <- readRDS('DBCopy/PI_LabelCodes.rds')
-
-units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
-eCode <- readRDS('DBCopy/OE_EventUnit.rds')
-rCode <- readRDS('DBCopy/OE_EventReport.rds')
-event <- readRDS('DBCopy/OE_Event.rds')
+#source('data.r')
 
 ### Name of the elements ###
 el <- function(e) { return(subset(elem,elem$LabelCode==e,LabelText)[[1]]) }
@@ -104,6 +58,29 @@ shinyServer(function(input, output) {
     rChart <- reactive({
         barplot(unlist(subset(r,r$LocId == uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode == input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue))),xlab="Quarters",xaxt='n')
         axis(side=1,at=c(1:length(qtrs)),labels=qtrs)})
+
+    # progressbar for DB copying ################################################
+    observeEvent(input$update,{
+        withProgress(message = 'DB copying',value=0,DBCopy())
+        source('shiny/data.r')
+        output$dbcopydate <- renderPrint(dbcopy)
+    }
+    )
+    # TISA (re)calculation ######################################################
+    observeEvent(input$tisa,{
+        source('tisa2.r')
+        withProgress(message = 'Selected quarter TISA (re)calculating',value=0,tisa2(input$qtr))})
+    # (Re)create QReport ########################################################
+    observeEvent(input$qreport,{
+        withProgress(message = 'Selected quarter LTT report (re)generation',value=0,generate(input$qtr))
+        Sweave('Qreport.rnw')
+        system("C:\\Users\\volodymyr.turbaevsky\\portable\\MKTex\\miktex\\bin\\pdflatex.exe Qreport.tex")
+    })
+    # Excel (re)generation ######################################################
+    observeEvent(input$excel,withProgress(message = 'Selected quarter excel (re)generation',value=0,xls(input$qtr)))
+
+
+    output$dbcopydate <- renderPrint(dbcopy)
 
     output$sourceData <- renderDataTable(sourceData(),options=list(paging = FALSE,searching=FALSE))
     output$result <- renderDataTable(res(),options=list(paging = FALSE,searching=FALSE))
