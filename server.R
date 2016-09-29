@@ -111,6 +111,19 @@ shinyServer(function(input, output) {
     metrics <- reactive(m(input$metricsqtr))
     output$metrics <- renderPrint(metrics())
 
+############################ Outliers ##########################
+
+    out <- reactive({
+        uList <- subset(r,r$IndicatorCode == input$outind & r$PeriodEndYrMn == input$outqtr & r$NumOfMonths == input$outwindow & r$NonQualCode == ' ',c(LocId,ResultsValue))
+        outList <- boxplot.stats(uList$ResultsValue,coef = as.numeric(input$coef))
+        outList <- outList$out
+        out <- subset(uList,uList$ResultsValue %in% outList,c(LocId,ResultsValue))
+                                        # Add unit names
+        unames <- subset(place,place$LocId %in% out$LocId,AbbrevLocName)
+        out <- cbind(out,unames)
+    })
+
+    output$outliers <- renderDataTable(out(),options=list(paging = FALSE,searching=FALSE))
 
 
     #output$Indicator <- reactive(input$ind)
