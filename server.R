@@ -13,6 +13,8 @@ el <- function(e) { return(subset(elem,elem$LabelCode==e,LabelText)[[1]]) }
 ### Name of unit status ###
 status <- function(cs) { return(subset(stat,stat[1]==cs,Description)[[1]]) }
 
+units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
+
 shinyServer(function(input, output) {
     # OE DB
     uID <- reactive(subset(place,place$AbbrevLocName==input$name)[[1]]) # define unit ID
@@ -108,7 +110,7 @@ shinyServer(function(input, output) {
 
 ############################ Metrics ###########################
 
-    metrics <- reactive(m(input$metricsqtr))
+    metrics <- reactive(if (input$mDetail) m(input$metricsqtr))
     output$metrics <- renderPrint(metrics())
 
 ############################ Outliers ##########################

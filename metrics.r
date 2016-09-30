@@ -7,7 +7,7 @@ m <- function(dates){
 #source('functions.r')
 
 #setwd('c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators/')
-submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
+
 #relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 #place <- readRDS('DBCopy/PI_Place.rds')
 #r <- readRDS('DBCopy/PI_Results.rds')
@@ -16,13 +16,15 @@ submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
 #dates <- c(201606)
 
 # Units by centre ==================================
-centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
-centreNames <- c('AC','MC','PC','TC')
-unitsByCentre <- list()
-for (centre in c(1:4))
-{ unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre] & relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=c(LocId)))
+#centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
+#centreNames <- c('AC','MC','PC','TC')
+#unitsByCentre <- list()
+#for (centre in c(1:4))
+#{ unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre] & relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=c(LocId)))
 #print(unitsByCentre$uList[centre])
-}
+#}
+
+unitsByCentre <- uByCentre()
 
 ############################### PI-1 ##################################
 print('PI-1 metric: unit and station reported out of 45 days period')
@@ -35,6 +37,7 @@ for (d in dates){
     names <- unlist(subset(place, place$LocId %in% pi1list,AbbrevLocName))
     ids <- unlist(subset(place, place$LocId %in% pi1list,LocId))
     print(paste(d,subDate,centreNames[centre],pi1,names,ids))
+
     }}
 ############################### LTP-2 ##################################
 print('LTP-2 metric: time to promote data')

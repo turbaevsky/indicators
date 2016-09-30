@@ -6,6 +6,7 @@ placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
 uDate <- readRDS('DBCopy/PI_UnitDate.rds')
 uData <- readRDS('DBCopy/PI_UnitData.rds')
 place <- readRDS('DBCopy/PI_Place.rds')
+submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
 
 bot <- function(msg) # Send a message to Telegram recipient(s)
 {
@@ -82,3 +83,16 @@ activeStation <- function(startDate,mode='u') # Getting active units list
     Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
     return(Station)
 }
+
+
+ # Units by centre ==================================
+
+uByCentre <- function()
+    {
+        centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
+        centreNames <- c('AC','MC','PC','TC')
+        unitsByCentre <- list()
+        for (centre in c(1:4))
+        {unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre] & relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=c(LocId)))}
+        return(unitsByCentre)
+    }

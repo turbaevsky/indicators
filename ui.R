@@ -50,7 +50,7 @@ navbarPage("Performance Analysis",
                               choices = i),
                   selectInput("outwindow","Data window, months:",
                               choices = c(3,12,18,24,36,48)),
-                  sliderInput("coef","Coefficient for IQR:",min = 0, max = 4, value = 1.5, step = 0.1)),
+                  sliderInput("coef","Coefficient for IQR:",min = 0, max = 15, value = 1.5, step = .5)),
                mainPanel(
                    dataTableOutput("outliers")
                    #verbatimTextOutput("outliers")
@@ -88,10 +88,20 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectInput("metricsqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,1))),
+                               choices = qtrs,selected=tail(qtrs,1)),
+                   checkboxInput("mDetail","Detailed metrics info",value=TRUE)
+               ),
                mainPanel(
-                  verbatimTextOutput("metrics")))
+                   verbatimTextOutput("metrics"),
+                   plotOutput("pi1"),
+                   plotOutput("pi2"),
+                   plotOutput("ltp1")
+                   ))
            ),
   tabPanel("ISA summary"),
-  tabPanel("Indicator trend")
+  tabPanel("Indicator trend")#,
+ #          sidebarLayout(
+ #              mainPanel(
+ #                  imageOutput("pict1")
+ #          )))
   )

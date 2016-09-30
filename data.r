@@ -8,6 +8,27 @@ qtrs <- c(201303,201306,201309,201312,
           201503,201506,201509,201512,
           201603,201606)
 
+# Define server logic required to summarize and view the selected
+# dataset
+
+data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
+relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+#dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
+r <- readRDS('DBCopy/PI_Results.rds')
+dates <- uDate
+stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
+comms <- readRDS('DBCopy/PI_IndComments.rds')
+dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
+elem <- readRDS('DBCopy/PI_LabelCodes.rds')
+
+dbcopy <- readRDS('DBCopy/PI_DataStatus.rds')
+
+units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
+eCode <- readRDS('DBCopy/OE_EventUnit.rds')
+rCode <- readRDS('DBCopy/OE_EventReport.rds')
+event <- readRDS('DBCopy/OE_Event.rds')
+
+
 source('functions.r')
 source('fullDBCopy.R')
 source('Qreport.r')
@@ -48,22 +69,4 @@ elByInd <- list('CISA1' = c('M5   ','M6   ','M7   ','M8   '), # Elements By Indi
                             'L23  ','L24  ','L25  ','L26  ','L27  ','L28  ','L29  ',
                             'L30  ','L31  ','L32  ','L33  ','L34  ','L35  ','L36  '))
 
-# Define server logic required to summarize and view the selected
-# dataset
 
-data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
-#dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
-r <- readRDS('DBCopy/PI_Results.rds')
-dates <- uDate
-stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
-comms <- readRDS('DBCopy/PI_IndComments.rds')
-dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
-elem <- readRDS('DBCopy/PI_LabelCodes.rds')
-
-dbcopy <- readRDS('DBCopy/PI_DataStatus.rds')
-
-units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
-eCode <- readRDS('DBCopy/OE_EventUnit.rds')
-rCode <- readRDS('DBCopy/OE_EventReport.rds')
-event <- readRDS('DBCopy/OE_Event.rds')
