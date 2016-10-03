@@ -50,8 +50,9 @@ navbarPage("Performance Analysis",
                               choices = i),
                   selectInput("outwindow","Data window, months:",
                               choices = c(3,12,18,24,36,48)),
-                  sliderInput("coef","Coefficient for IQR:",min = 0, max = 15, value = 1.5, step = .5)),
+                  sliderInput("coef","Coefficient for IQR:",min = 0, max = 20, value = 1.5, step = .5)),
                mainPanel(
+                   plotOutput("boxplot"),
                    dataTableOutput("outliers")
                    #verbatimTextOutput("outliers")
                )
@@ -77,11 +78,14 @@ navbarPage("Performance Analysis",
                sidebarPanel(
                    selectInput("lttqtr", "Quarter:",
                                choices = qtrs,selected=tail(qtrs,1)),
-                   actionButton("qreport","(Re)create LTT report")
+                   actionButton("qreport","(Re)create LTT report and update the LTT data")
                    #downloadButton('qRepDown', 'Download')
                ),
                mainPanel(
+                   plotOutput("wwlttplot",width = "400px"),
+                   plotOutput("wwilttplot",width = "400px"),
                    dataTableOutput("wwltt"),
+                   plotOutput("rclttplot"),
                    dataTableOutput("rcltt")
            ))),
   tabPanel("PI metrics",

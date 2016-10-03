@@ -38,7 +38,7 @@ shinyServer(function(input, output) {
         if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2')) uNo <- pNo
         else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
     })
-
+    ### Dource data ###
     sourceData <- reactive(
     {
     quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
@@ -46,17 +46,17 @@ shinyServer(function(input, output) {
     sourceData <- s
     sourceData <- cbind(s[1:3],apply(s[4],1,el),s[5:8])
     })
-
+    ### Results ###
     res <- reactive(subset(r,r$LocId == uNo() & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
-
+    ### Unit dates ###
     udate <- reactive({
         dt <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$name)[[1]])
         udate <- cbind(dt[1:2],apply(dt[3],1,status),dt[4])
         })
-
+    ### Commentary ###
     com <- reactive(subset(comms,comms$SourceId == uNo() &
                                  comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
-
+    ### Results chart ###
     rChart <- reactive({
         barplot(unlist(subset(r,r$LocId == uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode == input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue))),xlab="Quarters",xaxt='n')
         axis(side=1,at=c(1:length(qtrs)),labels=qtrs)})
@@ -91,7 +91,6 @@ shinyServer(function(input, output) {
     output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE))
     output$resultChart <- renderPlot(rChart())
 
-
 ############################### LTT ################################
 
     ltt <- reactive({
@@ -100,10 +99,33 @@ shinyServer(function(input, output) {
     rcltt <- reactive({
         fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
         rcltt <- readRDS(fn)})
+    lttplot <- reactive({
+        fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
+        ltt <- readRDS(fn)
+        barplot(unlist(ltt$Ind.percentage),names.arg = unlist(ltt$Indicator),main = "Individual LTT(target=100%)",ylim=c(0,105))
+        abline(h=100, col='red')
+        #barplot(table(unlist(ltt$Ind.percentage),unlist(ltt$Indust.percentage)),names.arg = unlist(ltt$Indicator),beside=TRUE,legend = c('Individual','Industry'))
+    })
+    ilttplot <- reactive({
+        fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
+        ltt <- readRDS(fn)
+        barplot(unlist(ltt$Indust.percentage),names.arg = unlist(ltt$Indicator),main = "Industry LTT (target=75%)")
+        abline(h=75, col='red')
+    })
+    rcplot <- reactive({
+        fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
+        rcltt <- readRDS(fn)
+        #barplot((unlist(ltt$Ind.percentage),names.arg = unlist(ltt$Indicator))
+    })
+
+
 
 
     output$wwltt <- renderDataTable(ltt(),options=list(paging = FALSE,searching=FALSE))
+    output$wwlttplot <- renderPlot(lttplot())
+    output$wwilttplot <- renderPlot(ilttplot())
     output$rcltt <- renderDataTable(rcltt(),options=list(paging = FALSE,searching=FALSE))
+    output$rclttplot <- renderPlot(rcplot())
 
 
 ############################ Downloads #########################
@@ -125,7 +147,12 @@ shinyServer(function(input, output) {
         out <- cbind(out,unames)
     })
 
+    outliers <- reactive(boxplot(unlist(subset(r,r$IndicatorCode == input$outind & r$PeriodEndYrMn == input$outqtr & r$NumOfMonths == input$outwindow & r$NonQualCode == ' ',ResultsValue)),range =  as.numeric(input$coef)))
+
     output$outliers <- renderDataTable(out(),options=list(paging = FALSE,searching=FALSE))
+
+    ### boxplot for outliers ###
+    output$boxplot <- renderPlot(outliers())
 
 
     #output$Indicator <- reactive(input$ind)

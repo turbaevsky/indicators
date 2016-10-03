@@ -10,7 +10,13 @@ qtrs <- c(201303,201306,201309,201312,
 
 # Define server logic required to summarize and view the selected
 # dataset
-
+#--- from functions'r ---
+placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
+uDate <- readRDS('DBCopy/PI_UnitDate.rds')
+uData <- readRDS('DBCopy/PI_UnitData.rds')
+place <- readRDS('DBCopy/PI_Place.rds')
+submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
+###
 data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
 relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 #dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
