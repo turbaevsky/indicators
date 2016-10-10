@@ -5,7 +5,7 @@ source('data.r')
 navbarPage("Performance Analysis",
 
   # Application title
-  tabPanel("Performance Indicators and OEDB",
+  tabPanel("PI and OEDB",
 
   # Sidebar with controls to select a dataset and specify the
   # number of observations to view
@@ -103,9 +103,18 @@ navbarPage("Performance Analysis",
                    ))
            ),
   tabPanel("ISA summary"),
-  tabPanel("Indicator trend")#,
+  tabPanel("Indicator trend"),
  #          sidebarLayout(
  #              mainPanel(
  #                  imageOutput("pict1")
- #          )))
+                                        #          )))
+  tabPanel("Unit status",
+           sidebarLayout(
+               sidebarPanel(
+                   selectInput("pname", "Unit:",
+                               choices = allNames)),
+               mainPanel(
+                   dataTableOutput("status")
+                   ))
+           )
   )

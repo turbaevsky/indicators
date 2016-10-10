@@ -38,7 +38,7 @@ shinyServer(function(input, output) {
         if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2')) uNo <- pNo
         else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
     })
-    ### Dource data ###
+    ### Source data ###
     sourceData <- reactive(
     {
     quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
@@ -119,8 +119,6 @@ shinyServer(function(input, output) {
     })
 
 
-
-
     output$wwltt <- renderDataTable(ltt(),options=list(paging = FALSE,searching=FALSE))
     output$wwlttplot <- renderPlot(lttplot())
     output$wwilttplot <- renderPlot(ilttplot())
@@ -154,30 +152,12 @@ shinyServer(function(input, output) {
     ### boxplot for outliers ###
     output$boxplot <- renderPlot(outliers())
 
+################################# Unit status #########################
+    pdate <- reactive({
+        p <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$pname)[[1]])
+        pdate <- cbind(p[1:2],apply(p[3],1,status),p[4])
+    })
+    output$status <- renderDataTable(pdate(),options=list(paging = FALSE,searching=FALSE))
 
-    #output$Indicator <- reactive(input$ind)
-    #output$Elements <- reactive(elByInd[input$ind][[1]])
-
-  # Return the requested dataset
-#   datasetInput <- reactive({
-#     switch(input$dataset,
-#            "rock" = rock,
-#            "pressure" = pressure,
-#            "cars" = cars)
-#   })
-
-  # print(input$dataset)
-
-  # Generate a summary of the dataset
-#   output$summary <- renderPrint({
-#     dataset <- datasetInput()
-#     summary(dataset)
-#   })
-
-  # Show the first "n" observations
-  #output$view <- renderTable({
-    #head(datasetInput(), n = input$obs)
-  #})
-  #output$dataset = renderText({input$dataset})
 })
 
