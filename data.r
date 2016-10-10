@@ -48,7 +48,7 @@ units <- activeStation(tail(qtrs,1)) ##################### Change to Sys.Date() 
 
 uNames <- sort(as.character(subset(place,place$LocId %in% units,AbbrevLocName)[[1]]))
 
-plants <- unique(unlist(subset(place,place$PlaceTypeId %in% c(19,22),LocId)))
+plants <- unique(unlist(subset(place,place$PlaceTypeId == 22,LocId)))
 allNames <- sort(as.character(subset(place,place$LocId %in% plants,AbbrevLocName)[[1]]))
 
 i <- readRDS('DBCopy/PI_IndicatorCodes.rds')
