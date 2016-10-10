@@ -99,20 +99,20 @@ shinyServer(function(input, output) {
     rcltt <- reactive({
         fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
         rcltt <- readRDS(fn)})
-    lttplot <- reactive({
+    lttplot <- reactive(if (input$LTTChart){
         fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
         ltt <- readRDS(fn)
         barplot(unlist(ltt$Ind.percentage),names.arg = unlist(ltt$Indicator),main = "Individual LTT(target=100%)",ylim=c(0,105))
         abline(h=100, col='red')
         #barplot(table(unlist(ltt$Ind.percentage),unlist(ltt$Indust.percentage)),names.arg = unlist(ltt$Indicator),beside=TRUE,legend = c('Individual','Industry'))
     })
-    ilttplot <- reactive({
+    ilttplot <- reactive(if (input$LTTChart){
         fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
         ltt <- readRDS(fn)
         barplot(unlist(ltt$Indust.percentage),names.arg = unlist(ltt$Indicator),main = "Industry LTT (target=75%)")
         abline(h=75, col='red')
     })
-    rcplot <- reactive({
+    rcplot <- reactive(if (input$LTTChart){
         fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
         rcltt <- readRDS(fn)
         #barplot((unlist(ltt$Ind.percentage),names.arg = unlist(ltt$Indicator))
@@ -130,8 +130,21 @@ shinyServer(function(input, output) {
 
 ############################ Metrics ###########################
 
-    metrics <- reactive(if (input$mDetail) m(input$metricsqtr))
+    metrics <- reactive(if (input$mDetail)
+                            withProgress(message="Calculating...",value=0,
+                                         m(input$metricsqtr,as.numeric(input$centre))))
     output$metrics <- renderPrint(metrics())
+### charts
+#    reactive(
+#        withProgress(message = 'Metrics calculation',value=0,{
+#            lastQtr <- which(qtrs == input$metricsqtr)
+#            firstQtr <- which(qtrs == input$metricsFirstQtr)
+#            pi1 <- data.frame()
+#            pi2 <- data.frame()
+#            ltp1 <- data.frame()
+#            for (d in qtrs[firstQtr,lastQtr]){
+#                pi1 <- rbind(pi1,m(d)
+
 
 ############################ Outliers ##########################
 
@@ -156,6 +169,7 @@ shinyServer(function(input, output) {
     pdate <- reactive({
         p <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$pname)[[1]])
         pdate <- cbind(p[1:2],apply(p[3],1,status),p[4])
+        #pdate <- pdate[order(UnitDate),]
     })
     output$status <- renderDataTable(pdate(),options=list(paging = FALSE,searching=FALSE))
 

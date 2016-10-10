@@ -78,12 +78,13 @@ navbarPage("Performance Analysis",
                sidebarPanel(
                    selectInput("lttqtr", "Quarter:",
                                choices = qtrs,selected=tail(qtrs,1)),
+                   checkboxInput("LTTChart","Chart",value=TRUE),
                    actionButton("qreport","(Re)create LTT report and update the LTT data")
                    #downloadButton('qRepDown', 'Download')
                ),
                mainPanel(
-                   plotOutput("wwlttplot",width = "400px"),
-                   plotOutput("wwilttplot",width = "400px"),
+                   plotOutput("wwlttplot"),
+                   plotOutput("wwilttplot"),
                    dataTableOutput("wwltt"),
                    plotOutput("rclttplot"),
                    dataTableOutput("rcltt")
@@ -91,9 +92,14 @@ navbarPage("Performance Analysis",
   tabPanel("PI metrics",
            sidebarLayout(
                sidebarPanel(
-                   selectInput("metricsqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,1)),
-                   checkboxInput("mDetail","Detailed metrics info",value=TRUE)
+                   selectizeInput("metricsqtr", "Quarter(s):",
+                               choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
+                   #selectInput("metricsFirstQtr", "Starting quarter:",
+                                        #            choices = qtrs,selected=qtrs[1]),
+                   selectizeInput("centre","Centre No.(1=AC, 2=MC, 3=PC, 4=TC):",
+                                  choices = c(1,2,3,4), selected = 1, multiple=TRUE),
+                   checkboxInput("mDetail","Detailed metrics info",value=FALSE),
+                   checkboxInput("mChart","Chart",value=FALSE)
                ),
                mainPanel(
                    verbatimTextOutput("metrics"),
@@ -102,7 +108,7 @@ navbarPage("Performance Analysis",
                    plotOutput("ltp1")
                    ))
            ),
-  tabPanel("ISA summary"),
+ # tabPanel("ISA summary"),
   tabPanel("Indicator trend"),
  #          sidebarLayout(
  #              mainPanel(

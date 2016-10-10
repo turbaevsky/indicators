@@ -2,7 +2,7 @@
 # Calculates PI and PL metrics
 #######################################################################
 
-m <- function(dates){
+m <- function(dates,centres){
 
 #source('functions.r')
 
@@ -29,7 +29,7 @@ unitsByCentre <- uByCentre()
 ############################### PI-1 ##################################
 print('PI-1 metric: unit and station reported out of 45 days period')
 for (d in dates){
-    for (centre in c(1:4)){
+    for (centre in centres){
     subDate <- dateToReal(d,'s')
     #print(c(d,as.Date(subDate),centreNames[centre]))
     pi1list <- unlist(subset(submit, submit$YrMn==d & as.Date(submit$SubmittalDate)>=subDate & submit$LocId %in% unlist(unitsByCentre$uList[centre]),select=LocId))
@@ -37,12 +37,12 @@ for (d in dates){
     names <- unlist(subset(place, place$LocId %in% pi1list,AbbrevLocName))
     ids <- unlist(subset(place, place$LocId %in% pi1list,LocId))
     print(paste(d,subDate,centreNames[centre],pi1,names,ids))
-
+    incProgress(1/(length(centres)*length(dates)*3))
     }}
 ############################### LTP-2 ##################################
 print('LTP-2 metric: time to promote data')
 for (d in dates){
-    for (centre in c(1:4)){
+    for (centre in centres){
     subDate <- dateToReal(d,'e') #end of quarter
     sub <- as.Date(subset(submit, submit$YrMn==d & submit$LocId %in% unlist(unitsByCentre$uList[centre]),select=ProductionDate)[,1])
     mdate <- max(sub,na.rm=T)
@@ -51,14 +51,15 @@ for (d in dates){
     names <- unlist(subset(place, place$LocId %in% lastUnit,AbbrevLocName))
     print(paste(d,centreNames[centre],mdate,dd,names))
     #ids <- unlist(subset(place, place$LocId %in% pi1list,LocId))
-    #print(paste(d,subDate,centreNames[centre],ltp2,names,ids))
+                                        #print(paste(d,subDate,centreNames[centre],ltp2,names,ids))
+    incProgress(1/(length(centres)*length(dates)*3))
 }}
 ############################## PI-2 and LTP-1 ###################################
 # TODO: count a number
 print('PI-2 metric: unit and station did not report any source data')
 r <- subset(r,r$PeriodEndYrMn %in% dates)
 for (d in dates){
-    for (centre in c(1:4)){
+    for (centre in centres){
         as <- activeStation(d,'p') # Active Plants
         plants <- intersect(as,unlist(unitsByCentre$uList[centre]))
                                         #print(plants)
@@ -78,5 +79,6 @@ for (d in dates){
             pi2 <- reported/11
             name <- unlist(subset(place, place$LocId == p,AbbrevLocName))
             if (!pi2) print(paste(d,centreNames[centre],'Unit:',name,p))}
+        incProgress(1/(length(centres)*length(dates)*3))
 
     }}}
