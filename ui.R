@@ -16,7 +16,7 @@ navbarPage("Performance Analysis",
       selectizeInput("qtr", "Quarter:",
                   choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
       selectizeInput("ind","Indicator and source data for:",
-                  choices = i, selected = i[1], multiple=TRUE),
+                  choices = i, selected = i[1], multiple=FALSE),
       selectInput("window","Data window, months:",
                   choices = c(3,12,18,24,36,48), selected = 3)
     ),
@@ -123,5 +123,16 @@ navbarPage("Performance Analysis",
                mainPanel(
                    dataTableOutput("status")
                    ))
-           )
+           ),
+  tabPanel("Submitting progress",
+           sidebarLayout(
+               sidebarPanel(
+                   selectInput("subqtr", "Quarter:",
+                               choices = qtrs,selected=tail(qtrs,1)),
+                   checkboxInput("sDetail","Detailed info",value=FALSE)
+               ),
+               mainPanel(
+                   plotOutput('submit',width = '400px'),
+                   verbatimTextOutput("submitting")
+                   )))
   )

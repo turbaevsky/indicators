@@ -6,7 +6,7 @@ setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
 qtrs <- c(201303,201306,201309,201312,
           201403,201406,201409,201412,
           201503,201506,201509,201512,
-          201603,201606)
+          201603,201606,201609)
 
 # Define server logic required to summarize and view the selected
 # dataset
@@ -41,6 +41,7 @@ source('fullDBCopy.R')
 source('Qreport.r')
 source('xlsGenerator.R')
 source('metrics.r')
+source('submit.r')
 
 #qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
 

@@ -1,11 +1,12 @@
 #####################################################################
 # To show the units numbers did not send (submit) data in time
 #####################################################################
-place <- readRDS('DBCopy/PI_Place.rds')
-placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
-submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
-elements <- readRDS('DBCopy/PI_IndValues.rds')
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+#place <- readRDS('DBCopy/PI_Place.rds')
+#placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
+#submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
+                                        #elements <- readRDS('DBCopy/PI_IndValues.rds')
+#elements <- data #<<<<<<<<<<<<<<<<<<<< if needed
+#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 
 #Getting active units list
 #activeStation <- merge(place,placeAttributes,by='LocId')
@@ -16,16 +17,19 @@ relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 #Remove some extra units and fuel reprocessing factories
 #activeStation <- activeStation[which(!activeStation %in% c(10159,10111,10115,1871,1872,1360,1569,1330))]
 
-source('functions.r')
-aDate <- 201606
-activeStation <- activeStation(aDate,'a')
-uList <- c()
-uByCentre <- c(0,0,0,0)
+#source('functions.r')
+                                        #aDate <- 201606
 
 uName <- function(centre,u){return(paste(centre,u,unlist(subset(place,place$LocId==u,select=AbbrevLocName))))}
 
-for (u in activeStation)
-	{
+submitProgress <- function(aDate,plot=TRUE){
+    as <- activeStation(aDate,'a')
+    uList <- c()
+    uByCentre <- c(0,0,0,0)
+
+    for (u in as)
+    {
+        incProgress(1/length(as))
 	if (!(u %in% submit[submit$YrMn == aDate,1]))	# For submitted data only
 		{
 		uList <- c(uList,u)
@@ -46,5 +50,6 @@ for (u in activeStation)
 print('Units and plants did not submit data to the RCs (AC/MC/PC/TC):')
 print(uByCentre)
 #print('Units did not submit data:')
-#print(subset(place,place$LocId %in% uList,select=AbbrevLocName))
-barplot(uByCentre,names.arg = c('A','M','P','T'), main = paste('Num of units and plants did not \nsubmit their data for',aDate))
+                                        #print(subset(place,place$LocId %in% uList,select=AbbrevLocName))
+if (plot) barplot(uByCentre,names.arg = c('A','M','P','T'), main = paste('Num of units and plants did not \nsubmit their data for',aDate))
+}

@@ -178,6 +178,13 @@ shinyServer(function(input, output) {
         #pdate <- pdate[order(UnitDate),]
     })
     output$status <- renderDataTable(pdate(),options=list(paging = FALSE,searching=FALSE))
-
+################################ Submitting progress ##################
+    subPlot <- reactive(
+        withProgress(message="Calculating...",value=0,submitProgress(input$subqtr)))
+    output$submit <- renderPlot(subPlot())
+    sub <- reactive(
+        if (input$sDetail)
+            withProgress(message="Calculating...",value=0,submitProgress(input$subqtr,FALSE)))
+    output$submitting <- renderPrint(sub())
 })
 
