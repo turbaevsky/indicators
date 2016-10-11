@@ -11,14 +11,14 @@ navbarPage("Performance Analysis",
   # number of observations to view
   sidebarLayout(
     sidebarPanel(
-      selectInput("name", "Unit:",
-                  choices = uNames),
-      selectInput("qtr", "Quarter:",
-                  choices = qtrs,selected=tail(qtrs,1)),
-      selectInput("ind","Indicator and source data for:",
-                  choices = i),
+      selectizeInput("name", "Unit:",
+                  choices = uNames,selected = uNames[1], multiple=TRUE),
+      selectizeInput("qtr", "Quarter:",
+                  choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
+      selectizeInput("ind","Indicator and source data for:",
+                  choices = i, selected = i[1], multiple=TRUE),
       selectInput("window","Data window, months:",
-                  choices = c(3,12,18,24,36,48))
+                  choices = c(3,12,18,24,36,48), selected = 3)
     ),
       #sliderInput("price", "Price range:",
       #            min = 0, max = 2000, value = c(100,500)),
@@ -30,6 +30,7 @@ navbarPage("Performance Analysis",
 	 # requested number of observations
     mainPanel(
         dataTableOutput("unitStatus"),
+        dataTableOutput("index"),
         #verbatimTextOutput("Indicator"),
         #verbatimTextOutput("Elements"),
         dataTableOutput("sourceData"),
@@ -83,11 +84,11 @@ navbarPage("Performance Analysis",
                    #downloadButton('qRepDown', 'Download')
                ),
                mainPanel(
-                   plotOutput("wwlttplot"),
-                   plotOutput("wwilttplot"),
                    dataTableOutput("wwltt"),
-                   plotOutput("rclttplot"),
-                   dataTableOutput("rcltt")
+                   dataTableOutput("rcltt"),
+                   plotOutput("wwlttplot", width = "400px"),
+                   plotOutput("wwilttplot", width = "400px"),
+                   plotOutput("rclttplot", width = "400px")
            ))),
   tabPanel("PI metrics",
            sidebarLayout(

@@ -15,12 +15,13 @@ status <- function(cs) { return(subset(stat,stat[1]==cs,Description)[[1]]) }
 
 units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
 
+############################## Server ####################################
 shinyServer(function(input, output) {
     # OE DB
-    uID <- reactive(subset(place,place$AbbrevLocName==input$name)[[1]]) # define unit ID
+    uID <- reactive(subset(place,place$AbbrevLocName %in% input$name)[[1]]) # define unit ID
 
-    oeid <- reactive(unlist(subset(units,units$INPORef==uID(),OEDBID))[[1]])
-    eventCodes <- reactive(unlist(subset(eCode,eCode$UnitCode==oeid(),EventCode))) # list of events for selected unit
+    oeid <- reactive(unlist(subset(units,units$INPORef %in% uID(),OEDBID))[[1]])
+    eventCodes <- reactive(unlist(subset(eCode,eCode$UnitCode %in% oeid(),EventCode))) # list of events for selected unit
     repCodes <- reactive(unlist(subset(rCode,rCode$EventCode %in% eventCodes(),ReportCode)))
     lastDate <- reactive(dateToReal(input$qtr,'e'))
     ########################## Start date calculation have to be fixed ####################
@@ -31,34 +32,39 @@ shinyServer(function(input, output) {
     # Is it unit or plant?
     uNo <- reactive({
         pNo <-  as.integer(unique(subset(relation,
-                                         relation$LocId == subset(place,place$AbbrevLocName==input$name)[[1]]
+                                         relation$LocId %in% subset(place,place$AbbrevLocName %in% input$name)[[1]]
 	& relation$RelationId == 4
 	& as.Date(relation$EndDate) >= Sys.Date(),
 	select=ParentLocId)))
         if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2')) uNo <- pNo
-        else uNo <- subset(place,place$AbbrevLocName==input$name)[[1]]
+        else uNo <- subset(place,place$AbbrevLocName %in% input$name)[[1]]
     })
     ### Source data ###
     sourceData <- reactive(
     {
     quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
-    s <- subset(data,data$SourceId ==  uNo() & data$YrMn %in% quarters & data$ElementCode %in% elByInd[input$ind][[1]])
+    s <- subset(data,data$SourceId %in%  uNo() & data$YrMn %in% quarters & data$ElementCode %in% elByInd[input$ind][[1]])
     sourceData <- s
     sourceData <- cbind(s[1:3],apply(s[4],1,el),s[5:8])
     })
     ### Results ###
-    res <- reactive(subset(r,r$LocId == uNo() & PeriodEndYrMn == input$qtr & r$IndicatorCode == input$ind & r$NumOfMonths == input$window))
+    res <- reactive(subset(r,r$LocId %in% uNo() & r$PeriodEndYrMn %in% input$qtr & r$IndicatorCode %in% input$ind & r$NumOfMonths == input$window))
+    ### Index ###
+    index <- reactive({
+        unNo <- subset(place,place$AbbrevLocName %in% input$name)[[1]] # Anyway unit No
+        index <- subset(idx,IndexId==4 & PeriodEndYrMn %in% input$qtr & LocId %in% unNo)})
+    output$index <- renderDataTable(index(),options=list(paging = FALSE,searching=FALSE))
     ### Unit dates ###
     udate <- reactive({
-        dt <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$name)[[1]])
+        dt <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName %in% input$name)[[1]])
         udate <- cbind(dt[1:2],apply(dt[3],1,status),dt[4])
         })
     ### Commentary ###
-    com <- reactive(subset(comms,comms$SourceId == uNo() &
-                                 comms$YrMn ==  input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
+    com <- reactive(subset(comms,comms$SourceId %in% uNo() &
+                                 comms$YrMn %in% input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
     ### Results chart ###
     rChart <- reactive({
-        barplot(unlist(subset(r,r$LocId == uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode == input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue))),xlab="Quarters",xaxt='n')
+        barplot(unlist(subset(r,r$LocId %in% uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode %in% input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue))),xlab="Quarters",xaxt='n')
         axis(side=1,at=c(1:length(qtrs)),labels=qtrs)})
 
     # progressbar for DB copying ################################################
