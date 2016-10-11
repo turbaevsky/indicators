@@ -14,7 +14,7 @@ navbarPage("Performance Analysis",
       selectizeInput("name", "Unit:",
                   choices = uNames,selected = uNames[1], multiple=TRUE),
       selectizeInput("qtr", "Quarter:",
-                  choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
+                  choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
       selectizeInput("ind","Indicator and source data for:",
                   choices = i, selected = i[1], multiple=FALSE),
       selectInput("window","Data window, months:",
@@ -46,7 +46,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                   selectInput("outqtr", "Quarter:",
-                              choices = qtrs,selected=tail(qtrs,1)),
+                              choices = qtrs,selected=tail(qtrs,2)[-2]),
                   selectInput("outind","Indicator and source data for:",
                               choices = i),
                   selectInput("outwindow","Data window, months:",
@@ -64,7 +64,7 @@ navbarPage("Performance Analysis",
                sidebarPanel(
                    actionButton("update","Update DB"),
                    selectInput("repqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,1)),
+                               choices = qtrs,selected=tail(qtrs,2)[-2]),
                    actionButton("tisa","(Re)calculate TISA"),
                    actionButton("excel","(Re)generate Excel spreadsheet")
                ),
@@ -78,7 +78,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectInput("lttqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,1)),
+                               choices = qtrs,selected=tail(qtrs,2)[-2]),
                    checkboxInput("LTTChart","Chart",value=TRUE),
                    actionButton("qreport","(Re)create LTT report and update the LTT data")
                    #downloadButton('qRepDown', 'Download')
@@ -94,7 +94,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectizeInput("metricsqtr", "Quarter(s):",
-                               choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
+                               choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
                    #selectInput("metricsFirstQtr", "Starting quarter:",
                                         #            choices = qtrs,selected=qtrs[1]),
                    selectizeInput("centre","Centre No.(1=AC, 2=MC, 3=PC, 4=TC):",
