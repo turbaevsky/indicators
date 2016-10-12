@@ -3,10 +3,31 @@ library(datasets)
 
 setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
 
-qtrs <- c(201303,201306,201309,201312,
-          201403,201406,201409,201412,
-          201503,201506,201509,201512,
-          201603,201606,201609)
+### Quarters list ###
+curY <- as.numeric(format(Sys.Date(),"%Y"))
+curM <- as.numeric(format(Sys.Date(),"%m"))
+
+if (curM>=3 && curM<6) lastM <- '03'
+if (curM>=6 && curM<9) lastM <- '06'
+if (curM>=9 && curM<12) lastM <- '09'
+if (curM==12) lastM <- '12'
+if (curM<3) {lastM <- '12'; curY <- curY-1}
+
+lastQtr <- paste(curY,lastM,sep='')
+qtrs <- c(lastQtr)
+
+for (i in c(1:20)){
+    lastQ <- tail(qtrs,1)
+    if (substr(lastQ,5,6)=='03') {Y <- as.numeric(substr(lastQ,1,4))-1; M <- 12; Q <- paste(Y,M,sep='')}
+    else {M <- paste('0',as.numeric(substr(lastQ,5,6))-3,sep=''); Q <- paste(substr(lastQ,1,4),M,sep='')}
+    qtrs <- c(qtrs,Q)
+    }
+qtrs <- sort(qtrs)
+
+#qtrs <- c(201303,201306,201309,201312,
+#          201403,201406,201409,201412,
+#          201503,201506,201509,201512,
+#          201603,201606,201609)
 
 # Define server logic required to summarize and view the selected
 # dataset
