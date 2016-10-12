@@ -141,17 +141,16 @@ shinyServer(function(input, output) {
                                          m(input$metricsqtr,as.numeric(input$centre))))
     output$metrics <- renderPrint(metrics())
 ### charts
-#    reactive(
-#        withProgress(message = 'Metrics calculation',value=0,{
-#            lastQtr <- which(qtrs == input$metricsqtr)
-#            firstQtr <- which(qtrs == input$metricsFirstQtr)
-#            pi1 <- data.frame()
-#            pi2 <- data.frame()
-#            ltp1 <- data.frame()
-#            for (d in qtrs[firstQtr,lastQtr]){
-#                pi1 <- rbind(pi1,m(d)
-
-
+    #cNames <- c('AC','MC','PC','TC')
+    mPlot <- reactive( if (input$mChart)
+                           withProgress(message = 'Metrics calculation',value=0,{
+                               res <- c()
+                               for (d in input$metricsqtr)
+                                   res <- rbind(res,m(d,as.numeric(input$centre)))
+                               print(res)
+                               mPlot <- barplot(res,names.arg = input$centre,legend = rownames(res),beside = TRUE)
+                           }))
+    output$pi1 <- renderPlot(mPlot())
 ############################ Outliers ##########################
 
     out <- reactive({

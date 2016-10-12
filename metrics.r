@@ -26,8 +26,11 @@ m <- function(dates,centres){
 
 unitsByCentre <- uByCentre()
 
+res <- c()
+
 ############################### PI-1 ##################################
-print('PI-1 metric: unit and station reported out of 45 days period')
+    print('PI-1 metric: unit and station reported out of 45 days period')
+    pi1res <- c()
 for (d in dates){
     for (centre in centres){
     subDate <- dateToReal(d,'s')
@@ -38,9 +41,13 @@ for (d in dates){
     ids <- unlist(subset(place, place$LocId %in% pi1list,LocId))
     print(paste(d,subDate,centreNames[centre],pi1,names,ids))
     incProgress(1/(length(centres)*length(dates)*3))
+    pi1res <- c(pi1res,pi1)
     }}
+res <- rbind(res,pi1res)
 ############################### LTP-2 ##################################
 print('LTP-2 metric: time to promote data')
+ltp2 <- c()
+
 for (d in dates){
     for (centre in centres){
     subDate <- dateToReal(d,'e') #end of quarter
@@ -53,10 +60,13 @@ for (d in dates){
     #ids <- unlist(subset(place, place$LocId %in% pi1list,LocId))
                                         #print(paste(d,subDate,centreNames[centre],ltp2,names,ids))
     incProgress(1/(length(centres)*length(dates)*3))
-}}
+    ltp2 <- c(ltp2,dd)
+    }}
+res <- rbind(res,ltp2)
 ############################## PI-2 and LTP-1 ###################################
 # TODO: count a number
-print('PI-2 metric: unit and station did not report any source data')
+    print('PI-2 metric: unit and station did not report any source data')
+    pi2ltp1 <- c()
 r <- subset(r,r$PeriodEndYrMn %in% dates)
 for (d in dates){
     for (centre in centres){
@@ -73,12 +83,19 @@ for (d in dates){
         #print('Units')
         as <- activeStation(d,'u') # Active Units
         units <- intersect(as,unlist(unitsByCentre$uList[centre]))
-        #print(plants)
+                                        #print(plants)
+        cnt <- 0
         for (u in units){
             reported <- length(unlist(subset(r,r$PeriodEndYrMn == d & r$LocId == u & r$NumOfMonths == 3 & NonQualCode == ' ',LocId)))
             pi2 <- reported/11
             name <- unlist(subset(place, place$LocId == p,AbbrevLocName))
-            if (!pi2) print(paste(d,centreNames[centre],'Unit:',name,p))}
+            if (!pi2){
+                print(paste(d,centreNames[centre],'Unit:',name,p))
+                cnt <- cnt+1
+            }}
         incProgress(1/(length(centres)*length(dates)*3))
-
-    }}}
+        pi2ltp1 <- c(pi2ltp1,cnt)
+    }}
+    res <- rbind(res,pi2ltp1)
+    return(res)
+}
