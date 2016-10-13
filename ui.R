@@ -105,17 +105,26 @@ navbarPage("Performance Analysis",
                mainPanel(
                    verbatimTextOutput("metrics"),
                    #textOutput("summary"),
-                   plotOutput("pi1"),
-                   plotOutput("pi2"),
-                   plotOutput("ltp1")
+                   plotOutput("pi1")
+                   #plotOutput("pi2"),
+                   #plotOutput("ltp1")
                    ))
            ),
  # tabPanel("ISA summary"),
-  tabPanel("Indicator trend"),
- #          sidebarLayout(
- #              mainPanel(
- #                  imageOutput("pict1")
-                                        #          )))
+  tabPanel("Indicator trend",
+           sidebarLayout(
+               sidebarPanel(
+                   selectInput("trendind","Indicator and source data for:",
+                               choices = i),
+                   selectInput("rType","Reactor type (for CRE and US7 only:",
+                               choices = rType),
+                   checkboxInput("outliers","Show outliers",value=FALSE)
+                   ),
+               mainPanel(
+                   plotOutput("indtrend",height = '600px')
+               ))
+           ),
+
   tabPanel("Unit status",
            sidebarLayout(
                sidebarPanel(

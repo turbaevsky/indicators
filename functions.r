@@ -79,8 +79,7 @@ activeStation <- function(startDate,mode='u') # Getting active units list
     return(Station)
 }
 
-
- # Units by centre ==================================
+### Units by centre ==================================
 
 uByCentre <- function()
     {
@@ -91,3 +90,13 @@ uByCentre <- function()
         {unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre] & relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=c(LocId)))}
         return(unitsByCentre)
     }
+### Units by reactor type ==================================
+rType <- c('AGR','BWR','LWCGR','PHWR','PWR')
+rTypeCode <- c(1,3,12,13,14)
+uByType <- function(){
+uType <- list()
+for (t in c(1:5)){
+    uType$rType[t] <- subset(UnitData,NsssTypeId == rTypeCode[t],select = 1)
+}
+return(uType)
+}

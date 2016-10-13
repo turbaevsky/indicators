@@ -185,5 +185,9 @@ shinyServer(function(input, output) {
         if (input$sDetail)
             withProgress(message="Calculating...",value=0,submitProgress(input$subqtr,FALSE)))
     output$submitting <- renderPrint(sub())
+################################ Indicator trend ##############################
+    iPlot <- reactive(indicatorSummary(input$trendind,input$outliers,input$rType))
+    output$indtrend <- renderPlot(iPlot())
+
 })
 

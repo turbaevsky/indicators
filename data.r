@@ -63,6 +63,7 @@ source('Qreport.r')
 source('xlsGenerator.R')
 source('metrics.r')
 source('submit.r')
+source('indicators.R')
 
 #qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
 
@@ -73,9 +74,10 @@ uNames <- sort(as.character(subset(place,place$LocId %in% units,AbbrevLocName)[[
 
 plants <- unique(unlist(subset(place,place$PlaceTypeId == 22,LocId)))
 allNames <- sort(as.character(subset(place,place$LocId %in% plants,AbbrevLocName)[[1]]))
-
+### List of indicators ###
 i <- readRDS('DBCopy/PI_IndicatorCodes.rds')
 i <- as.character(subset(i,i$IsActive==1,IndicatorCode)[[1]])
+i <- c(i,"TISA2")
 
 #data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
 

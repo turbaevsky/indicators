@@ -53,38 +53,44 @@ his <- function(i)
 limNum <- c(3,4) # Number of boxplot.stats limits; 3 means median, 4 means upper hinge
 lims <- function(b){return(paste('&',signif(b$stats[limNum[1]],2),'&',signif(b$stats[limNum[2]],2),'\\'))} #'&',signif(100/abs(as.numeric(b$stats[4])-as.numeric(b$stats[2])),2),'\\'))}
 
-r <- readRDS('DBCopy/PI_Results.rds')
-ic <- readRDS('DBCopy/PI_IndicatorCodes.rds')
-ic <- unlist(t(subset(ic,ic$IsActive== 1)[1]))
-relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+#r <- readRDS('DBCopy/PI_Results.rds')
+#ic <- readRDS('DBCopy/PI_IndicatorCodes.rds')
+#ic <- unlist(t(subset(ic,ic$IsActive== 1)[1]))
+#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+                                        #print(ic)
+
+#ic <- i
+#ic <- c(ic,"TISA2")
 #print(ic)
-ic <- c(ic,"TISA2")
-#print(ic)
-UnitData <- readRDS('DBCopy/PI_UnitData.rds')
-place <- readRDS('DBCopy/PI_Place.rds')
-# List of reactor by type
-rType <- c('AGR','BWR','LWCGR','PHWR','PWR')
-rTypeCode <- c(1,3,12,13,14)
-uType <- list()
-for (t in c(1:5))
-	{ uType$rType[t] <- subset(UnitData,NsssTypeId == rTypeCode[t],select = 1)}
-# Units by centre ==================================
-centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
-centreNames <- c('AC','MC','PC','TC')
-unitsByCentre <- list()
-for (centre in c(1:4))
-	{ unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre]
-		& relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=LocId)) }
+UnitData <- uData
+#place <- readRDS('DBCopy/PI_Place.rds')
+# List of reactor by type ##########################
+#rType <- c('AGR','BWR','LWCGR','PHWR','PWR')
+#rTypeCode <- c(1,3,12,13,14)
+#uType <- list()
+#for (t in c(1:5))
+#{uType$rType[t] <- subset(UnitData,NsssTypeId == rTypeCode[t],select = 1)}
+
+# Units by centre ##################################
+#centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
+#centreNames <- c('AC','MC','PC','TC')
+#unitsByCentre <- list()
+#for (centre in c(1:4))
+#	{ unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre]
+                                        #		& relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=LocId)) }
+
+uType <- uByType() # from functions.r
+unitsByCentre <- uByCentre() # from functions.r
 ####################################################################################
 dateList <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201606)
-lastDate <- 201606
+lastDate <- tail(dateList,1)
 ####################################################################################
 NumOfMonths <- 36
 
 # Define list of units by RC
 
 # Calculate the trend and plot a picture =================================================
-indicatorSummary <- function(i)
+indicatorSummary <- function(i,outliers=FALSE,rType)
 {
 #print(i)
 if (i %in% c("CRE  ","US7  "))
@@ -94,30 +100,31 @@ if (i %in% c("CRE  ","US7  "))
 	  us7IdTg <- c(2,1,1,1.5,1)
 	  us7IsTg <- c(1,0.5,0.5,1,0.5)
 	  creSum <- 0; us7Sum <- 0
-	for (type in c(1:5))
-		{
-		res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList
-		& r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
-		lastRes <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == lastDate
-		& r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
+	#for (type in c(1:5))
+        #{
+          type <- rTypeCode[which(rType == rType)]
+          res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList
+                        & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
+          lastRes <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == lastDate
+                            & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
 		#print(paste(i,rType[type]))
 		#print('All results')
 		#print(summary(res))
 		#print('Last results')
 		#print(summary(lastRes))
-		b <- boxplot.stats(unlist(res[5]))
-		print(paste(i,rType[type],lims(b))) # print the data quartiles
-		l <- length(b$out)/length(dateList) # Average number of outliers a year
+          b <- boxplot.stats(unlist(res[5]))
+          print(paste(i,rType[type],lims(b))) # print the data quartiles
+          l <- length(b$out)/length(dateList) # Average number of outliers a year
 		#print('Ouliers:')
-		m <- merge(lastRes,place,by="LocId")
-		lim <- boxplot.stats(unlist(lastRes[5]))$stats[5] # Higher extreme
-		outLiers <- subset(m,m$ResultsValue>lim,select=c(AbbrevLocName,ResultsValue)) # outliers
+          m <- merge(lastRes,place,by="LocId")
+          lim <- boxplot.stats(unlist(lastRes[5]))$stats[5] # Higher extreme
+          outLiers <- subset(m,m$ResultsValue>lim,select=c(AbbrevLocName,ResultsValue)) # outliers
 		#print(outLiers)
-		s <- b$stats
+          s <- b$stats
 		#print(s)
 		#print(l)
 		#print('Last results/limits')
-		b <- boxplot.stats(unlist(lastRes[5]))
+          b <- boxplot.stats(unlist(lastRes[5]))
 		#print(b$stats)
 		#print('Length of dataset:')
 		#print(length(unlist(lastRes[5])))
@@ -126,36 +133,36 @@ if (i %in% c("CRE  ","US7  "))
 		#print('Length of outliers')
 		#print(length(b$out))
 		# Units met the targets
-		if (i == 'CRE  ')
-			{creId <- creId + length(unlist(subset(lastRes,lastRes$ResultsValue<=creIdTg[type],select=LocId)))
-			creIs <- creIs + length(unlist(subset(lastRes,lastRes$ResultsValue<=creIsTg[type],select=LocId)))
-			creSum <- creSum + length(lastRes$LocId)
-			}
-		if (i == 'US7  ')
-			{us7Id <- us7Id + length(unlist(subset(lastRes,lastRes$ResultsValue<=us7IdTg[type],select=LocId)))
-			us7Is <- us7Is + length(unlist(subset(lastRes,lastRes$ResultsValue<=us7IsTg[type],select=LocId)))
-			us7Sum <- us7Sum + length(lastRes$LocId)
-			}
-		# Plot
-		fn = paste("pict/",i,"-",rType[type],".png",sep="")
-		fn2 = paste("pict/",i,"-",rType[type],"-out.png",sep="")
-		mTitle <- paste(i,rType[type])
-		if (i == 'CRE  ')
-			{
-			ylab <- 'man-Rem'
-			hid <- creIdTg[type]
-			his <- creIsTg[type]
-			}
-		else
-			{
-			ylab <- 'number per 7,000 critical hours'
-			hid <- us7IdTg[type]
-			his <- us7IsTg[type]
-			}
-		png(fn)
-		mval <- boxplot.stats(t(res[5]))
-		mval <- mval$stats[length(mval$stats)]
-		boxplot(t(res[5])~t(res[3]),outline = FALSE,notch=F,col='royalblue2',fg = "grey")
+          if (i == 'CRE  ')
+          {creId <- creId + length(unlist(subset(lastRes,lastRes$ResultsValue<=creIdTg[type],select=LocId)))
+              creIs <- creIs + length(unlist(subset(lastRes,lastRes$ResultsValue<=creIsTg[type],select=LocId)))
+              creSum <- creSum + length(lastRes$LocId)
+          }
+          if (i == 'US7  ')
+          {us7Id <- us7Id + length(unlist(subset(lastRes,lastRes$ResultsValue<=us7IdTg[type],select=LocId)))
+              us7Is <- us7Is + length(unlist(subset(lastRes,lastRes$ResultsValue<=us7IsTg[type],select=LocId)))
+              us7Sum <- us7Sum + length(lastRes$LocId)
+          }
+                                        # Plot
+          fn = paste("pict/",i,"-",rType[type],".png",sep="")
+          fn2 = paste("pict/",i,"-",rType[type],"-out.png",sep="")
+          mTitle <- paste(i,rType[type])
+          if (i == 'CRE  ')
+          {
+              ylab <- 'man-Rem'
+              hid <- creIdTg[type]
+              his <- creIsTg[type]
+          }
+          else
+          {
+              ylab <- 'number per 7,000 critical hours'
+              hid <- us7IdTg[type]
+              his <- us7IsTg[type]
+          }
+          png(fn)
+          mval <- boxplot.stats(t(res[5]))
+          mval <- mval$stats[length(mval$stats)]
+          boxplot(t(res[5])~t(res[3]),outline = FALSE,notch=F,col='royalblue2',fg = "grey")
 		### Reverce chart
 		#boxplot(t(res[5])~t(res[3]),outline = FALSE,notch=F,col='royalblue2',fg = "grey",ylim = c(mval,min(res[5])))
 
@@ -164,34 +171,40 @@ if (i %in% c("CRE  ","US7  "))
 		#points(1:2, means, pch = 23, cex = 0.75, bg = "red")
 		#text(1:2 - 0.4, means, labels = formatC(means, format = "f", digits = 1),
 		#	pos = 2, cex = 0.9, col = "red")
-		abline(h=hid, col = 'red', lwd = 3)
+          abline(h=hid, col = 'red', lwd = 3)
 		#text(1,hid,"Individual target",col="red",adj = c(-.1,-.5))
-		abline(h=his, col = 'green', lwd = 3)
+          abline(h=his, col = 'green', lwd = 3)
 		#text(1,his,"Industry target",col="green",adj = c(-.1,-.5))
-		legend("topright", inset=.05, title="Targets",
-			c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
+          legend("topright", inset=.05, title="Targets",
+                 c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
 		#qplot(factor(PeriodEndYrMn),ResultsValue,data=res, geom=c("boxplot"),xlab='quarter',main=i,ylab=ylab)
-		title(main=mTitle,xlab='quarter',ylab = ylab)
-		dev.off()
-		png(fn2)
-		boxplot(t(res[5])~t(res[3]),outline = TRUE,notch=F,col='royalblue2',fg = "grey")
+          title(main=mTitle,xlab='quarter',ylab = ylab)
+          dev.off()
+          png(fn2)
+          boxplot(t(res[5])~t(res[3]),outline = TRUE,notch=F,col='royalblue2',fg = "grey")
 		### Reverce chart
 		#boxplot(t(res[5])~t(res[3]),outline = TRUE,notch=F,col='royalblue2',fg = "grey",ylim = c(max(res[5]),min(res[5])))
-		abline(h=hid, col = 'red', lwd = 3)
-		abline(h=his, col = 'green', lwd = 3)
-		title(main=mTitle,xlab='quarter',ylab = ylab)
-		legend("topright", inset=.05, title="Targets",
-			c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
-		dev.off()
-
-		}
+          abline(h=hid, col = 'red', lwd = 3)
+          abline(h=his, col = 'green', lwd = 3)
+          title(main=mTitle,xlab='quarter',ylab = ylab)
+          legend("topright", inset=.05, title="Targets",
+                 c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
+          dev.off()
+                ### plotting fot shiny ###
+          boxplot(t(res[5])~t(res[3]),outline = outliers,notch=F,col='royalblue2',fg = "grey")
+          abline(h=hid, col = 'red', lwd = 3)
+          abline(h=his, col = 'green', lwd = 3)
+          title(main=mTitle,xlab='quarter',ylab = ylab)
+          legend("topright", inset=.05, title="Targets",
+                 c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
+        }
 	#if (i == 'CRE  ')
 	#	{print(creId/creSum*100)
 	#	print(creIs/creSum*100)}
 	#if (i == 'US7  ')
 	#	{print(us7Id/us7Sum*100)
 	#	print(us7Is/us7Sum*100)}
-	}
+
 if (i == "TISA2")
 {
     #options(stringsAsFactors = FALSE, checknames = FALSE)
@@ -233,17 +246,24 @@ if (i == "TISA2")
 	dev.off()
 	# With outliers
 	png(fn2)
-	boxplot(Tisa,outline = T,notch=F,col='royalblue2',xaxs=dateList)
-	### Reverce chart
+	boxplot(Tisa,outline = T,notch=F,col='royalblue2',names=dateList)
+### Reverce chart
 	#boxplot(Tisa,outline = T,notch=F,col='royalblue2',ylim=c(max(Tisa,na.rm=T),0))
 	abline(h=hid(i), col = 'red', lwd = 3)
 	abline(h=his(i), col = 'green', lwd = 3)
 	title(main=i,xlab='quarter',ylab = ylab(i))
 	legend("topright", inset=.05, title="Targets",
 		c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)
-	dev.off()
+    dev.off()
+### plotting ###
+    boxplot(Tisa,outline = outliers,notch=F,col='royalblue2',names=dateList)
+    abline(h=hid(i), col = 'red', lwd = 3)
+    abline(h=his(i), col = 'green', lwd = 3)
+    title(main=i,xlab='quarter',ylab = ylab(i))
+    legend("topright", inset=.05, title="Targets",
+           c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)
 	}
-else
+else #################################### any other indicators ###############################
 	{
 	res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList &
 		r$NumOfMonths == 36 & r$NonQualCode != "M")
@@ -299,40 +319,47 @@ else
 	{legend("topright", inset=.05, title="Targets",
 			c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)}
 	dev.off()
-
+### plotting ###
+	boxplot(t(res[5])~t(res[3]),outline = outliers,notch=F,col='royalblue2')
+	abline(h=hid(i), col = 'red', lwd = 3)
+	abline(h=his(i), col = 'green', lwd = 3)
+	title(main=i,xlab='quarter',ylab=ylab(i))
+	if (!is.null(his(i)) && !is.null(hid(i)))
+	{legend("topright", inset=.05, title="Targets",
+                c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)}
 	}
 }
 
 # ============================================= Main cycle =======================================================
 
-if (readline('Need you update the Db copy (Y/n)?')=='Y')
-{
-source('fullDBCopy.R')
+#if (readline('Need you update the Db copy (Y/n)?')=='Y')
+#{
+#source('fullDBCopy.R')
 #print('DB copying...')
-DBCopy()	# Provide the last Db copy
-}
+#DBCopy()	# Provide the last Db copy
+#}
 
-lastDate <- readline('What is the last Date (in format 201603)?')
+#lastDate <- readline('What is the last Date (in format 201603)?')
 ########### Insert data list checking here ############
 
-if (readline('Need you update TISA calculation (Y/n)?')=='Y')
-{
-source('tisa2.r')
-print('TISA2 calculation...')
-tisa2(lastDate)	# Provide the last date for analysis
-}
+#if (readline('Need you update TISA calculation (Y/n)?')=='Y')
+#{
+#source('tisa2.r')
+#print('TISA2 calculation...')
+#tisa2(lastDate)	# Provide the last date for analysis
+#}
 
-pb <- txtProgressBar(min = 1, max = length(unlist(ic)), style = 3)
-no <- 0
+#pb <- txtProgressBar(min = 1, max = length(unlist(ic)), style = 3)
+#no <- 0
 #ic <- 'TISA2'
 #print(ic)
-for (i in ic)
-	{
+#for (i in ic)
+#	{
 	#print(i)
-	no <- no + 1
+#	no <- no + 1
 	#setTxtProgressBar(pb, no)
-	indicatorSummary(i)
-	}
-close(pb)
+#	indicatorSummary(i)
+#	}
+#close(pb)
 
 # TODO: Add outliers as a plan of focus candidate
