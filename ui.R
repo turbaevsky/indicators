@@ -73,7 +73,26 @@ navbarPage("Performance Analysis",
                    #plotOutput('plot', width = "300px", height = "300px")
                ))
            ),
-  tabPanel("PI report for Peer Review team"),
+  tabPanel("PI report for Peer Review team",
+           sidebarLayout(
+               sidebarPanel(
+                   selectizeInput("PRname", "Unit:",
+                                  choices = uNames,selected = uNames[1], multiple=FALSE),
+                   #selectizeInput("qtr", "Quarter:",
+                   #               choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
+                   selectizeInput("PRind","Indicator and source data for:",
+                                  choices = i, selected = i[1], multiple=FALSE),
+                   selectInput("PRwindow","Data window, months:",
+                               choices = c(3,36), selected = 36),
+                   checkboxInput("AC","WANO AC styly",value=TRUE),
+                   checkboxInput("PC","WANO PC style",value=FALSE),
+                   checkboxInput("printable","Create printable (all key indicators)",value=FALSE)
+               ),
+               mainPanel(
+                   plotOutput('acAll', height = "600px"),
+                   dataTableOutput("pc")
+               ))
+           ),
   tabPanel("LTT report",
            sidebarLayout(
                sidebarPanel(
@@ -110,7 +129,7 @@ navbarPage("Performance Analysis",
                    #plotOutput("ltp1")
                    ))
            ),
- # tabPanel("ISA summary"),
+
   tabPanel("Indicator trend",
            sidebarLayout(
                sidebarPanel(
@@ -131,7 +150,8 @@ navbarPage("Performance Analysis",
                    selectInput("pname", "Unit:",
                                choices = allNames)),
                mainPanel(
-                   dataTableOutput("status")
+                   dataTableOutput("status"),
+                   dataTableOutput("uData")
                    ))
            ),
   tabPanel("Submitting progress",

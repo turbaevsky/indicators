@@ -36,7 +36,7 @@ shinyServer(function(input, output) {
 	& relation$RelationId == 4
 	& as.Date(relation$EndDate) >= Sys.Date(),
 	select=ParentLocId)))
-        if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2')) uNo <- pNo
+        if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1', 'CISA2')) uNo <- pNo
         else uNo <- subset(place,place$AbbrevLocName %in% input$name)[[1]]
     })
     ### Source data ###
@@ -148,7 +148,7 @@ shinyServer(function(input, output) {
                                for (d in input$metricsqtr)
                                    res <- rbind(res,m(d,as.numeric(input$centre)))
                                print(res)
-                               mPlot <- barplot(res,names.arg = input$centre,legend = rownames(res),beside = TRUE)
+                               mPlot <- barplot(res,names.arg = input$centre,legend = rownames(res),beside = TRUE, col = c("darkblue","green","yellow"))
                            }))
     output$pi1 <- renderPlot(mPlot())
 ############################ Outliers ##########################
@@ -177,6 +177,10 @@ shinyServer(function(input, output) {
         #pdate <- pdate[order(UnitDate),]
     })
     output$status <- renderDataTable(pdate(),options=list(paging = FALSE,searching=FALSE))
+
+    uDatas <- reactive(subset(uData,LocId == subset(place,place$AbbrevLocName==input$pname)[[1]]))
+    output$uData <- renderDataTable(uDatas(),options=list(paging = FALSE,searching=FALSE))
+
 ################################ Submitting progress ##################
     subPlot <- reactive(
         withProgress(message="Calculating...",value=0,submitProgress(input$subqtr)))
@@ -188,6 +192,20 @@ shinyServer(function(input, output) {
 ################################ Indicator trend ##############################
     iPlot <- reactive(indicatorSummary(input$trendind,input$outliers,input$rType))
     output$indtrend <- renderPlot(iPlot())
+
+################################ PIRA ###################################
+    histAll <- reactive(if (input$AC){
+                         LocId <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
+                         #print(LocId)
+                         rType <- subset(uData,LocId==LocId,NsssTypeId)[[1]]
+                         res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                         hist(res, breaks=10, col = 'green')
+                         x <- subset(r,LocId == LocId & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
+                         y <- 20
+                         points(x[1],col = 'red',pch=19,cex=3)
+                     })
+    output$acAll <- renderPlot(histAll())
+############################### The end #################################
 
 })
 
