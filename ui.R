@@ -84,6 +84,7 @@ navbarPage("Performance Analysis",
                                   choices = i, selected = i[1], multiple=FALSE),
                    selectInput("PRwindow","Data window, months:",
                                choices = c(3,36), selected = 36),
+                   selectInput("dist","Distribution:",choices = c('Worldwide','Same reactor type','Same reactor type and RC')),
                    checkboxInput("AC","WANO AC styly",value=TRUE),
                    checkboxInput("PC","WANO PC style",value=FALSE),
                    checkboxInput("printable","Create printable (all key indicators)",value=FALSE)

@@ -198,7 +198,8 @@ shinyServer(function(input, output) {
                          LocId <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
                          #print(LocId)
                          rType <- subset(uData,LocId==LocId,NsssTypeId)[[1]]
-                         res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                         if (input$dist == 'Worldwide')
+                             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
                          hist(res, breaks=10, col = 'green')
                          x <- subset(r,LocId == LocId & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
                          y <- 20
