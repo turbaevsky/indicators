@@ -195,11 +195,17 @@ shinyServer(function(input, output) {
 
 ################################ PIRA ###################################
     histAll <- reactive(if (input$AC){
-                         LocId <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
+                         Id <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
                          #print(LocId)
-                         rType <- subset(uData,LocId==LocId,NsssTypeId)[[1]]
+                         rt <- subset(uData,LocId==Id,NsssTypeId)[[1]]
+                         #rc <-
+                         #print(rt)
                          if (input$dist == 'Worldwide')
                              res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                         if (input$dist == 'Same reactor type')
+                             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+                         if (input$dist == 'Same reactor type and RC')
+                             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
                          hist(res, breaks=10, col = 'green')
                          x <- subset(r,LocId == LocId & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
                          y <- 20
