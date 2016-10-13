@@ -195,22 +195,30 @@ shinyServer(function(input, output) {
 
 ################################ PIRA ###################################
     histAll <- reactive(if (input$AC){
-                         Id <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
+                            Id <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
+                            plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
                          #print(LocId)
-                         rt <- subset(uData,LocId==Id,NsssTypeId)[[1]]
-                         #rc <-
-                         #print(rt)
-                         if (input$dist == 'Worldwide')
-                             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-                         if (input$dist == 'Same reactor type')
-                             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-                         if (input$dist == 'Same reactor type and RC')
-                             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-                         hist(res, breaks=10, col = 'green')
-                         x <- subset(r,LocId == LocId & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
-                         y <- 20
-                         points(x[1],col = 'red',pch=19,cex=3)
-                     })
+                            rt <- subset(uData,LocId==Id,NsssTypeId)[[1]] # Reactor type
+                            rc <- unique(subset(relation,relation$LocId == Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))[[1]] # Regional Centre
+                                        #print(rt)
+                            if (input$PRind %in% plants) # Station's value
+                            {
+				Id <- as.integer(unique(subset(relation,relation$LocId == Id
+                                                               & relation$RelationId == 4
+                                                               & as.Date(relation$EndDate) >= Sys.Date(),
+                                                               select=ParentLocId)))
+                            }
+                            if (input$dist == 'Worldwide')
+                                res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                            if (input$dist == 'Same reactor type')
+                                res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+                            if (input$dist == 'Same reactor type and RC')
+                                res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+                            hist(res, breaks=10, col = 'green')
+                            x <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
+                            print(x)
+                            points(x=x,y=0,col = 'red',pch=19,cex=3)
+                        })
     output$acAll <- renderPlot(histAll())
 ############################### The end #################################
 
