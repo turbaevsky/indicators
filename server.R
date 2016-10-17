@@ -226,7 +226,7 @@ shinyServer(function(input, output) {
                             if (input$rStyle == 'pc'){
                                 col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
                                 ### tendency ###
-                                xOld <- x <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
+                                xOld <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
                                 if (x<=xOld*0.7) tendency <- '++'
                                 if (x>xOld*0.7 && x<=xOld) tendency <- '+'
                                 if (x>xOld && x<=xOld*1.3) tendency <- '-'
