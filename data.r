@@ -1,7 +1,8 @@
 library(shiny)
 library(datasets)
 
-setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
+#setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
+setwd('../../indicators')
 
 ### Quarters list ###
 curY <- as.numeric(format(Sys.Date(),"%Y"))
@@ -40,9 +41,13 @@ submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
 idx <- readRDS('DBCopy/PI_ResultsIndex.rds')
 ###
 data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
+data <- subset(data, YrMn>=200700)
+
 relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 #dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
 r <- readRDS('DBCopy/PI_Results.rds')
+r <- subset(r,PeriodEndYrMn>=200700)
+
 dates <- uDate
 stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 comms <- readRDS('DBCopy/PI_IndComments.rds')

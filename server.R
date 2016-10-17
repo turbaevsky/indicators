@@ -194,7 +194,7 @@ shinyServer(function(input, output) {
     output$indtrend <- renderPlot(iPlot())
 
 ################################ PIRA ###################################
-    histAll <- reactive(if (input$AC){
+    histAll <- reactive({
                             Id <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
                             plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
                          #print(LocId)
@@ -214,12 +214,38 @@ shinyServer(function(input, output) {
                                 res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
                             if (input$dist == 'Same reactor type and RC')
                                 res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
-                            hist(res, breaks=10, col = 'green')
+                            ### Unit value ###
                             x <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
                             print(x)
-                            points(x=x,y=0,col = 'red',pch=19,cex=3)
+                            ### Plot the histogram ###
+                            if (input$rStyle == 'ac'){
+                                hist(res, breaks=10, col = 'green')
+                                points(x=x,y=0,col = 'red',pch=19,cex=3)
+                            }
+                            ### Create a table in the PC style ###
+                            if (input$rStyle == 'pc'){
+                                col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
+                                ### tendency ###
+                                xOld <- x <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
+                                if (x<=xOld*0.7) tendency <- '++'
+                                if (x>xOld*0.7 && x<=xOld) tendency <- '+'
+                                if (x>xOld && x<=xOld*1.3) tendency <- '-'
+                                if (x>xOld*1.3) tendency <- '--'
+                                ### Which quantile ###
+                                if (x>=quantile(res)[[1]] && x<=quantile(res)[[2]]) Q <- data.frame('X','','','','')
+                                if (x>=quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- data.frame('','X','','','')
+                                if (x>=quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- data.frame('','','X','','')
+                                if (x>=quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- data.frame('','','','X','')
+                                if (x>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- data.frame('','','','X','X')
+                                ### create table ###
+                                histAll <- data.frame(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),input$PRname,signif(x,2),tendency,length(res),Q)
+                                colnames(histAll) <- col
+                                print(histAll)
+                                }
                         })
-    output$acAll <- renderPlot(histAll())
+output$acAll <- renderPlot(histAll())
+output$pc <- renderDataTable(histAll(),options=list(paging = FALSE,searching=FALSE))
+
 ############################### The end #################################
 
 })

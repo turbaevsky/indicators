@@ -12,9 +12,9 @@ navbarPage("Performance Analysis",
   sidebarLayout(
     sidebarPanel(
       selectizeInput("name", "Unit:",
-                  choices = uNames,selected = uNames[1], multiple=TRUE),
+                  choices = uNames,selected = uNames[1], multiple=FALSE),
       selectizeInput("qtr", "Quarter:",
-                  choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
+                  choices = qtrs,selected=tail(qtrs,2)[-2],multiple=FALSE),
       selectizeInput("ind","Indicator and source data for:",
                   choices = i, selected = i[1], multiple=FALSE),
       selectInput("window","Data window, months:",
@@ -85,9 +85,10 @@ navbarPage("Performance Analysis",
                    selectInput("PRwindow","Data window, months:",
                                choices = c(3,36), selected = 36),
                    selectInput("dist","Distribution:",choices = c('Worldwide','Same reactor type','Same reactor type and RC')),
-                   checkboxInput("AC","WANO AC styly",value=TRUE),
-                   checkboxInput("PC","WANO PC style",value=FALSE),
-                   checkboxInput("printable","Create printable (all key indicators)",value=FALSE)
+                   radioButtons('rStyle','Report style:',
+                   c("WANO AC style" = 'ac',
+                     "WANO PC style" = 'pc')),
+                   checkboxInput("print","Create printable (all key indicators)",value=FALSE)
                ),
                mainPanel(
                    plotOutput('acAll', height = "600px"),
