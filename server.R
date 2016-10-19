@@ -16,7 +16,7 @@ status <- function(cs) { return(subset(stat,stat[1]==cs,Description)[[1]]) }
 units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
 
 ############################## Server ####################################
-shinyServer(function(input, output) {
+shinyServer(function(input, output, clientData, session) {
     # OE DB
     uID <- reactive(subset(place,place$AbbrevLocName %in% input$name)[[1]]) # define unit ID
 
@@ -195,56 +195,75 @@ shinyServer(function(input, output) {
 
 ################################ PIRA ###################################
     histAll <- reactive({
-                            Id <- subset(place,place$AbbrevLocName==input$PRname)[[1]]
-                            plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
-                         #print(LocId)
-                            rt <- subset(uData,LocId==Id,NsssTypeId)[[1]] # Reactor type
-                            rc <- unique(subset(relation,relation$LocId == Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))[[1]] # Regional Centre
-                                        #print(rt)
-                            if (input$PRind %in% plants) # Station's value
-                            {
-				Id <- as.integer(unique(subset(relation,relation$LocId == Id
-                                                               & relation$RelationId == 4
-                                                               & as.Date(relation$EndDate) >= Sys.Date(),
-                                                               select=ParentLocId)))
-                            }
-                            if (input$dist == 'Worldwide')
-                                res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-                            if (input$dist == 'Same reactor type')
-                                res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-                            if (input$dist == 'Same reactor type and RC')
-                                res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
-                            ### Unit value ###
-                            x <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
-                            print(x)
-                            ### Plot the histogram ###
-                            if (input$rStyle == 'ac'){
-                                hist(res, breaks=10, col = 'green')
-                                points(x=x,y=0,col = 'red',pch=19,cex=3)
-                            }
-                            ### Create a table in the PC style ###
-                            if (input$rStyle == 'pc'){
-                                col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
-                                ### tendency ###
-                                xOld <- subset(r,LocId == Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue)[[1]]
-                                if (x<=xOld*0.7) tendency <- '++'
-                                if (x>xOld*0.7 && x<=xOld) tendency <- '+'
-                                if (x>xOld && x<=xOld*1.3) tendency <- '-'
-                                if (x>xOld*1.3) tendency <- '--'
-                                ### Which quantile ###
-                                if (x>=quantile(res)[[1]] && x<=quantile(res)[[2]]) Q <- data.frame('X','','','','')
-                                if (x>=quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- data.frame('','X','','','')
-                                if (x>=quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- data.frame('','','X','','')
-                                if (x>=quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- data.frame('','','','X','')
-                                if (x>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- data.frame('','','','X','X')
-                                ### create table ###
-                                histAll <- data.frame(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),input$PRname,signif(x,2),tendency,length(res),Q)
-                                colnames(histAll) <- col
-                                print(histAll)
-                                }
-                        })
-output$acAll <- renderPlot(histAll())
-output$pc <- renderDataTable(histAll(),options=list(paging = FALSE,searching=FALSE))
+        Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
+        print(paste('Id=',Id))
+        plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
+        #if (input$PRind %in% plants) updateSelectInput(session,'dist',choices = c('Worldwide'))
+        #else updateSelectInput(session,'dist',choices = c('Worldwide','Same reactor type','Same reactor type and RC'))
+        #print(LocId)
+        rt <- unique(unlist(subset(uData,LocId %in% Id,NsssTypeId))) # Reactor type
+        print(paste('ReactorType=',rt))
+        rc <- unique(unlist(subset(relation,relation$LocId %in% Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))) # Regional Centre
+        print(paste('RC=',rc))
+        print(c(length(rt),length(rc)))
+        #if (length(rc)==1 && length(rt)==1 & !(input$PRind %in% plants)) updateSelectInput(session,'dist',choices = c('Worldwide','Same reactor type','Same reactor type and RC'))
+        #if (length(rc)>1) updateSelectInput(session,'dist',choices = c('Worldwide','Same reactor type'))
+        #if (length(rt)>1 || (input$PRind %in% plants)) updateSelectInput(session,'dist',choices = c('Worldwide'))
+
+        if (input$PRind %in% plants) # Station's value
+        {
+            Id <- unique(unlist(subset(relation,relation$LocId %in% Id
+                                           & relation$RelationId == 4
+                                           & as.Date(relation$EndDate) >= Sys.Date(),
+                                           select=ParentLocId)))
+        }
+        print(Id)
+        ### Results distribution ###
+        if (input$dist == 'Worldwide')
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+        if (input$dist == 'Same reactor type')
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+        if (input$dist == 'Same reactor type and RC')
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+        print(paste('Length of res=',length(res)))
+### Unit value ###
+        x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+        print(x)
+### Plot the histogram ###
+        if (input$rStyle == 'ac'){
+            hist(res, breaks=10, col = 'green')
+            for (i in c(1:length(x)))
+                points(x=x[i],y=0,col = 'red',pch=19,cex=3)
+        }
+### Create a table in the PC style ###
+        if (input$rStyle == 'pc'){
+            col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
+            histAll <- list()
+### tendency ###
+            xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+            for (i in c(1:length(x))){
+                if (x[i]<=xOld[i]*0.7) tendency <- '++'
+                if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '+'
+                if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
+                if (x[i]>xOld[i]*1.3) tendency <- '--'
+### Which quantile ###
+                if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c('X','','','','')
+                if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('','X','','','')
+                if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','','X','','')
+                if (x[i]>=quantile(res)[[4]] && x[i]<=quantile(res)[[5]]) Q <- c('','','','X','')
+                if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','','X','X')
+### create table ###
+                d <- c(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(x[[i]],2),tendency,length(res),unlist(Q))
+                print(d)
+                histAll <- rbind(histAll,d)
+            }
+            colnames(histAll) <- col
+            print(histAll)
+        }
+    })
+    output$acAll <- renderPlot(histAll())
+    output$pc <- renderDataTable(histAll(),options=list(paging = FALSE,searching=FALSE))
+    #observeEvent(updateSelectInput(session,'dist',selected = input$dist))
 
 ############################### The end #################################
 

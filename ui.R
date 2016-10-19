@@ -77,7 +77,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectizeInput("PRname", "Unit:",
-                                  choices = uNames,selected = uNames[1], multiple=FALSE),
+                                  choices = uNames,selected = uNames[1], multiple=TRUE),
                    #selectizeInput("qtr", "Quarter:",
                    #               choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
                    selectizeInput("PRind","Indicator and source data for:",
