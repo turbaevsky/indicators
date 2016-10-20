@@ -170,5 +170,17 @@ navbarPage("Performance Analysis",
                mainPanel(
                    plotOutput('submit',width = '400px'),
                    verbatimTextOutput("submitting")
-                   )))
-  )
+               ))),
+  ### QRR ###
+  tabPanel("QRR",
+           sidebarLayout(
+               sidebarPanel(
+                   selectInput("qrrind","Indicator and source data for:",
+                               choices = i),
+                   sliderInput("qrrcoef","QRR sensivity:",min = 0, max = 100, value = 20, step = 5)
+                   ),
+               mainPanel(
+                   dataTableOutput("qrr")
+               ))
+           )
+    )

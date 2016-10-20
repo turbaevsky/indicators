@@ -303,7 +303,14 @@ shinyServer(function(input, output, clientData, session) {
                                   }
                                   else
                                       Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
-                                  res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+### Results distribution ###
+                                  if (input$dist == 'Worldwide')
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  if (input$dist == 'Same reactor type')
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+                                  if (input$dist == 'Same reactor type and RC')
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+### Current value(s) ###
                                   x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
 
 ### tendency ###
@@ -337,7 +344,7 @@ shinyServer(function(input, output, clientData, session) {
 ########################################## Downloadable report in PC style ###################################
     output$PIRA <- downloadHandler(
         filename = function() {
-            fn <- paste(trimws(input$PRname[[1]]),"_PIRA_",Sys.Date(),"_Report.csv", sep="")
+            fn <- paste(trimws(input$PRname[[1]]),"_PIRA_",Sys.Date(),"_",input$dist,"_Report.csv", sep="")
             print(fn)
         },
         content = function(file){
