@@ -234,13 +234,16 @@ shinyServer(function(input, output, clientData, session) {
                                            select=ParentLocId)))
         }
         print(Id)
-        ### Results distribution ###
+### Results distribution ###
+        mRes <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
         if (input$dist == 'Worldwide')
-            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-        if (input$dist == 'Same reactor type')
+            res <- mRes
+        if (input$dist == 'Same reactor type' && !(input$PRind %in% plants))
             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-        if (input$dist == 'Same reactor type and RC')
+        else res <- mRes
+        if (input$dist == 'Same reactor type and RC' && !(input$PRind %in% plants))
             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+        else res <- mRes
         print(paste('Length of res=',length(res)))
 ### Unit value ###
         x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
@@ -304,12 +307,15 @@ shinyServer(function(input, output, clientData, session) {
                                   else
                                       Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
 ### Results distribution ###
+                                  mRes <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
                                   if (input$dist == 'Worldwide')
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-                                  if (input$dist == 'Same reactor type')
+                                      res <- mRes
+                                  if (input$dist == 'Same reactor type' && !(indicator %in% plants))
                                       res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-                                  if (input$dist == 'Same reactor type and RC')
+                                  else res <- mRes
+                                  if (input$dist == 'Same reactor type and RC' && !(indicator %in% plants))
                                       res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+                                  else res <- mRes
 ### Current value(s) ###
                                   x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
 
