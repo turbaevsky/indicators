@@ -134,6 +134,25 @@ shinyServer(function(input, output, clientData, session) {
 
 ############################ Downloads #########################
 
+    output$tisa_down <- downloadHandler(
+        filename = function() {
+            paste("TISA_", input$repqtr, ".csv", sep="")},
+        content = function(file) file.copy(paste("csv/TISA_",input$repqtr,".csv",sep=''), file)
+    )
+
+    output$xls_down <- downloadHandler(
+        filename = function() {
+            fn <- paste(dateToQ(input$repqtr),"_AllLocationsResults.csv", sep="")
+            print(fn)
+        },
+        content = function(file) file.copy(paste("spreadsheets/",dateToQ(input$repqtr),"_AllLocations_Results.csv", sep=""), file)
+        )
+
+    #output$PIRA <- NONE
+
+    output$qRepDown <- downloadHandler(filename = 'Qreport.pdf', content = function(file) file.copy('Qreport.pdf', file))
+
+
 ############################ Metrics ###########################
 
     metrics <- reactive(if (input$mDetail)

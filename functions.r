@@ -23,11 +23,11 @@ dateToQ <- function(date)
 	{
 	yr <- substr(date,1,4)
 	mn <- substr(date,5,6)
-	if (mn==03)	{mn <- 'Q1'}
-	if (mn==06)	{mn <- 'Q2'}
-	if (mn==09)	{mn <- 'Q3'}
-	if (mn==12)	{mn <- 'Q4'}
-	return(paste(yr,mn,sep=''))
+	if (mn=='03')	{m <- 'Q1'}
+	if (mn=='06')	{m <- 'Q2'}
+	if (mn=='09')	{m <- 'Q3'}
+	if (mn=='12')	{m <- 'Q4'}
+	return(paste(yr,m,sep=''))
 	}
 
 dateToReal <- function(date,mode="b") # Convert the date likes 201512 to 2015-12-01, 'b' means beginning of reported quartale, 's' means date of data to be submitted, 'p' - date of data to be promoded, 'e' means the end of quartale (the first day of the next month)
@@ -80,11 +80,10 @@ activeStation <- function(startDate,mode='u') # Getting active units list
 }
 
 ### Units by centre ==================================
-
-uByCentre <- function()
-    {
         centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
         centreNames <- c('AC','MC','PC','TC')
+uByCentre <- function()
+    {
         unitsByCentre <- list()
         for (centre in c(1:4))
         {unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre] & relation$RelationId == 1 & relation$EndDate >= '9999-01-01', select=c(LocId)))}

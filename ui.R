@@ -66,7 +66,9 @@ navbarPage("Performance Analysis",
                    selectInput("repqtr", "Quarter:",
                                choices = qtrs,selected=tail(qtrs,2)[-2]),
                    actionButton("tisa","(Re)calculate TISA"),
-                   actionButton("excel","(Re)generate Excel spreadsheet")
+                   downloadButton('tisa_down', label = "Download"),
+                   actionButton("excel","(Re)generate Excel spreadsheet"),
+                   downloadButton('xls_down', label = "Download")
                ),
                mainPanel(
                    verbatimTextOutput("dbcopydate")
@@ -88,7 +90,7 @@ navbarPage("Performance Analysis",
                    radioButtons('rStyle','Report style:',
                    c("WANO AC style" = 'ac',
                      "WANO PC style" = 'pc')),
-                   checkboxInput("print","Create printable (all key indicators)",value=FALSE)
+                   downloadButton('PIRA', label = "Download")
                ),
                mainPanel(
                    plotOutput('acAll', height = "600px"),
@@ -101,8 +103,8 @@ navbarPage("Performance Analysis",
                    selectInput("lttqtr", "Quarter:",
                                choices = qtrs,selected=tail(qtrs,2)[-2]),
                    checkboxInput("LTTChart","Chart",value=TRUE),
-                   actionButton("qreport","(Re)create LTT report and update the LTT data")
-                   #downloadButton('qRepDown', 'Download')
+                   actionButton("qreport","(Re)create LTT report and update the LTT data"),
+                   downloadButton('qRepDown', 'Download')
                ),
                mainPanel(
                    dataTableOutput("wwltt"),
