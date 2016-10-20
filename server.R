@@ -248,11 +248,13 @@ shinyServer(function(input, output, clientData, session) {
 ### Unit value ###
         x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
         print(x)
-### Plot the histogram ###
+################################# Plot the histogram ###############################
+        colour <- c(26,31,32,33,43,47,70,84)
         if (input$rStyle == 'ac'){
             hist(res, breaks=10, col = 'green')
             for (i in c(1:length(x)))
-                points(x=x[i],y=0,col = 'red',pch=19,cex=3)
+                points(x=x[i],y=0,pch=19,cex=3,col=colour[i])
+            legend('topright',legend=input$PRname,text.col=colour)
         }
 ### Create a table in the PC style ###
         if (input$rStyle == 'pc'){
