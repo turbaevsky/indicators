@@ -148,10 +148,7 @@ shinyServer(function(input, output, clientData, session) {
         content = function(file) file.copy(paste("spreadsheets/",dateToQ(input$repqtr),"_AllLocations_Results.csv", sep=""), file)
         )
 
-    #output$PIRA <- NONE
-
     output$qRepDown <- downloadHandler(filename = 'Qreport.pdf', content = function(file) file.copy('Qreport.pdf', file))
-
 
 ############################ Metrics ###########################
 
@@ -212,7 +209,7 @@ shinyServer(function(input, output, clientData, session) {
     iPlot <- reactive(indicatorSummary(input$trendind,input$outliers,input$rType))
     output$indtrend <- renderPlot(iPlot())
 
-################################ PIRA ###################################
+################################ PIRA #########################################
     histAll <- reactive({
         Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
         print(paste('Id=',Id))
@@ -257,7 +254,7 @@ shinyServer(function(input, output, clientData, session) {
 ### Create a table in the PC style ###
         if (input$rStyle == 'pc'){
             col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
-            histAll <- list()
+            pcResult <- list()
 ### tendency ###
             xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
             for (i in c(1:length(x))){
@@ -273,16 +270,80 @@ shinyServer(function(input, output, clientData, session) {
                 if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','','X','X')
 ### create table ###
                 d <- c(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(x[[i]],2),tendency,length(res),unlist(Q))
-                print(d)
-                histAll <- rbind(histAll,d)
+                #print(d)
+                pcResult <- rbind(pcResult,d)
             }
-            colnames(histAll) <- col
-            print(histAll)
+            colnames(pcResult) <- col
+            print(pcResult)
         }
     })
+
     output$acAll <- renderPlot(histAll())
     output$pc <- renderDataTable(histAll(),options=list(paging = FALSE,searching=FALSE))
-    #observeEvent(updateSelectInput(session,'dist',selected = input$dist))
+
+### Create PC style downloadable report ###<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    pcAll <- reactive(if (input$rStyle == 'pc' && input$piraTable){
+                          withProgress(message="Calculating...",value=0,
+                          {
+                              pcAll <- list()
+                              Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
+                              plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
+                              rt <- unique(unlist(subset(uData,LocId %in% Id,NsssTypeId))) # Reactor type
+                              rc <- unique(unlist(subset(relation,relation$LocId %in% Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))) # Regional Centre
+### Worldwide list ###
+                              for (indicator in head(i,-1)){
+                                  incProgress(1/16,detail = indicator)
+                                  print(indicator)
+                                  if (indicator  %in% plants) # Station's value
+                                  {
+                                      Id <- unique(unlist(subset(relation,relation$LocId %in% Id
+                                                                 & relation$RelationId == 4
+                                                                 & as.Date(relation$EndDate) >= Sys.Date(),
+                                                                 select=ParentLocId)))
+                                  }
+                                  else
+                                      Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
+                                  res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+
+### tendency ###
+                                  xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  for (i in c(1:length(x))){
+                                      if (x[i]<=xOld[i]*0.7) tendency <- '++'
+                                      if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '+'
+                                      if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
+                                      if (x[i]>xOld[i]*1.3) tendency <- '--'
+### Which quantile ###
+                                      if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c('X','','','','')
+                                      if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('','X','','','')
+                                      if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','','X','','')
+                                      if (x[i]>=quantile(res)[[4]] && x[i]<=quantile(res)[[5]]) Q <- c('','','','X','')
+                                      if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','','X','X')
+### create table ###
+                                      d <- c(indicator,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(x[[i]],2),tendency,length(res),unlist(Q))
+                                      print(d)
+                                      pcAll <- rbind(pcAll,d)
+                                  }}
+                              col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
+                              colnames(pcAll) <- col
+                          })
+                          print(pcAll)
+                      })
+
+    output$pcAll <- renderDataTable(pcAll(),options=list(paging = FALSE,searching=FALSE))
+
+                                        #observeEvent(updateSelectInput(session,'dist',selected = input$dist))
+
+########################################## Downloadable report in PC style ###################################
+    output$PIRA <- downloadHandler(
+        filename = function() {
+            fn <- paste(trimws(input$PRname[[1]]),"_PIRA_",Sys.Date(),"_Report.csv", sep="")
+            print(fn)
+        },
+        content = function(file){
+            write.csv(pcAll(),file)
+        }
+        )
 
 ############################### The end #################################
 

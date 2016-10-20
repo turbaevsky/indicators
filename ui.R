@@ -90,11 +90,13 @@ navbarPage("Performance Analysis",
                    radioButtons('rStyle','Report style:',
                    c("WANO AC style" = 'ac',
                      "WANO PC style" = 'pc')),
+                   checkboxInput("piraTable","Create and show downloadable report",value=FALSE),
                    downloadButton('PIRA', label = "Download")
                ),
                mainPanel(
                    plotOutput('acAll', height = "600px"),
-                   dataTableOutput("pc")
+                   dataTableOutput("pc"),
+                   dataTableOutput("pcAll")
                ))
            ),
   tabPanel("LTT report",
@@ -139,7 +141,7 @@ navbarPage("Performance Analysis",
                sidebarPanel(
                    selectInput("trendind","Indicator and source data for:",
                                choices = i),
-                   selectInput("rType","Reactor type (for CRE and US7 only:",
+                   selectInput("rType","Reactor type (for CRE and US7 only):",
                                choices = rType),
                    checkboxInput("outliers","Show outliers",value=FALSE)
                    ),

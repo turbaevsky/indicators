@@ -76,6 +76,7 @@ activeStation <- function(startDate,mode='u') # Getting active units list
     Station <- intersect(intersect(list1,list2),list5)
     Station <- Station[!Station %in% LTS] # Remove LTS units
     Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
+    Station <- c(Station,10213) # Add La Hague
     return(Station)
 }
 
