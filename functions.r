@@ -76,7 +76,7 @@ activeStation <- function(startDate,mode='u') # Getting active units list
     Station <- intersect(intersect(list1,list2),list5)
     Station <- Station[!Station %in% LTS] # Remove LTS units
     Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
-    Station <- c(Station,10213) # Add La Hague
+    #Station <- c(Station,10213) # Add La Hague
     return(Station)
 }
 
@@ -100,3 +100,11 @@ for (t in c(1:5)){
 }
 return(uType)
 }
+### PLant Id by Unit Id(s) ###
+plantID <- function(uID){
+    return(unique(unlist(subset(relation,relation$LocId %in% uID
+                               & relation$RelationId == 4
+                               & as.Date(relation$EndDate) >= Sys.Date(),
+                               select=ParentLocId))))
+    }
+##############################

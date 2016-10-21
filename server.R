@@ -227,12 +227,7 @@ shinyServer(function(input, output, clientData, session) {
         #if (length(rt)>1 || (input$PRind %in% plants)) updateSelectInput(session,'dist',choices = c('Worldwide'))
 
         if (input$PRind %in% plants) # Station's value
-        {
-            Id <- unique(unlist(subset(relation,relation$LocId %in% Id
-                                           & relation$RelationId == 4
-                                           & as.Date(relation$EndDate) >= Sys.Date(),
-                                           select=ParentLocId)))
-        }
+            Id <- plantID(Id)
         print(Id)
 ### Results distribution ###
         mRes <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
@@ -240,21 +235,28 @@ shinyServer(function(input, output, clientData, session) {
             res <- mRes
         if (input$dist == 'Same reactor type' && !(input$PRind %in% plants))
             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-        else res <- mRes
+        if (input$dist == 'Same reactor type' && input$PRind %in% plants)
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
         if (input$dist == 'Same reactor type and RC' && !(input$PRind %in% plants))
             res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
-        else res <- mRes
+        if (input$dist == 'Same reactor type and RC' && input$PRind %in% plants)
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
         print(paste('Length of res=',length(res)))
 ### Unit value ###
         x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
         print(x)
 ################################# Plot the histogram ###############################
-        colour <- c(26,31,32,33,43,47,70,84)
+### colors ###
+        color <- c()
+        for (t in c(1:8)) color <- rbind(color,c(runif(1,0,1),runif(1,0,1),runif(1,0,1)))
+        t<- cbind(color,c(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))
+        #print(color)
+        #print(tcolor)
         if (input$rStyle == 'ac'){
             hist(res, breaks=10, col = 'green')
             for (i in c(1:length(x)))
-                points(x=x[i],y=0,pch=19,cex=3,col=colour[i])
-            legend('topright',legend=input$PRname,text.col=colour)
+                points(x=x[i],y=0,pch=19,cex=3,col=rgb(t[i,1],t[i,2],t[i,3],t[i,4]))
+            legend('topright',legend=input$PRname,text.col=rgb(color))
         }
 ### Create a table in the PC style ###
         if (input$rStyle == 'pc'){
@@ -300,12 +302,7 @@ shinyServer(function(input, output, clientData, session) {
                                   incProgress(1/16,detail = indicator)
                                   print(indicator)
                                   if (indicator  %in% plants) # Station's value
-                                  {
-                                      Id <- unique(unlist(subset(relation,relation$LocId %in% Id
-                                                                 & relation$RelationId == 4
-                                                                 & as.Date(relation$EndDate) >= Sys.Date(),
-                                                                 select=ParentLocId)))
-                                  }
+                                      Id <- plantID(Id)
                                   else
                                       Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
 ### Results distribution ###
@@ -314,10 +311,12 @@ shinyServer(function(input, output, clientData, session) {
                                       res <- mRes
                                   if (input$dist == 'Same reactor type' && !(indicator %in% plants))
                                       res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-                                  else res <- mRes
+                                  if (input$dist == 'Same reactor type' && indicator %in% plants)
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
                                   if (input$dist == 'Same reactor type and RC' && !(indicator %in% plants))
                                       res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
-                                  else res <- mRes
+                                  if (input$dist == 'Same reactor type and RC' && indicator %in% plants)
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
 ### Current value(s) ###
                                   x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
 
