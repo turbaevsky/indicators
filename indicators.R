@@ -90,7 +90,7 @@ NumOfMonths <- 36
 # Define list of units by RC
 
 # Calculate the trend and plot a picture =================================================
-indicatorSummary <- function(i,outliers=FALSE,rType)
+indicatorSummary <- function(i,outliers=FALSE,rT)
 {
 #print(i)
 if (i %in% c("CRE  ","US7  "))
@@ -102,7 +102,9 @@ if (i %in% c("CRE  ","US7  "))
 	  creSum <- 0; us7Sum <- 0
 	#for (type in c(1:5))
         #{
-          type <- rTypeCode[which(rType == rType)]
+          type <- which(rType == rT)
+          print(rT)
+          print(type)
           res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList
                         & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
           lastRes <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == lastDate
@@ -190,7 +192,8 @@ if (i %in% c("CRE  ","US7  "))
           legend("topright", inset=.05, title="Targets",
                  c(paste("Individual =",hid),paste("Industry =",his)), fill=c("red","green"), horiz=FALSE)
           dev.off()
-                ### plotting fot shiny ###
+
+### plotting fot shiny ###
           boxplot(t(res[5])~t(res[3]),outline = outliers,notch=F,col='royalblue2',fg = "grey")
           abline(h=hid, col = 'red', lwd = 3)
           abline(h=his, col = 'green', lwd = 3)
@@ -263,8 +266,10 @@ if (i == "TISA2")
     legend("topright", inset=.05, title="Targets",
            c(paste("Individual =",hid(i)),paste("Industry =",his(i))), fill=c("red","green"), horiz=FALSE)
 	}
-else #################################### any other indicators ###############################
-	{
+ #################################### any other indicators ###############################
+if (!i %in% c("CRE  ","US7  ","TISA2"))
+{
+    print('Other indicators...')
 	res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList &
 		r$NumOfMonths == 36 & r$NonQualCode != "M")
 	lastRes <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == lastDate &
