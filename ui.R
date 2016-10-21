@@ -182,5 +182,16 @@ navbarPage("Performance Analysis",
                mainPanel(
                    dataTableOutput("qrr")
                ))
+           ),
+### Scrams ###
+  tabPanel("Scrams summary",
+           sidebarLayout(
+               sidebarPanel(
+                   sliderInput("scramYr","Scrams information for:",min=2007,max=2016,value=2016)
+                   ),
+               mainPanel(
+                   plotOutput("scramPlot"),
+                   dataTableOutput("scrams")
+               ))
            )
     )

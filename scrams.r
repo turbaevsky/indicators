@@ -3,14 +3,15 @@
 # by reactor types
 ##############################################################
 
+scrams <- function(yr){
 #setwd('c://Users//volodymyr.turbaevsky//Desktop//programming//R//indicators//')
-r <- readRDS('DBCopy//PI_IndValues.rds')
+r <- data
 eCode <- c('C1   ','C3   ')
-r <- subset(r,r$YrMn>=201300 & r$ElementCode %in% eCode & r$RecStatus == ' ')
-yr <- c('2013','2014','2015')
+r <- subset(r,r$YrMn>=200700 & r$ElementCode %in% eCode & r$RecStatus == ' ')
+#yr <- c('2013','2014','2015','2016')
 
 # List of reactor by type
-UnitData <- readRDS('DBCopy/PI_UnitData.rds')
+UnitData <- uData
 rType <- c('AGR','BWR','LWCGR','PHWR','PWR')
 rTypeCode <- c(1,3,12,13,14)
 uType <- list()
@@ -35,7 +36,8 @@ for (y in yr){
     }
 }
 colnames(data) <- c('Yr','rType','uNum','TScrams','AScrams','MScrams','Avg.Scrams by reactor')
-print(data)
-
+    #print(data)
+    return(data)
+}
 ### drawing
 

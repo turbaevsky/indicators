@@ -1,8 +1,8 @@
 library(shiny)
 library(datasets)
 
-#setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
-setwd('../../indicators')
+setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
+#setwd('../../indicators')
 
 ### Quarters list ###
 curY <- as.numeric(format(Sys.Date(),"%Y"))
@@ -69,6 +69,7 @@ source('xlsGenerator.R')
 source('metrics.r')
 source('submit.r')
 source('indicators.R')
+source('scrams.r')
 
 #qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
 

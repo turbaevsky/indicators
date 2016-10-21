@@ -359,6 +359,22 @@ shinyServer(function(input, output, clientData, session) {
         }
         )
 
+########################################## Scrams statistics #################################################
+    scramsTable <- reactive(scrams(input$scramYr))
+    output$scrams <- renderDataTable(scramsTable(),options=list(paging = FALSE,searching=FALSE))
+
+    scramsPlot <- reactive({
+        d <- scrams(input$scramYr)
+        AS <- d$AScrams
+        MS <- d$MScrams
+        rT <- d$rType
+        out <- rbind(AS,MS)
+
+        barplot(out,names.arg=unlist(rT),legend = c('Auto scrams','Manual scrams'))
+    })
+
+    output$scramPlot <- renderPlot(scramsPlot())
+
 ############################### The end #################################
 
 })
