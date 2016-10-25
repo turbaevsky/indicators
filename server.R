@@ -253,9 +253,11 @@ shinyServer(function(input, output, clientData, session) {
         #print(color)
         #print(tcolor)
         if (input$rStyle == 'ac'){
-            hist(res, breaks=10, col = 'green')
-            for (i in c(1:length(x)))
+            hist(res, breaks=10, col = 'green', xlab = 'indicator value ranges',ylab = 'number of units',main = paste(input$PRind,input$dist,'values distribution and unit(s) result'))
+            for (i in c(1:length(x))){
                 points(x=x[i],y=0,pch=19,cex=3,col=rgb(t[i,1],t[i,2],t[i,3],t[i,4]))
+                text(x=x[i],y=0,signif(x[i],2))
+            }
             legend('topright',legend=input$PRname,text.col=rgb(color))
         }
 ### Create a table in the PC style ###
@@ -263,20 +265,24 @@ shinyServer(function(input, output, clientData, session) {
             col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
             pcResult <- list()
 ### tendency ###
-            xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+            xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+            x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
+            xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
             for (i in c(1:length(x))){
-                if (x[i]<=xOld[i]*0.7) tendency <- '++'
+                if (x[i]==xOld[i]) tendency <- '0'
+                if (x[i]<xOld[i]*0.7) tendency <- '++'
                 if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '+'
                 if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
                 if (x[i]>xOld[i]*1.3) tendency <- '--'
 ### Which quantile ###
-                if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c('X','','','','')
-                if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('','X','','','')
-                if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','','X','','')
-                if (x[i]>=quantile(res)[[4]] && x[i]<=quantile(res)[[5]]) Q <- c('','','','X','')
-                if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','','X','X')
+                X <- "<font color=#FF0000><b>X</b></font>"
+                if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c(X,'','','','')
+                if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('',X,'','','')
+                if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','',X,'','')
+                if (x[i]>=quantile(res)[[4]] && x[i]<=quantile(res)[[5]]) Q <- c('','','',X,'')
+                if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','',X,X)
 ### create table ###
-                d <- c(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(x[[i]],2),tendency,length(res),unlist(Q))
+                d <- c(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(xCur[[i]],2),tendency,length(res),unlist(Q))
                 #print(d)
                 pcResult <- rbind(pcResult,d)
             }
@@ -298,7 +304,7 @@ shinyServer(function(input, output, clientData, session) {
                               rt <- unique(unlist(subset(uData,LocId %in% Id,NsssTypeId))) # Reactor type
                               rc <- unique(unlist(subset(relation,relation$LocId %in% Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))) # Regional Centre
 ### Worldwide list ###
-                              for (indicator in head(i,-1)){
+                              for (indicator in c('CISA2','ISA2 ','CRE  ','CY   ','FLR  ','GRLF ','SP1  ','SP2  ','SP5  ','UA7  ','UCF  ','UCLF ','US7  ')){
                                   incProgress(1/16,detail = indicator)
                                   print(indicator)
                                   if (indicator  %in% plants) # Station's value
@@ -318,27 +324,30 @@ shinyServer(function(input, output, clientData, session) {
                                   if (input$dist == 'Same reactor type and RC' && indicator %in% plants)
                                       res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
 ### Current value(s) ###
-                                  x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
 
 ### tendency ###
-                                  xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
                                   for (i in c(1:length(x))){
-                                      if (x[i]<=xOld[i]*0.7) tendency <- '++'
+                                      if (x[i]==xOld[i]) tendency <- '0'
+                                      if (x[i]<xOld[i]*0.7) tendency <- '++'
                                       if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '+'
                                       if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
                                       if (x[i]>xOld[i]*1.3) tendency <- '--'
 ### Which quantile ###
-                                      if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c('X','','','','')
-                                      if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('','X','','','')
-                                      if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','','X','','')
-                                      if (x[i]>=quantile(res)[[4]] && x[i]<=quantile(res)[[5]]) Q <- c('','','','X','')
-                                      if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','','X','X')
+                                      X <- "<font color=#FF0000><b>X</b></font>"
+                                      if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c(X,'','','','')
+                                      if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('',X,'','','')
+                                      if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','',X,'','')
+                                      if (x[i]>=quantile(res)[[4]] && x[i]<=quantile(res)[[5]]) Q <- c('','','',X,'')
+                                      if (x[i]>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','',X,X)
 ### create table ###
-                                      d <- c(indicator,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(x[[i]],2),tendency,length(res),unlist(Q))
+                                      d <- c(indicator,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),i,signif(xCur[[i]],2),tendency,length(res),unlist(Q))
                                       print(d)
                                       pcAll <- rbind(pcAll,d)
                                   }}
-                              col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
+                              col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit No','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
                               colnames(pcAll) <- col
                           })
                           print(pcAll)
