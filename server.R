@@ -270,10 +270,10 @@ shinyServer(function(input, output, clientData, session) {
             xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
             for (i in c(1:length(x))){
                 if (x[i]==xOld[i]) tendency <- '0'
-                if (x[i]<xOld[i]*0.7) tendency <- '++'
-                if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '+'
-                if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
-                if (x[i]>xOld[i]*1.3) tendency <- '--'
+                if (x[i]<xOld[i]*0.7) tendency <- '<font color=#008000><b>++</b></font>'
+                if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '<font color=#008000><b>+</b></font>'
+                if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '<font color=#FF0000><b>-</b></font>'
+                if (x[i]>xOld[i]*1.3) tendency <- '<font color=#FF0000><b>--</b></font>'
 ### Which quantile ###
                 X <- "<font color=#FF0000><b>X</b></font>"
                 if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c(X,'','','','')
@@ -383,6 +383,32 @@ shinyServer(function(input, output, clientData, session) {
     })
 
     output$scramPlot <- renderPlot(scramsPlot())
+
+### Words cloud ###
+#    #library(tm)
+#    library(wordcloud)
+##    library(memoise)
+
+#    events <- readRDS('DBCopy/OE_Event.rds')
+#    eByKey <- readRDS('DBCopy/OE_EventKeyword.rds')
+#    dCause <- readRDS('DBCopy/OE_DirectCause.rds')
+
+#    eByKey <- unlist(subset(eByKey,KeywordCode %in% c(646,871),EventCode)) # 646 means manual scram, 871 - AS
+#    events <- reactive(subset(events,events$EventCode %in% eByKey & as.Date(EventDate) >= as.Date(paste(input$scramYr,'-01-01',sep='')) & as.Date(EventDate) <= as.Date(paste(input$scramYr,'-02-31',sep='')),DirectCauseCode))
+                                        #print(length(unlist(events)))
+#    #directCause <- unlist(subset(events,select=DirectCauseCode))
+#    directCause <- directCause[!is.na(directCause)]
+#    wordcloud <- c()
+#    for (i in directCause)
+#        wordcloud <- c(wordcloud,subset(dCause,DirectCauseCode == i,DirectCause))
+#    wordcloud <- unlist(wordcloud)
+##    #wordcloud_rep <- repeatable(wordcloud)
+#    output$words <- renderPlot({
+#        #v <- terms()
+#        wordcloud(wordcloud, scale=c(4,0.5),
+ #                     min.freq = input$freq, max.words=input$max,
+  #                    colors=brewer.pal(8, "Dark2"),random.order=FALSE)
+   # })
 
 ############################### The end #################################
 

@@ -188,11 +188,18 @@ navbarPage("Performance Analysis",
   tabPanel("Scrams summary",
            sidebarLayout(
                sidebarPanel(
-                   sliderInput("scramYr","Scrams information for:",min=2007,max=2016,value=2016)
+                   sliderInput("scramYr","Scrams information for:",min=2007,max=2016,value=2016),
+                   sliderInput("freq",
+                               "Minimum Frequency:",
+                               min = 1,  max = 50, value = 15),
+                   sliderInput("max",
+                               "Maximum Number of Words:",
+                               min = 1,  max = 300,  value = 100)
                    ),
                mainPanel(
                    plotOutput("scramPlot"),
-                   dataTableOutput("scrams")
+                   dataTableOutput("scrams"),
+                   plotOutput("words")
                ))
            )
     )
