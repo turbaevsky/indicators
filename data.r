@@ -60,6 +60,8 @@ units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INP
 eCode <- readRDS('DBCopy/OE_EventUnit.rds')
 rCode <- readRDS('DBCopy/OE_EventReport.rds')
 event <- readRDS('DBCopy/OE_Event.rds')
+eByKey <- readRDS('DBCopy/OE_EventKeyword.rds')
+dCause <- readRDS('DBCopy/OE_DirectCause.rds')
 
 
 source('functions.r')

@@ -386,29 +386,32 @@ shinyServer(function(input, output, clientData, session) {
 
 ### Words cloud ###
 #    #library(tm)
-#    library(wordcloud)
+    library(wordcloud)
 ##    library(memoise)
 
-#    events <- readRDS('DBCopy/OE_Event.rds')
-#    eByKey <- readRDS('DBCopy/OE_EventKeyword.rds')
-#    dCause <- readRDS('DBCopy/OE_DirectCause.rds')
+    #events <- readRDS('DBCopy/OE_Event.rds')
+    #eByKey <- readRDS('DBCopy/OE_EventKeyword.rds')
+    #dCause <- readRDS('DBCopy/OE_DirectCause.rds')
 
-#    eByKey <- unlist(subset(eByKey,KeywordCode %in% c(646,871),EventCode)) # 646 means manual scram, 871 - AS
-#    events <- reactive(subset(events,events$EventCode %in% eByKey & as.Date(EventDate) >= as.Date(paste(input$scramYr,'-01-01',sep='')) & as.Date(EventDate) <= as.Date(paste(input$scramYr,'-02-31',sep='')),DirectCauseCode))
+    eByKey <- unlist(subset(eByKey,KeywordCode %in% c(646,871),EventCode)) # 646 means manual scram, 871 - AS
+    word <- reactive({
+        e <- subset(event,event$EventCode %in% eByKey & as.Date(event$EventDate) >= as.Date(paste(input$scramYr,'-01-01',sep='')) & as.Date(event$EventDate) <= as.Date(paste(input$scramYr,'-12-31',sep='')))
                                         #print(length(unlist(events)))
-#    #directCause <- unlist(subset(events,select=DirectCauseCode))
-#    directCause <- directCause[!is.na(directCause)]
-#    wordcloud <- c()
-#    for (i in directCause)
-#        wordcloud <- c(wordcloud,subset(dCause,DirectCauseCode == i,DirectCause))
-#    wordcloud <- unlist(wordcloud)
-##    #wordcloud_rep <- repeatable(wordcloud)
-#    output$words <- renderPlot({
-#        #v <- terms()
-#        wordcloud(wordcloud, scale=c(4,0.5),
- #                     min.freq = input$freq, max.words=input$max,
-  #                    colors=brewer.pal(8, "Dark2"),random.order=FALSE)
-   # })
+        directCause <- unlist(subset(e,select=DirectCauseCode))
+        directCause <- directCause[!is.na(directCause)]
+        word <- c()
+        for (i in directCause)
+            word <- c(word,subset(dCause,DirectCauseCode == i,DirectCause))
+        word <- unlist(word)
+    })
+    print(word)
+    #wordcloud_rep <- repeatable(wordcloud)
+    output$words <- renderPlot({
+        #v <- terms()
+        wordcloud(unlist(word()), min.freq = input$freq, max.words=input$max,
+                  colors=brewer.pal(8, "Dark2"),random.order=FALSE)
+        #wordcloud(word(),random.order=FALSE)
+    })
 
 ############################### The end #################################
 
