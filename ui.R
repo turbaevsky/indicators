@@ -189,6 +189,8 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    sliderInput("scramYr","Scrams information for:",min=2007,max=2016,value=2016),
+                   checkboxInput("as","Auto scrams",value=TRUE),
+                   checkboxInput("ms","Manual scrams",value=TRUE),
                    sliderInput("freq",
                                "Minimum Frequency:",
                                min = 1,  max = 50, value = 15),

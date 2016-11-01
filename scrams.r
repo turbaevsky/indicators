@@ -3,10 +3,10 @@
 # by reactor types
 ##############################################################
 
-scrams <- function(yr){
+scrams <- function(yr,eCode){
 #setwd('c://Users//volodymyr.turbaevsky//Desktop//programming//R//indicators//')
 r <- data
-eCode <- c('C1   ','C3   ')
+#eCode <- c('C1   ','C3   ')
 r <- subset(r,r$YrMn>=200700 & r$ElementCode %in% eCode & r$RecStatus == ' ')
 #yr <- c('2013','2014','2015','2016')
 

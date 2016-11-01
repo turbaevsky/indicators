@@ -369,11 +369,20 @@ shinyServer(function(input, output, clientData, session) {
         )
 
 ########################################## Scrams statistics #################################################
-    scramsTable <- reactive(scrams(input$scramYr))
+    scramsTable <- reactive({
+        if (input$as && input$ms) eCode <- c('C1   ','C3   ')
+        if (input$as && !input$ms) eCode <- c('C1   ')
+        if (!input$as && input$ms) eCode <- c('C3   ')
+        scramsTable <- scrams(input$scramYr,eCode)
+    })
+
     output$scrams <- renderDataTable(scramsTable(),options=list(paging = FALSE,searching=FALSE))
 
     scramsPlot <- reactive({
-        d <- scrams(input$scramYr)
+        if (input$as && input$ms) eCode <- c('C1   ','C3   ')
+        if (input$as && !input$ms) eCode <- c('C1   ')
+        if (!input$as && input$ms) eCode <- c('C3   ')
+        d <- scrams(input$scramYr,eCode)
         AS <- d$AScrams
         MS <- d$MScrams
         rT <- d$rType
@@ -393,8 +402,11 @@ shinyServer(function(input, output, clientData, session) {
     #eByKey <- readRDS('DBCopy/OE_EventKeyword.rds')
     #dCause <- readRDS('DBCopy/OE_DirectCause.rds')
 
-    eByKey <- unlist(subset(eByKey,KeywordCode %in% c(646,871),EventCode)) # 646 means manual scram, 871 - AS
     word <- reactive({
+        if (input$as && input$ms)  key <-  c(646,871)
+        if (input$as && !input$ms) key <-  c(871)
+        if (!input$as && input$ms) key <-  c(646)
+        eByKey <- unlist(subset(eByKey,KeywordCode %in% key,EventCode)) # 646 means manual scram, 871 - AS
         e <- subset(event,event$EventCode %in% eByKey & as.Date(event$EventDate) >= as.Date(paste(input$scramYr,'-01-01',sep='')) & as.Date(event$EventDate) <= as.Date(paste(input$scramYr,'-12-31',sep='')))
                                         #print(length(unlist(events)))
         directCause <- unlist(subset(e,select=DirectCauseCode))
