@@ -17,17 +17,30 @@ units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INP
 
 ############################## Server ####################################
 shinyServer(function(input, output, clientData, session) {
-    # OE DB
-    uID <- reactive(subset(place,place$AbbrevLocName %in% input$name)[[1]]) # define unit ID
+    # OE DB <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    #uID <- reactive(subset(place,place$AbbrevLocName %in% input$name)[[1]]) # define unit ID
 
-    oeid <- reactive(unlist(subset(units,units$INPORef %in% uID(),OEDBID))[[1]])
-    eventCodes <- reactive(unlist(subset(eCode,eCode$UnitCode %in% oeid(),EventCode))) # list of events for selected unit
-    repCodes <- reactive(unlist(subset(rCode,rCode$EventCode %in% eventCodes(),ReportCode)))
-    lastDate <- reactive(dateToReal(input$qtr,'e'))
+    #oeid <- reactive(unlist(subset(units,units$INPORef %in% uID(),OEDBID))[[1]])
+    #eventCodes <- reactive(unlist(subset(eCode,eCode$UnitCode %in% oeid(),EventCode))) # list of events for selected unit
+    #repCodes <- reactive(unlist(subset(rCode,rCode$EventCode %in% eventCodes(),ReportCode)))
+    #lastDate <- reactive(dateToReal(input$qtr,'e'))
     ########################## Start date calculation have to be fixed ####################
-    startDate <- reactive(lastDate()-31*as.numeric(input$window))
-    events <- reactive(subset(event, event$EventCode %in% eventCodes() & as.Date(event$EventDate)<=lastDate()
-                     & as.Date(event$EventDate)>=startDate(),c(EventDate, EventTitle)))
+    #startDate <- reactive(lastDate()-31*as.numeric(input$window))
+    events <- reactive({
+        uID <- subset(place,place$AbbrevLocName %in% input$name)[[1]] # define unit ID
+        oeid <- unlist(subset(units,units$INPORef %in% uID,OEDBID))[[1]]
+        lastDate <- dateToReal(input$qtr,'e')
+        startDate <- lastDate-31*as.numeric(input$window)
+        eventCodes <- unlist(subset(eCode,eCode$UnitCode %in% oeid,EventCode)) # list of events for selected unit
+        ev <- subset(event, event$EventCode %in% eventCodes & as.Date(event$EventDate)<=lastDate
+                     & as.Date(event$EventDate)>=startDate,select=c(EventCode,EventDate, EventTitle))
+        #print(ev)
+        repCodes <- unlist(subset(rCode,rCode$EventCode %in% ev$EventCode,ReportCode))
+        print(repCodes)
+        link <- paste('<a href="http://www.wano.org/OperatingExperience/OE_Database_2012/Pages/EventReportDetail.aspx?ids=',repCodes,'" target="_blank">Go to OE DB</a>',sep='')
+        #print(link)
+        events <- cbind(link,ev)
+        })
 
     # Is it unit or plant?
     uNo <- reactive({
@@ -94,7 +107,7 @@ shinyServer(function(input, output, clientData, session) {
     output$result <- renderDataTable(res(),options=list(paging = FALSE,searching=FALSE))
     output$unitStatus <- renderDataTable(udate(),options=list(paging = FALSE,searching=FALSE))
     output$comments <- renderDataTable(com(),options=list(paging = FALSE,searching=FALSE))
-    output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE))
+    output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE),escape = FALSE)
     output$resultChart <- renderPlot(rChart())
 
 ############################### LTT ################################
