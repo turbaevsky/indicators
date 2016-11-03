@@ -37,9 +37,10 @@ shinyServer(function(input, output, clientData, session) {
         #print(ev)
         repCodes <- unlist(subset(rCode,rCode$EventCode %in% ev$EventCode,ReportCode))
         print(repCodes)
-        link <- paste('<a href="http://www.wano.org/OperatingExperience/OE_Database_2012/Pages/EventReportDetail.aspx?ids=',repCodes,'" target="_blank">Go to OE DB</a>',sep='')
+        if (length(repCodes)){
+            link <- paste('<a href="http://www.wano.org/OperatingExperience/OE_Database_2012/Pages/EventReportDetail.aspx?ids=',repCodes,'" target="_blank">Go to OE DB</a>',sep='')
         #print(link)
-        events <- cbind(link,ev)
+            events <- cbind(link,ev)}
         })
 
     # Is it unit or plant?
