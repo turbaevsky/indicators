@@ -77,8 +77,14 @@ shinyServer(function(input, output, clientData, session) {
                                  comms$YrMn %in% input$qtr & comms$ElementCode %in% elByInd[input$ind][[1]]))
     ### Results chart ###
     rChart <- reactive({
-        barplot(unlist(subset(r,r$LocId %in% uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode %in% input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue))),xlab="Quarters",xaxt='n')
-        axis(side=1,at=c(1:length(qtrs)),labels=qtrs)})
+        dataset <- subset(r,r$LocId %in% uNo() & PeriodEndYrMn %in% qtrs & r$IndicatorCode %in% input$ind & r$NumOfMonths == input$window & r$NonQualCode == ' ',c(ResultsValue,PeriodEndYrMn))
+        d <- dataset[1]
+        #print(d)
+        rownames(d) <- dataset[[2]]
+        #print(d)
+        barplot(t(d),xlab="Quarters",main = input$ind)#,xaxt='n')
+        #axis(side=1,at=c(1:length(dataset[[2]])),labels=dataset[[2]])
+    })
 
     # progressbar for DB copying ################################################
     observeEvent(input$update,{
