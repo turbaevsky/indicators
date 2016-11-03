@@ -53,7 +53,15 @@ shinyServer(function(input, output, clientData, session) {
         if(input$ind %in% c('SP5  ','ISA1 ','ISA2 ','CISA1', 'CISA2')) uNo <- pNo
         else uNo <- subset(place,place$AbbrevLocName %in% input$name)[[1]]
     })
-    ### Source data ###
+### Comments for FRI ###
+    bq2ci <- 3.7e10
+    note <- reactive(if (input$ind == 'FRI  ')
+                                out <- paste('Fuel criteria for BWR is 1.1E7 Bq/g =',1.1E7/bq2ci,'Ci/g and for PWR/PWR - 1.9E1 Bq/g = ',1.9E1/bq2ci,'Ci/g')
+                     else out <- '')
+    output$note <- renderText(note())
+
+
+### Source data ###
     sourceData <- reactive(
     {
     quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
@@ -84,7 +92,15 @@ shinyServer(function(input, output, clientData, session) {
         rownames(d) <- dataset[[2]]
         #print(d)
         barplot(t(d),xlab="Quarters",main = input$ind)#,xaxt='n')
-        #axis(side=1,at=c(1:length(dataset[[2]])),labels=dataset[[2]])
+                                        #axis(side=1,at=c(1:length(dataset[[2]])),labels=dataset[[2]])
+        ### Add abline for FRI ###
+        #if (input$ind == 'FRI  '){
+        #    bq2ci <- 3.7e10
+        #    abline(h=1.1e7/bq2ci,col='red')
+        #    abline(h=1.9e1/bq2ci,col='red')
+        #    text(0,1.1e7/bq2ci,'BWR')
+        #    text(0,1.9e1/bq2ci,'PWR/PHWR')
+        #    }
     })
 
     # progressbar for DB copying ################################################
