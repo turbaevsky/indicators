@@ -25,7 +25,15 @@ shinyServer(function(input, output, clientData, session) {
     #repCodes <- reactive(unlist(subset(rCode,rCode$EventCode %in% eventCodes(),ReportCode)))
     #lastDate <- reactive(dateToReal(input$qtr,'e'))
     ########################## Start date calculation have to be fixed ####################
-    #startDate <- reactive(lastDate()-31*as.numeric(input$window))
+                                        #startDate <- reactive(lastDate()-31*as.numeric(input$window))
+
+    repCode <- function(eCode){
+        reportCode <- subset(rCode,rCode$EventCode == eCode,ReportCode)[[1]]
+        #print(reportCode)
+        link <- paste('<a href="http://www.wano.org/OperatingExperience/OE_Database_2012/Pages/EventReportDetail.aspx?ids=',reportCode,'" target="_blank">Go to OE DB</a>',sep='')
+        return(link)
+        }
+
     events <- reactive({
         uID <- subset(place,place$AbbrevLocName %in% input$name)[[1]] # define unit ID
         oeid <- unlist(subset(units,units$INPORef %in% uID,OEDBID))[[1]]
@@ -33,15 +41,21 @@ shinyServer(function(input, output, clientData, session) {
         startDate <- lastDate-31*as.numeric(input$window)
         eventCodes <- unlist(subset(eCode,eCode$UnitCode %in% oeid,EventCode)) # list of events for selected unit
         ev <- subset(event, event$EventCode %in% eventCodes & as.Date(event$EventDate)<=lastDate
-                     & as.Date(event$EventDate)>=startDate,select=c(EventCode,EventDate, EventTitle))
-        #print(ev)
-        repCodes <- unlist(subset(rCode,rCode$EventCode %in% ev$EventCode,ReportCode))
-        print(repCodes)
-        if (length(repCodes)){
-            link <- paste('<a href="http://www.wano.org/OperatingExperience/OE_Database_2012/Pages/EventReportDetail.aspx?ids=',repCodes,'" target="_blank">Go to OE DB</a>',sep='')
-        #print(link)
-            events <- cbind(link,ev)}
-        })
+                     & as.Date(event$EventDate)>=startDate,select=c(EventCode,EventDate,EventTitle))
+        #print(ev[1])
+        #repCodes <- unlist(subset(rCode,rCode$EventCode %in% ev$EventCode,ReportCode))
+        #print(repCodes)
+
+        #link <- paste('<a href="http://www.wano.org/OperatingExperience/OE_Database_2012/Pages/EventReportDetail.aspx?ids=',repCode(i),'" target="_blank">Go to OE DB</a>',sep='')
+                                        #print(link)
+            ######### TODO: fix link and ev ##########
+        #print(ev)                                #events <- cbind(link,i)}
+        events <- cbind(apply(t(ev[,1]),2,repCode),ev)
+        #print(events)
+    })
+
+    output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE),escape = FALSE)
+
 
     # Is it unit or plant?
     uNo <- reactive({
@@ -56,7 +70,7 @@ shinyServer(function(input, output, clientData, session) {
 ### Comments for FRI ###
     bq2ci <- 3.7e10
     note <- reactive(if (input$ind == 'FRI  ')
-                                out <- paste('Fuel criteria for BWR is 1.1E7 Bq/g =',1.1E7/bq2ci,'Ci/g and for PWR/PWR - 1.9E1 Bq/g = ',1.9E1/bq2ci,'Ci/g')
+                                out <- paste('Fuel criteria for BWR is 1.1E7 Bq/g =',signif(1.1E7/bq2ci,3),'Ci/g and for PWR/PWR - 1.9E1 Bq/g = ',signif(1.9E1/bq2ci,3),'Ci/g')
                      else out <- '')
     output$note <- renderText(note())
 
@@ -130,7 +144,6 @@ shinyServer(function(input, output, clientData, session) {
     output$result <- renderDataTable(res(),options=list(paging = FALSE,searching=FALSE))
     output$unitStatus <- renderDataTable(udate(),options=list(paging = FALSE,searching=FALSE))
     output$comments <- renderDataTable(com(),options=list(paging = FALSE,searching=FALSE))
-    output$events <- renderDataTable(events(),options=list(paging = FALSE,searching=FALSE),escape = FALSE)
     output$resultChart <- renderPlot(rChart())
 
 ############################### LTT ################################
