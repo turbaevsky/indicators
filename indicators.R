@@ -5,26 +5,9 @@
 # 5-years indicator statistics
 # library(ggplot2)
 
-ylab <- function(i)
-{return(switch(
-		i,
-		'CISA1' = 'accident number per 1,000,000 wh',
-		'ISA1 ' = 'accident number per 1,000,000 wh',
-		'CISA2' = 'accident number per 200,000 wh',
-		'TISA2' = 'accident number per 200,000 wh',
-		'ISA2 ' = 'accident number per 200,000 wh',
-		'UA7  ' = 'number per 7,000 critical hours',
-		'UCF  ' = 'percent',
-		'UCLF ' = 'percent',
-		'FLR  ' = 'percent',
-		'CY   ' = 'index',
-		'FRI  ' = 'index',
-		'GRLF ' = 'percent',
-		'SP1  ' = 'index',
-		'SP2  ' = 'index',
-		'SP5  ' = 'index'
-		))}
+source('functions.r')
 
+################# Hid and his might be replaced by lists (see data.r) in indicators.r ###
 hid <- function(i)
 {return(switch(
 		i,

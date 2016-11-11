@@ -53,6 +53,7 @@ stat <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 comms <- readRDS('DBCopy/PI_IndComments.rds')
 dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 elem <- readRDS('DBCopy/PI_LabelCodes.rds')
+effDate <- readRDS('DBCopy/PI_IndEffectiveDatedValues.rds')
 
 dbcopy <- readRDS('DBCopy/PI_DataStatus.rds')
 
@@ -113,3 +114,41 @@ elByInd <- list('CISA1' = c('M5   ','M6   ','M7   ','M8   '), # Elements By Indi
                             'L30  ','L31  ','L32  ','L33  ','L34  ','L35  ','L36  '))
 
 
+descriptions <- list('CISA1' = 'Contractor Industrial Safety Accident Rate',
+              'ISA1 ' = 'Industrial Safety Accident Rate',
+              'CISA2' = 'Contractor Industrial Safety Accident Rate',
+              'TISA2' = 'Total Industrial Safety Accident Rate',
+              'ISA2 ' = 'Industrial Safety Accident Rate',
+              'UA7  ' = 'Unplanned Automatic Scrams Per 7,000 Hours Critical',
+              'UCF  ' = 'Unit Capability Factor',
+              'UCLF ' = 'Unplanned Capability Loss Factor',
+              'FLR  ' = 'Forced Loss Rate',
+              'CY   ' = 'Chemistry Performance',
+              'FRI  ' = 'Fuel Reliability',
+              'GRLF ' = 'Grid-Related Loss Factor',
+              'SP1  ' = 'Safety System Performance \n(high pressure safety injection system)\n(high pressure injection/heat removal system)',
+              'SP2  ' = 'Safety System Performance \n(auxiliary feedwater system)\n(residual heat removal system)',
+              'SP5  ' = 'Safety System Performance \n(emergensy [diesel] generations)',
+              'CRE  ' = 'Collective Radiation Exposure',
+              'US7  ' = 'Unplanned Scrams Per 7,000 Hours Critical'
+              )
+
+### Individual terget 2020 ###
+hid <- list('CISA2' = 0.5,
+            'ISA2 ' = 0.5,
+            'TISA2' = 0.5,
+            'FLR  ' = 5,
+            'SP1  ' = 0.02,
+            'SP2  ' = 0.02,
+            'SP5  ' = 0.025,
+            'CRE  ' = list('PWR' = 90, 'BWR' = 180)
+            )
+his <- list('CISA2' = 0.2,
+            'ISA2 ' = 0.2,
+            'TISA2' = 0.2,
+            'FLR  ' = 2,
+            'SP1  ' = 0.02,
+            'SP2  ' = 0.02,
+            'SP5  ' = 0.025,
+            'CRE  ' = list('PWR' = 70, 'BWR' = 125)
+            )

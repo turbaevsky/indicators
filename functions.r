@@ -3,6 +3,28 @@
 ####################################################################
 #setwd("c:/Users/volodymyr.turbaevsky/Desktop/programming/R/indicators")
 
+ylab <- function(i)
+{return(switch(
+     i,
+     'CISA1' = 'accident number per 1,000,000 wh',
+     'ISA1 ' = 'accident number per 1,000,000 wh',
+     'CISA2' = 'accident number per 200,000 wh',
+     'TISA2' = 'accident number per 200,000 wh',
+     'ISA2 ' = 'accident number per 200,000 wh',
+     'UA7  ' = 'number per 7,000 critical hours',
+     'UCF  ' = 'percent',
+     'UCLF ' = 'percent',
+     'FLR  ' = 'percent',
+     'CY   ' = 'index',
+     'FRI  ' = 'index',
+     'GRLF ' = 'percent',
+     'SP1  ' = 'unavailability',
+     'SP2  ' = 'unavailability',
+     'SP5  ' = 'index',
+     'CRE  ' = 'man-rem',
+     'US7  ' = 'number per 7,000 critical hours'
+ ))}
+
 bot <- function(msg) # Send a message to Telegram recipient(s)
 {
     library(telegram)
