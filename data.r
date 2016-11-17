@@ -133,8 +133,8 @@ descriptions <- list('CISA1' = 'Contractor Industrial Safety Accident Rate',
               'US7  ' = 'Unplanned Scrams Per 7,000 Hours Critical'
               )
 
-### Individual terget 2020 ###
-hid <- list('CISA2' = 0.5,
+### Individual targets 2020 ###
+hidList <- list('CISA2' = 0.5,
             'ISA2 ' = 0.5,
             'TISA2' = 0.5,
             'FLR  ' = 5,
@@ -143,7 +143,7 @@ hid <- list('CISA2' = 0.5,
             'SP5  ' = 0.025,
             'CRE  ' = list('PWR' = 90, 'BWR' = 180)
             )
-his <- list('CISA2' = 0.2,
+hisList <- list('CISA2' = 0.2,
             'ISA2 ' = 0.2,
             'TISA2' = 0.2,
             'FLR  ' = 2,

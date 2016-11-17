@@ -5,7 +5,7 @@
 # 5-years indicator statistics
 # library(ggplot2)
 
-source('functions.r')
+#source('functions.r')
 
 ################# Hid and his might be replaced by lists (see data.r) in indicators.r ###
 hid <- function(i)
