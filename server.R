@@ -135,7 +135,7 @@ shinyServer(function(input, output, clientData, session) {
         system("C:\\Users\\volodymyr.turbaevsky\\portable\\MKTex\\miktex\\bin\\pdflatex.exe Qreport.tex")
     })
     # Excel (re)generation ######################################################
-    observeEvent(input$excel,withProgress(message = 'Selected quarter excel (re)generation',value=0,xls(input$repqtr)))
+    observeEvent(input$excel,withProgress(message = 'Selected quarter TISA & excel (re)generation',value=0,xls(input$repqtr)))
 
 
     output$dbcopydate <- renderPrint(dbcopy)
@@ -465,7 +465,7 @@ shinyServer(function(input, output, clientData, session) {
             word <- c(word,subset(dCause,DirectCauseCode == i,DirectCause))
         word <- unlist(word)
     })
-    print(word)
+    #print(word)
     #wordcloud_rep <- repeatable(wordcloud)
     output$words <- renderPlot({
         #v <- terms()

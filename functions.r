@@ -80,25 +80,32 @@ activeStation <- function(startDate,mode='u') # Getting active units list
 # AttributeTypeId == 7 means Report PI Data, 22 means it is Unit, 19 means Plant; 15 means LocActive
 {
     t <- c()
-    if (mode == 'u') t <- c(22)
-    else if (mode == 'p') t <- c(19)
-    else if (mode == 'a') t <- c(19,22)
-    # TODO: remove units with LTS status =================================================================
-    Station <- merge(place,placeAttributes,by='LocId')
-    list1 <- unlist(subset(Station,Station$PlaceTypeId %in% t
-		& Station$AttributeTypeId == 7 & as.Date(Station$EndDate) >= dateToReal(startDate,'e')
-		& (as.Date(Station$StartDate) <= dateToReal(startDate) | is.na(Station$StartDate))
-                & IsDeleted == 0,LocId)) #List of units/plants wich is PI Reporter and is not deleted
-    list2 <- unlist(subset(Station, Station$AttributeTypeId == 15 & as.Date(Station$EndDate) >= dateToReal(startDate,'e'),LocId)) # List of units/plants with LocActive status
-    # List of units with [DateTypeId] Long-Term Shutdown Start (11) but not LTS End (9) status on [UnitDate]
-    list3 <- unlist(subset(uDate,uDate$DateTypeId == 11 & as.Date(uDate$UnitDate) <= dateToReal(startDate),LocId))
-    list4 <- unlist(subset(uDate,uDate$DateTypeId == 9 & as.Date(uDate$UnitDate) <= dateToReal(startDate),LocId))
-    list5 <- unlist(subset(uData,uData$IsUnitActive == 1,LocId)) # has IsActive status
-    LTS <- setdiff(list3,list4)
-    Station <- intersect(intersect(list1,list2),list5)
-    Station <- Station[!Station %in% LTS] # Remove LTS units
-    Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
-    #Station <- c(Station,10213) # Add La Hague
+    if (mode == 'u'){
+        t <- 22
+        Station <- merge(place,placeAttributes,by='LocId')
+        list1 <- unlist(subset(Station,Station$PlaceTypeId %in% t
+                               & Station$AttributeTypeId == 7 & as.Date(Station$EndDate) >= dateToReal(startDate,'e')
+                               & (as.Date(Station$StartDate) <= dateToReal(startDate) | is.na(Station$StartDate))
+                               & IsDeleted == 0,LocId)) #List of units/plants wich is PI Reporter and is not deleted
+        list2 <- unlist(subset(Station, Station$AttributeTypeId == 15 & as.Date(Station$EndDate) >= dateToReal(startDate,'e'),LocId)) # List of units/plants with LocActive status
+                                        # List of units with [DateTypeId] Long-Term Shutdown Start (11) but not LTS End (9) status on [UnitDate]
+        list3 <- unlist(subset(uDate,uDate$DateTypeId == 11 & as.Date(uDate$UnitDate) <= dateToReal(startDate),LocId))
+        list4 <- unlist(subset(uDate,uDate$DateTypeId == 9 & as.Date(uDate$UnitDate) <= dateToReal(startDate),LocId))
+        list5 <- unlist(subset(uData,uData$IsUnitActive == 1,LocId)) # has IsActive status
+        LTS <- setdiff(list3,list4)
+        Station <- intersect(intersect(list1,list2),list5)
+        Station <- Station[!Station %in% LTS] # Remove LTS units
+        Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
+                                        #Station <- c(Station,10213) # Add La Hague
+    }
+    if (mode=='p'){
+        Station <- merge(place,placeAttributes,by='LocId')
+        Station <- unlist(subset(Station,PlaceTypeId == 19,LocId))# & AttributeTypeId == 7
+                                 #& EndDate >= dateToReal(startDate)
+                                 #& (StartDate <= dateToReal(startDate) | is.na(StartDate))
+                                 #& IsDeleted == 0, LocId))
+        #INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),unlist(Station)) # US plants
+    }
     return(Station)
 }
 

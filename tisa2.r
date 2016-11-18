@@ -8,22 +8,22 @@ source('functions.r')
 tisa2 <- function(startDate)
 {
 print(startDate)
-iv <- readRDS('DBCopy/PI_IndValues.rds')
-place <- readRDS('DBCopy/PI_Place.rds')
+iv <- data
+#place <- readRDS('DBCopy/PI_Place.rds')
 #relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
 
 #Getting active station list
-activeStation <- merge(place,placeAttributes,by='LocId')
-activeStation <- subset(activeStation,activeStation$PlaceTypeId == 19
-	& activeStation$AttributeTypeId == 7 & activeStation$EndDate >= '9999-01-01'
-	& (activeStation$StartDate <= dateToReal(startDate) | is.na(activeStation$StartDate)) & IsDeleted == 0, LocId)
-INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),unlist(activeStation)) # US plants
+#activeStation <- merge(place,placeAttributes,by='LocId')
+#activeStation <- subset(activeStation,activeStation$PlaceTypeId == 19
+#	& activeStation$AttributeTypeId == 7 & activeStation$EndDate >= '9999-01-01'
+#	& (activeStation$StartDate <= dateToReal(startDate) | is.na(activeStation$StartDate)) & IsDeleted == 0, LocId)
+INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),activeStation(startDate,'p')) # US plants
 #print(INPOStation)
 # Additional filtering (manual)
-activeStation <- unlist(activeStation)
+#activeStation <- unlist(activeStation)
 #activeStation <- activeStation[!activeStation %in% c(1360,10111,10115)]
 #activeStation <- c(activeStation,10225)
-#print(activeStation)
+                                        #print(activeStation)
 
 place <- data.frame(lapply(place, as.character), stringsAsFactors=FALSE)
 
@@ -35,6 +35,7 @@ month <- c(3,12,18,24,36,48)
 # Data range
 dateRange <- function(st,mnt)
 {
+st <- as.numeric(st)
 rng <- st
 for (m in 1:(mnt-1))
 	{
@@ -51,9 +52,10 @@ return(rng)
 RecStatuses <- c('L','R','U')
 SourceCodes <- c('DN','L','UD','X','XX')
 
-ind <- subset(iv,iv$ElementCode %in% unlist(aList) & iv$SourceId %in% activeStation
+ind <- subset(iv,iv$ElementCode %in% unlist(aList) & iv$SourceId %in% activeStation(startDate,'p')
 	& iv$RecStatus != 'U' & iv$SourceCode != 'DN')
 ind <- merge(ind,place,by.x="SourceId",by.y="LocId")
+#print(ind)
 
 #d <- data.frame(stringsAsFactor=FALSE)
 

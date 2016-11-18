@@ -19,8 +19,9 @@
 
 xls <- function(analisedDate)
     {
-#analisedDate <- 201606
-dateRange <- analisedDate
+                                        #analisedDate <- 201606
+        tisa2(analisedDate)
+        dateRange <- analisedDate
 
 
 #if (readline('Need you update all TISA calculation (Y/n)?')=='Y')
@@ -93,22 +94,23 @@ fields <- c('CENTRE','MEMBER','UNIT NAME','REACTOR TYPE','Chemistry Group Code',
 tisa_fields <- c("1-Yr TISA1","1-Yr TISA2","18-Mo TISA1","18-Mo TISA2","2-Yr TISA1","2-Yr TISA2",
 				"3-Yr TISA1","3-Yr TISA2")
 
-#fields <- c(fields,tisa_fields)	# Add TISA fields
+fields <- c(fields,tisa_fields)	# Add TISA fields
 
 periods <- c(12,18,24,36)
 
 indicators <- c('UCF  ','UCLF ','FLR  ','UA7  ','SP1  ','SP2  ','SP5  ','FRI  ','CY   ','CRE  ',
-	'ISA','CISA','GRLF ','US7  ')#,'TISA')
+	'ISA','CISA','GRLF ','US7  ','TISA')
 
 results <- subset(results,results$PeriodEndYrMn %in% analisedDate)
 ##################################################################
 
 #pbFull <- txtProgressBar(min = 1, max = length(analisedDate), style = 3)
 
-print(analisedDate)
+#print(analisedDate)
 
 for (startDate in analisedDate)
 {
+setProgress(0)
 print(dateToQ(startDate))
 print(length(activeStation(startDate)))
 pb <- txtProgressBar(min = 0, max = length(activeStation(startDate)), style = 3)
@@ -121,11 +123,11 @@ fn <- paste('csv/TISA_',startDate,'.csv',sep='')	# read TISA dataset
 tisa <- read.csv(fn)
 
 for (u in activeStation(startDate))
-#for (u in c(1571,1574))
+#for (u in c(1463,1468))
 	{
 	#print(u)
 	start.unit.time <-Sys.time()
-	print(paste('Unit ',u,': #',no,' from ',length(activeStation(startDate))))
+	#print(paste('Unit ',u,': #',no,' from ',length(activeStation(startDate))))
         setTxtProgressBar(pb, no)
         incProgress(1/length(activeStation(startDate)),detail=u)
 
@@ -178,7 +180,9 @@ for (u in activeStation(startDate))
 				& relation$RelationId == 4
 				& as.Date(relation$EndDate) >= Sys.Date(),
 				select=ParentLocId)))
+                        #print(uNo)
 			r <- subset(tisa,LocID==uNo,select=c(X1.Yr.TISA1,X1.Yr.TISA2,X18.Mo.TISA1,X18.Mo.TISA2,X2.Yr.TISA1,X2.Yr.TISA2,X3.Yr.TISA1,X3.Yr.TISA2))
+                        #print(r)
 			dataset <- c(dataset,t(r))
 			}
 		else
