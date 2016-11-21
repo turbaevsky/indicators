@@ -94,12 +94,12 @@ fields <- c('CENTRE','MEMBER','UNIT NAME','REACTOR TYPE','Chemistry Group Code',
 tisa_fields <- c("1-Yr TISA1","1-Yr TISA2","18-Mo TISA1","18-Mo TISA2","2-Yr TISA1","2-Yr TISA2",
 				"3-Yr TISA1","3-Yr TISA2")
 
-fields <- c(fields,tisa_fields)	# Add TISA fields
+#fields <- c(fields,tisa_fields)	# Add TISA fields
 
 periods <- c(12,18,24,36)
 
 indicators <- c('UCF  ','UCLF ','FLR  ','UA7  ','SP1  ','SP2  ','SP5  ','FRI  ','CY   ','CRE  ',
-	'ISA','CISA','GRLF ','US7  ','TISA')
+	'ISA','CISA','GRLF ','US7  ')#R,'TISA')
 
 results <- subset(results,results$PeriodEndYrMn %in% analisedDate)
 ##################################################################
@@ -113,7 +113,7 @@ for (startDate in analisedDate)
 setProgress(0)
 print(dateToQ(startDate))
 print(length(activeStation(startDate)))
-pb <- txtProgressBar(min = 0, max = length(activeStation(startDate)), style = 3)
+#pb <- txtProgressBar(min = 0, max = length(activeStation(startDate)), style = 3)
 no <- 0
 #noDate <- 1
 sheet <- data.frame()
@@ -127,8 +127,8 @@ for (u in activeStation(startDate))
 	{
 	#print(u)
 	start.unit.time <-Sys.time()
-	#print(paste('Unit ',u,': #',no,' from ',length(activeStation(startDate))))
-        setTxtProgressBar(pb, no)
+	print(paste('Unit ',u,': #',no,' from ',length(activeStation(startDate))))
+        #setTxtProgressBar(pb, no)
         incProgress(1/length(activeStation(startDate)),detail=u)
 
 	centre <- unique(subset(relation,relation$LocId == u & relation$RelationId == 1

@@ -474,6 +474,34 @@ shinyServer(function(input, output, clientData, session) {
         #wordcloud(word(),random.order=FALSE)
     })
 
+############################## QRR ##############################
+    qrr <- eventReactive(input$calc,{
+        qrr <- list()
+        withProgress(message="Calculating...",value=0,
+        {
+            if (input$qrrind %in% c('CISA1','CISA2','ISA1 ','ISA2 ','SP5  ')) U <- activeStation(input$qrrqtr,'p')
+            else U <- activeStation(input$qrrqtr)
+            for (u in U){
+            #for (u in c(1200:1300)){
+                incProgress(1/length(U),detail = u)
+                for (e in elByInd[[input$qrrind]]){
+                                        # Avg ffrom 2007
+                    avg <- mean(subset(data,SourceId == u & YrMn %in% qtrs & ElementCode == e & RecStatus == ' ',ElementValue)[[1]])
+                    last <- subset(data,SourceId == u & YrMn == input$qrrqtr & ElementCode == e & RecStatus == ' ',ElementValue)[[1]]
+                    #print(last)
+                    #print(c(u,input$qrrind,input$qrrqtr,e,avg,last,signif(last/avg,2)))
+                    if (!is.na(avg) && !is.na(last) && length(last) && length (avg) && !is.na(last/avg) && last/avg >= input$qrrcoef){
+                        q <- c(nameByID(u),input$qrrind,input$qrrqtr,elByCode(e),signif(avg,2),signif(last,2),signif(last/avg,2))
+                        print(q)
+                        qrr <- rbind(qrr,q)
+                    }}}
+        })
+        #print(qrr)
+        colnames(qrr) <- c('Unit','Indicator','Quarter','Element','Average (5 yrs)','Last value','Discrepancy, times')
+        return(qrr)
+    })
+    output$qrrt <- renderDataTable(qrr(),options=list(paging = FALSE,searching=FALSE))
+
 ############################### The end #################################
 
 })

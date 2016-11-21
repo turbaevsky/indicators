@@ -177,12 +177,15 @@ navbarPage("Performance Analysis",
   tabPanel("QRR",
            sidebarLayout(
                sidebarPanel(
+                   selectInput("qrrqtr", "Quarter:",
+                               choices = qtrs,selected=tail(qtrs,1)),
                    selectInput("qrrind","Indicator and source data for:",
                                choices = i),
-                   sliderInput("qrrcoef","QRR sensivity:",min = 0, max = 100, value = 20, step = 5)
+                   sliderInput("qrrcoef","QRR sensivity (times):",min = 0, max = 10, value = 2, step = 0.5),
+                   actionButton("calc","Calculate")
                    ),
                mainPanel(
-                   dataTableOutput("qrr")
+                   dataTableOutput("qrrt")
                ))
            ),
 ### Scrams ###
