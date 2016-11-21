@@ -100,7 +100,7 @@ activeStation <- function(startDate,mode='u') # Getting active units list
     }
     if (mode=='p'){
         Station <- merge(place,placeAttributes,by='LocId')
-        Station <- unlist(subset(Station,PlaceTypeId == 19,LocId))# & AttributeTypeId == 7
+        Station <- unique(unlist(subset(Station,PlaceTypeId == 19,LocId)))# & AttributeTypeId == 7
                                  #& EndDate >= dateToReal(startDate)
                                  #& (StartDate <= dateToReal(startDate) | is.na(StartDate))
                                  #& IsDeleted == 0, LocId))
