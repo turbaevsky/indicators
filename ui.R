@@ -65,13 +65,14 @@ navbarPage("Performance Analysis",
                sidebarPanel(
                    actionButton("update","Update DB"),
                    selectInput("repqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,2)[-2]),
+                               choices = qtrs,selected=tail(qtrs,1)[-1]),
                    #actionButton("tisa","(Re)calculate TISA"),
                    #downloadButton('tisa_down', label = "Download"),
                    actionButton("excel","(Re)generate Excel spreadsheet"),
                    downloadButton('xls_down', label = "Download")
                ),
                mainPanel(
+                   tableOutput("err"),
                    verbatimTextOutput("dbcopydate")
                    #plotOutput('plot', width = "300px", height = "300px")
                ))

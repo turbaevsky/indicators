@@ -136,8 +136,7 @@ shinyServer(function(input, output, clientData, session) {
     })
     # Excel (re)generation ######################################################
     observeEvent(input$excel,withProgress(message = 'Selected quarter TISA & excel (re)generation',value=0,xls(input$repqtr)))
-
-
+    output$table <- renderTable(err())
     output$dbcopydate <- renderPrint(dbcopy)
 
     output$sourceData <- renderDataTable(sourceData(),options=list(paging = FALSE,searching=FALSE))
@@ -483,7 +482,7 @@ shinyServer(function(input, output, clientData, session) {
             else U <- activeStation(input$qrrqtr)
             for (u in U){
             #for (u in c(1200:1300)){
-                incProgress(1/length(U),detail = u)
+                incProgress(1/length(U),detail = nameByID(u))
                 for (e in elByInd[[input$qrrind]]){
                                         # Avg ffrom 2007
                     avg <- mean(subset(data,SourceId == u & YrMn %in% qtrs & ElementCode == e & RecStatus == ' ',ElementValue)[[1]])

@@ -127,9 +127,9 @@ for (u in activeStation(startDate))
 	{
 	#print(u)
 	start.unit.time <-Sys.time()
-	print(paste('Unit ',u,': #',no,' from ',length(activeStation(startDate))))
+	#print(paste('Unit ',nameByID(u),': #',no,' from ',length(activeStation(startDate))))
         #setTxtProgressBar(pb, no)
-        incProgress(1/length(activeStation(startDate)),detail=u)
+        incProgress(1/length(activeStation(startDate)),detail=nameByID(u))
 
 	centre <- unique(subset(relation,relation$LocId == u & relation$RelationId == 1
 		& as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))
@@ -228,8 +228,12 @@ for (u in activeStation(startDate))
 			}
 		}
 		}
-        #print(dataset)
-	sheet <- rbind(sheet,t(dataset)) ###############################################
+                                        #print(dataset)
+            tryCatch(sheet <- rbind(sheet,t(dataset)),error = function(e){
+                err <- paste('Error in',nameByID(u),'data')
+                print(err)
+                return(err)
+            })
 	no <- no + 1
 	try(unit.time <- Sys.time() - start.unit.time)
 	eta <- as.integer(unit.time*(length(activeStation(startDate))-no+1))
@@ -240,7 +244,7 @@ for (u in activeStation(startDate))
 	fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results.csv',sep='')
 	write.csv(sheet,file=fn)
 	#print('File has been saved')
-	close(pb)
+	#close(pb)
 	#noDate <- noDate + 1
 	msg <- paste('CSV file has been completed for',startDate)
 	#bot$sendMessage(msg)
