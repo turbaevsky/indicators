@@ -254,8 +254,9 @@ shinyServer(function(input, output, clientData, session) {
             withProgress(message="Calculating...",value=0,submitProgress(input$subqtr,FALSE)))
     output$submitting <- renderPrint(sub())
 ################################ Indicator trend ##############################
-    iPlot <- reactive(indicatorSummary(input$trendind,input$outliers,input$rType))
+    iPlot <- reactive(indicatorSummary(input$trendind,input$outliers,input$rType,input$country))
     output$indtrend <- renderPlot(iPlot())
+    #output$Atable <- renderDataTable(iPlot$A)
 
 ################################ PIRA #########################################
     histAll <- reactive({

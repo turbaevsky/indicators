@@ -73,8 +73,11 @@ NumOfMonths <- 36
 # Define list of units by RC
 
 # Calculate the trend and plot a picture =================================================
-indicatorSummary <- function(i,outliers=FALSE,rT)
+indicatorSummary <- function(i,outliers=FALSE,rT,sel)
 {
+    CSel <- country[[sel]]
+    #print(CSel)
+    uByCountry <- unique(unlist(subset(place,CountryId %in% CSel & PlaceTypeId %in% c(19,22),LocId)))
 #print(i)
 if (i %in% c("CRE  ","US7  "))
 	{ creId <- 0; us7Id <- 0; creIs <- 0; us7Is <- 0 # Individual and industry targets
@@ -89,14 +92,32 @@ if (i %in% c("CRE  ","US7  "))
           print(rT)
           print(type)
           res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList
-                        & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
+                        & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type])
+                        & r$LocId %in% uByCountry)
           lastRes <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == lastDate
-                            & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type]))
+                            & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type])
+                            & r$LocId %in% uByCountry)
 		#print(paste(i,rType[type]))
 		#print('All results')
 		#print(summary(res))
 		#print('Last results')
-		#print(summary(lastRes))
+                                        #print(summary(lastRes))
+### Averaged result (table) ###
+          A <- list()
+          for (d in dateList){
+              y1 <- unlist(subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == d
+                        & r$NumOfMonths == 12 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type])
+                        & r$LocId %in% uByCountry,ResultsValue))
+              y3 <- unlist(subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == d
+                        & r$NumOfMonths == 36 & r$NonQualCode != 'M' & r$LocId %in% unlist(uType$rType[type])
+                        & r$LocId %in% uByCountry,ResultsValue))
+              A <- rbind(A,c(d,mean(y1),sum(y1), mean(y3)))
+              }
+          colnames(A) <- c('YrMn','Avg.1-yr','Sum.1-yr','Avg.3-yr')
+          print(A)
+          #iPlot$A <- A
+
+
           b <- boxplot.stats(unlist(res[5]))
           print(paste(i,rType[type],lims(b))) # print the data quartiles
           l <- length(b$out)/length(dateList) # Average number of outliers a year
@@ -254,9 +275,9 @@ if (!i %in% c("CRE  ","US7  ","TISA2"))
 {
     print('Other indicators...')
 	res <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn %in% dateList &
-		r$NumOfMonths == 36 & r$NonQualCode != "M")
+		r$NumOfMonths == 36 & r$NonQualCode != "M" & r$LocId %in% uByCountry)
 	lastRes <- subset(r,r$IndicatorCode==i & r$PeriodEndYrMn == lastDate &
-		r$NumOfMonths == 36 & r$NonQualCode != "M")
+		r$NumOfMonths == 36 & r$NonQualCode != "M" & r$LocId %in% uByCountry)
 
 	#print(summary(res))
 	#print(i)

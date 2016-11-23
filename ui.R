@@ -146,10 +146,12 @@ navbarPage("Performance Analysis",
                                choices = i),
                    selectInput("rType","Reactor type (for CRE and US7 only):",
                                choices = rType),
+                   selectInput('country','Country:',choices = names(country)),
                    checkboxInput("outliers","Show outliers",value=FALSE)
                    ),
                mainPanel(
-                   plotOutput("indtrend",height = '600px')
+                   plotOutput("indtrend",height = '600px'),
+                   tableOutput('Atable')
                ))
            ),
 
