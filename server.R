@@ -502,6 +502,15 @@ shinyServer(function(input, output, clientData, session) {
     })
     output$qrrt <- renderDataTable(qrr(),options=list(paging = FALSE,searching=FALSE))
 
+### Unit index ###
+    UIdx <- reactive({
+        uNo <- subset(place,place$AbbrevLocName %in% input$idxName)[[1]]
+        r <- UIndex(uNo,input$idxQtr)
+    })
+    output$UIdx <- renderDataTable(UIdx(),options=list(paging = FALSE,searching=FALSE))
+    #output$UIdx <- renderText(UIdx())
+
+
 ############################### The end #################################
 
 })

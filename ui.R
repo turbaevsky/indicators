@@ -65,7 +65,7 @@ navbarPage("Performance Analysis",
                sidebarPanel(
                    actionButton("update","Update DB"),
                    selectInput("repqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,1)[-1]),
+                               choices = qtrs,selected=tail(qtrs,1)),
                    #actionButton("tisa","(Re)calculate TISA"),
                    #downloadButton('tisa_down', label = "Download"),
                    actionButton("excel","(Re)generate Excel spreadsheet"),
@@ -210,5 +210,17 @@ navbarPage("Performance Analysis",
                    dataTableOutput("scrams"),
                    plotOutput("words")
                ))
-           )
-    )
+           ),
+### Indexes ###
+  tabPanel("Unit index (online)",
+           sidebarLayout(
+               sidebarPanel(
+                   selectizeInput("idxName", "Unit:",
+                                  choices = uNames,selected = uNames[1], multiple=FALSE),
+                   selectizeInput("idxQtr", "Quarter:",
+                                  choices = qtrs,selected=tail(qtrs,2)[-2],multiple=FALSE)),
+           mainPanel(
+               dataTableOutput("UIdx")
+               #verbatimTextOutput("UIdx")
+           )))
+  )

@@ -39,6 +39,7 @@ uData <- readRDS('DBCopy/PI_UnitData.rds')
 place <- readRDS('DBCopy/PI_Place.rds')
 submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
 idx <- readRDS('DBCopy/PI_ResultsIndex.rds')
+rTypes <- readRDS('DBCopy/PI_NsssTypeLookup.rds')
 ###
 data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
 data <- subset(data, YrMn>=200700)
@@ -54,6 +55,7 @@ comms <- readRDS('DBCopy/PI_IndComments.rds')
 dateType <- readRDS('DBCopy/PI_UnitDateTypeLookup.rds')
 elem <- readRDS('DBCopy/PI_LabelCodes.rds')
 effDate <- readRDS('DBCopy/PI_IndEffectiveDatedValues.rds')
+cycle <- readRDS('DBCopy/PI_ResultsIndexCycleMns.rds')
 
 dbcopy <- readRDS('DBCopy/PI_DataStatus.rds')
 
@@ -74,6 +76,7 @@ source('submit.r')
 source('indicators.R')
 source('scrams.r')
 source('tisa2.r')
+source('index.r')
 
 #qtrs <- sort(unique(unlist(subset(data,select=YrMn)))) # not sure if it is OK <<<<<<<
 
