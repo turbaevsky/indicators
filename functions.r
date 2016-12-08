@@ -138,7 +138,7 @@ plantID <- function(uID){
 }
 
 ### Name by ID
-nameByID <- function(ID) return(as.character(subset(place,LocId==ID,AbbrevLocName)[[1]]))
+nameByID <- function(ID) return(as.character(subset(place,LocId %in% ID,AbbrevLocName)[[1]]))
 ### Elem by code
 elByCode <- function(code) return(as.character(subset(elem,LabelCode==code,LabelText)[[1]]))
 

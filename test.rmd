@@ -1,0 +1,104 @@
+---
+title: 'WANO Long-Term Targets Report'
+output: html_document
+---
+```{r kable, fig.width=8, fig.height=4, warning=FALSE, eval=TRUE, message=FALSE, tidy=TRUE, dev='png', echo=FALSE, fig.show='hold', fig.align='center'}
+#library(knitr)
+ww <- readRDS('LTT/Worldwide_LTT_201609.rds')
+#kable(ww)
+rc <- readRDS('LTT/RCs_LTT_201609.rds')
+
+                                        #for (centre in c('AC','MC','PC','TC')){
+#kable(subset(rc,Centre=='AC'))
+#kable(subset(rc,Centre=='MC'),row.names=F)
+#kable(subset(rc,Centre=='PC'),row.names=F)
+#kable(subset(rc,Centre=='TC'),row.names=F)
+
+
+                                        #}
+### Tables to radar
+plot3 <- ggplot(rc,aes(unlist(Indicator),unlist(Ind.percentage),group=unlist(Centre),color=unlist(Centre)))+
+    coord_polar()+
+    geom_point()+
+    geom_line()+
+    theme(legend.title=element_blank(),axis.title.x=element_blank(),axis.title.y=element_blank())+
+    ggtitle('The most recent percentage of units\nmeeting individual targets')
+return(plot3)
+
+plot4 <- ggplot(rc,aes(unlist(Indicator),unlist(Indust.percentage),group=unlist(Centre),color=unlist(Centre)))+
+    coord_polar()+
+    geom_point()+
+    geom_line()+
+    theme(legend.title=element_blank(),axis.title.x=element_blank(),axis.title.y=element_blank())+
+    ggtitle('The most recent percentage of units\nmeeting industry targets')
+return(plot4)
+
+
+### plotting
+#library(ggplot2)
+dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201609)
+data <- data.frame()
+### Read RC and WW data
+for (date in dateRange){
+    fn <- paste('LTT/RCs_LTT_',date,'.rds',sep='')
+    wwfn <- paste('LTT/Worldwide_LTT_',date,'.rds',sep='')
+    d <- readRDS(fn)
+    d <- cbind(date=substr(date,1,4),d)
+    data <- rbind(data,d)
+    d <- readRDS(wwfn)
+    d <- cbind(date=substr(date,1,4),d)
+    data <- rbind(data,d)
+}
+colnames(data)[4] <- 'IndPerc'
+colnames(data)[5] <- 'IndustPerc'
+indPerc <- cbind(subset(data,select=c(date,Centre,Indicator,IndPerc)),param='Individual')
+colnames(indPerc)[4] <- 'percentage'
+idsPerc <- cbind(subset(data,select=c(date,Centre,Indicator,IndustPerc)),param='Industry')
+colnames(idsPerc)[4] <- 'percentage'
+dd <- rbind(indPerc,idsPerc)
+### charting
+ind <- c('FLR','CRE','TISA','US7','SSPI')
+                                        #ind <- 'FLR'
+plt <- function(i){
+    f <- subset(dd,Indicator==i)
+    fn <- paste(i,'.png',sep='')
+    plt <- ggplot(f)+
+        geom_line(aes(x=date,y=unlist(percentage),group=unlist(Centre),color=unlist(Centre)))+
+        ylab('Percentage of units met target')+
+        theme(legend.title=element_blank())+
+        geom_hline(aes(yintercept=75,color='Industry target'))+
+        geom_hline(aes(yintercept=100,color='Individual target'))+
+        facet_grid(param~.)+
+        ggtitle(paste(i,'performance'))
+                                        #ggsave(fn)
+    return(plt)
+}
+
+for (i in ind) plot(plt(i))
+### Metrics
+M <- data.frame()
+cByCode <- c('AC','MC','PC','TC')
+mByCode <- c('PI1','LTP2','PI2andLTP1')
+                                        #dR <- c(201112,201212,201312,201412,201512,201609)
+dR <- dateRange
+for (date in dR){
+    fn <- paste('metrics/metrics_',date,'.rds',sep='')
+    file <- readRDS(fn)
+    for (metric in c(1:3)){
+        for (centre in c(1:4)){
+            M <- rbind(M,cbind(date,mByCode[metric],cByCode[centre],file[metric,centre]))
+        }}}
+colnames(M) <- c('date','metrics','centre','value')
+plt2 <- ggplot(M)+
+    geom_path(aes(x=factor(date),y=as.numeric(as.character(value)),group=factor(centre),color=factor(centre)))+
+    theme(legend.title=element_blank(),axis.title.y=element_blank())+
+    facet_grid(metrics~.,scales="free_y")+
+    ylab('Number')+
+    xlab('Quarter')+
+    ggtitle('PI programme metrics')
+return(plt2)
+```
+
+- PI-1 metric: unit and station reported out of 45 days period,
+- LTP-2 metric: time to promote data,
+- PI-2 metric: unit and station did not report any source data
