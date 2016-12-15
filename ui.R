@@ -14,7 +14,7 @@ navbarPage("Performance Analysis",
       selectizeInput("name", "Unit:",
                   choices = uNames,selected = uNames[1], multiple=FALSE),
       selectizeInput("qtr", "Quarter:",
-                  choices = qtrs,selected=tail(qtrs,2)[-2],multiple=FALSE),
+                  choices = qtrs,selected=tail(qtrs,1),multiple=FALSE),
       selectizeInput("ind","Indicator and source data for:",
                   choices = i, selected = i[1], multiple=FALSE),
       selectInput("window","Data window, months:",
@@ -47,7 +47,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                   selectInput("outqtr", "Quarter:",
-                              choices = qtrs,selected=tail(qtrs,2)[-2]),
+                              choices = qtrs,selected=tail(qtrs,1)),
                   selectInput("outind","Indicator and source data for:",
                               choices = i),
                   selectInput("outwindow","Data window, months:",
@@ -81,17 +81,17 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectizeInput("PRname", "Unit:",
-                                  choices = uNames,selected = uNames[1], multiple=TRUE),
-                   #selectizeInput("qtr", "Quarter:",
-                   #               choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
+                                  choices = uNames,selected = uNames[1], multiple=FALSE),
+                   selectizeInput("PIRAqtr", "Quarter:",
+                                  choices = qtrs,selected=tail(qtrs,1),multiple=FALSE),
                    selectizeInput("PRind","Indicator and source data for:",
                                   choices = i, selected = i[1], multiple=FALSE),
                    selectInput("PRwindow","Data window, months:",
                                choices = c(3,24,36), selected = 36),
                    selectInput("dist","Distribution:",choices = c('Worldwide','Same reactor type','Same reactor type and RC')),
-                   radioButtons('rStyle','Report style:',
-                   c("WANO AC style" = 'ac',
-                     "WANO PC style" = 'pc')),
+                   #radioButtons('rStyle','Report style:',
+                   #c("WANO AC style" = 'ac',
+                   #  "WANO PC style" = 'pc')),
                    checkboxInput("piraTable","Create and show downloadable report",value=FALSE),
                    downloadButton('PIRA', label = "Download")
                ),
@@ -106,7 +106,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectInput("lttqtr", "Quarter:",
-                               choices = qtrs,selected=tail(qtrs,2)[-2]),
+                               choices = qtrs,selected=tail(qtrs,1)),
                    checkboxInput("LTTChart","Chart",value=TRUE),
                    actionButton("qreport","(Re)create LTT report and update the LTT data"),
                    downloadButton('qRepDown', 'Download')
@@ -116,13 +116,17 @@ navbarPage("Performance Analysis",
                    dataTableOutput("rcltt"),
                    plotOutput("wwlttplot", width = "400px"),
                    plotOutput("wwilttplot", width = "400px"),
-                   plotOutput("rclttplot", width = "400px")
+                   #plotOutput("rclttplot", width = "400px"),
+                   plotOutput("IndLTT", width = "400px"),
+                   plotOutput("IndustLTT", width = "400px"),
+                   plotOutput("FLR", width = "400px")
+
            ))),
   tabPanel("PI metrics",
            sidebarLayout(
                sidebarPanel(
                    selectizeInput("metricsqtr", "Quarter(s):",
-                               choices = qtrs,selected=tail(qtrs,2)[-2],multiple=TRUE),
+                               choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
                    #selectInput("metricsFirstQtr", "Starting quarter:",
                                #choices = qtrs,selected=qtrs[1]),
                    selectizeInput("centre","Centre No.(1=AC, 2=MC, 3=PC, 4=TC):",
@@ -218,7 +222,7 @@ navbarPage("Performance Analysis",
                    selectizeInput("idxName", "Unit:",
                                   choices = uNames,selected = uNames[1], multiple=FALSE),
                    selectizeInput("idxQtr", "Quarter:",
-                                  choices = qtrs,selected=tail(qtrs,2)[-2],multiple=FALSE)),
+                                  choices = qtrs,selected=tail(qtrs,1),multiple=FALSE)),
            mainPanel(
                dataTableOutput("UIdx")
                #verbatimTextOutput("UIdx")

@@ -4,7 +4,7 @@
 #######################################################################################
 
 # TODO:
-# Fix Qreport.r date transfer
+# Fix Qreport.rnw last date (currently manually)
 
 #source('data.r')
 
@@ -131,7 +131,7 @@ shinyServer(function(input, output, clientData, session) {
     # (Re)create QReport ########################################################
     observeEvent(input$qreport,{
         withProgress(message = 'Selected quarter LTT report (re)generation',value=0,generate(input$lttqtr))
-        Sweave('Qreport.rnw')
+        Sweave('Qreport.rnw') #<<<<<<<<<<<<<<<<<<<<<<<<< The last date have to be switched manually
         system("C:\\Users\\volodymyr.turbaevsky\\portable\\MKTex\\miktex\\bin\\pdflatex.exe Qreport.tex")
     })
     # Excel (re)generation ######################################################
@@ -171,6 +171,34 @@ shinyServer(function(input, output, clientData, session) {
         rcltt <- readRDS(fn)
         #barplot((unlist(ltt$Ind.percentage),names.arg = unlist(ltt$Indicator))
     })
+### Plotting industry and individual targets by ggplot
+    library(ggplot2)
+    output$IndLTT <- renderPlot(if (input$LTTChart){
+        fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
+        rc <- readRDS(fn)
+        fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
+        ww <- readRDS(fn)
+        plot3 <- ggplot(rc,aes(unlist(Indicator),unlist(Ind.percentage),group=unlist(Centre),color=unlist(Centre)))+
+            coord_polar()+
+            geom_point()+
+            geom_line()+
+            theme(legend.title=element_blank(),axis.title.x=element_blank(),axis.title.y=element_blank())+
+            ggtitle('The most recent percentage of units\nmeeting individual targets')
+        print(plot3)
+                                })
+        output$IndustLTT <- renderPlot(if (input$LTTChart){
+        fn <- paste('LTT/RCs_LTT_',input$lttqtr,'.rds',sep='')
+        rc <- readRDS(fn)
+        fn <- paste('LTT/Worldwide_LTT_',input$lttqtr,'.rds',sep='')
+        ww <- readRDS(fn)
+        plot3 <- ggplot(rc,aes(unlist(Indicator),unlist(Indust.percentage),group=unlist(Centre),color=unlist(Centre)))+
+            coord_polar()+
+            geom_point()+
+            geom_line()+
+            theme(legend.title=element_blank(),axis.title.x=element_blank(),axis.title.y=element_blank())+
+            ggtitle('The most recent percentage of units\nmeeting industry targets')
+        print(plot3)
+                                       })
 
 
     output$wwltt <- renderDataTable(ltt(),options=list(paging = FALSE,searching=FALSE))
@@ -279,20 +307,20 @@ shinyServer(function(input, output, clientData, session) {
             Id <- plantID(Id)
         print(Id)
 ### Results distribution ###
-        mRes <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+        mRes <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
         if (input$dist == 'Worldwide')
             res <- mRes
         if (input$dist == 'Same reactor type' && !(input$PRind %in% plants))
-            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
         if (input$dist == 'Same reactor type' && input$PRind %in% plants)
-            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
         if (input$dist == 'Same reactor type and RC' && !(input$PRind %in% plants))
-            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
         if (input$dist == 'Same reactor type and RC' && input$PRind %in% plants)
-            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
+            res <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
         print(paste('Length of res=',length(res)))
 ### Unit value ###
-        x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+        x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
         print(x)
 ################################# Plot the histogram ###############################
 ### colors ###
@@ -301,30 +329,33 @@ shinyServer(function(input, output, clientData, session) {
         t<- cbind(color,c(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))
         #print(color)
         #print(tcolor)
-        if (input$rStyle == 'ac'){
+                                        #if (input$rStyle == 'ac'){
+
             hist(res, breaks=10, col = 'green', xlab = 'indicator value ranges',ylab = 'number of units',main = paste(input$PRind,input$dist,'values distribution and unit(s) result'))
             for (i in c(1:length(x))){
                 points(x=x[i],y=0,pch=19,cex=3,col=rgb(t[i,1],t[i,2],t[i,3],t[i,4]))
                 text(x=x[i],y=0,signif(x[i],2))
             }
             legend('topright',legend=input$PRname,text.col=rgb(color))
-        }
+        #}
 ### Create a table in the PC style ###
-        if (input$rStyle == 'pc'){
+        #if (input$rStyle == 'pc'){
             col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
             pcResult <- list()
 ### tendency ###
-            xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-            x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
-            xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+            xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+            x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
+            xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+            print(c(x,xOld))
             for (i in c(1:length(x))){
                 if (x[i]==xOld[i]) tendency <- '0'
-                if (x[i]<xOld[i]*0.7) tendency <- '<font color=#008000><b>++</b></font>'
-                if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '<font color=#008000><b>+</b></font>'
-                if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '<font color=#FF0000><b>-</b></font>'
-                if (x[i]>xOld[i]*1.3) tendency <- '<font color=#FF0000><b>--</b></font>'
+                if (x[i]<xOld[i]*0.7) tendency <- '++'
+                if (x[i]>xOld[i]*0.7 && x[i]<=xOld[i]) tendency <- '+'
+                if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
+                if (x[i]>xOld[i]*1.3) tendency <- '--'
 ### Which quantile ###
-                X <- "<font color=#FF0000><b>X</b></font>"
+                X <- "X"
+                print(paste('Quantile:',quantile(res)))
                 if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c(X,'','','','')
                 if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('',X,'','','')
                 if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','',X,'','')
@@ -337,14 +368,14 @@ shinyServer(function(input, output, clientData, session) {
             }
             colnames(pcResult) <- col
             print(pcResult)
-        }
+        #}
     })
 
     output$acAll <- renderPlot(histAll())
     output$pc <- renderDataTable(histAll(),options=list(paging = FALSE,searching=FALSE))
 
 ### Create PC style downloadable report ###<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    pcAll <- reactive(if (input$rStyle == 'pc' && input$piraTable){
+    pcAll <- reactive(if (input$piraTable){
                           withProgress(message="Calculating...",value=0,
                           {
                               pcAll <- list()
@@ -361,23 +392,24 @@ shinyServer(function(input, output, clientData, session) {
                                   else
                                       Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
 ### Results distribution ###
-                                  mRes <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  mRes <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
                                   if (input$dist == 'Worldwide')
                                       res <- mRes
                                   if (input$dist == 'Same reactor type' && !(indicator %in% plants))
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
                                   if (input$dist == 'Same reactor type' && indicator %in% plants)
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
                                   if (input$dist == 'Same reactor type and RC' && !(indicator %in% plants))
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
                                   if (input$dist == 'Same reactor type and RC' && indicator %in% plants)
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
+                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
 ### Current value(s) ###
-                                  xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-                                  x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,2)[-2] & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
+                                  xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+                                  x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
 
 ### tendency ###
-                                  xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==tail(qtrs,3)[-3] & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+                                  xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+                                  print(paste(indicator,'x=',x,'xOld=',xOld))
                                   for (i in c(1:length(x))){
                                       if (x[i]==xOld[i]) tendency <- '0'
                                       if (x[i]<xOld[i]*0.7) tendency <- '++'
@@ -385,7 +417,8 @@ shinyServer(function(input, output, clientData, session) {
                                       if (x[i]>xOld[i] && x[i]<=xOld[i]*1.3) tendency <- '-'
                                       if (x[i]>xOld[i]*1.3) tendency <- '--'
 ### Which quantile ###
-                                      X <- "<font color=#FF0000><b>X</b></font>"
+                                      X <- "X"
+                                      print(paste('Quantile:',quantile(res)))
                                       if (x[i]>=quantile(res)[[1]] && x[i]<=quantile(res)[[2]]) Q <- c(X,'','','','')
                                       if (x[i]>=quantile(res)[[2]] && x[i]<=quantile(res)[[3]]) Q <- c('',X,'','','')
                                       if (x[i]>=quantile(res)[[3]] && x[i]<=quantile(res)[[4]]) Q <- c('','',X,'','')
