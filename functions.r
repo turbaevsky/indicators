@@ -142,4 +142,41 @@ nameByID <- function(ID) return(as.character(subset(place,LocId %in% ID,AbbrevLo
 ### Elem by code
 elByCode <- function(code) return(as.character(subset(elem,LabelCode==code,LabelText)[[1]]))
 
-##############################
+### Tendency for PC-style report
+tendency <- function(indicator,x,xOld){
+    if (indicator!='UCF  '){
+            if (x==xOld) tendency <- '0'
+            if (x<xOld*0.7) tendency <- '++'
+            if (x>xOld*0.7 && x<=xOld) tendency <- '+'
+            if (x>xOld && x<=xOld*1.3) tendency <- '-'
+            if (x>xOld*1.3) tendency <- '--'
+        }
+    else {
+            if (x==xOld) tendency <- '0'
+            if (x>xOld*0.7) tendency <- '++'
+            if (x<xOld*0.7 && x>=xOld) tendency <- '+'
+            if (x<xOld && x>=xOld*1.3) tendency <- '-'
+            if (x<xOld*1.3) tendency <- '--'
+        }
+    return(tendency)
+}
+
+### Quartile info for PC-style report
+quart <- function(indicator,x,res){
+    X <- "X"
+    if (indicator!='UCF  '){
+        if (x>=quantile(res)[[1]] && x<=quantile(res)[[2]]) Q <- c(X,'','','','')
+        if (x>=quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- c('',X,'','','')
+        if (x>=quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- c('','',X,'','')
+        if (x>=quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- c('','','',X,'')
+        if (x>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','',X,X)
+    }
+    else {
+        if (x<=quantile(res)[[1]] && x>=quantile(res)[[2]]) Q <- c(X,'','','','')
+        if (x<=quantile(res)[[2]] && x>=quantile(res)[[3]]) Q <- c('',X,'','','')
+        if (x<=quantile(res)[[3]] && x>=quantile(res)[[4]]) Q <- c('','',X,'','')
+        if (x<=quantile(res)[[4]] && x>=quantile(res)[[5]]) Q <- c('','','',X,'')
+        if (x<=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','',X,X)
+    }
+    return(Q)
+    }
