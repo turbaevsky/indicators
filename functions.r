@@ -106,6 +106,8 @@ activeStation <- function(startDate,mode='u') # Getting active units list
                                  #& IsDeleted == 0, LocId))
         #INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),unlist(Station)) # US plants
     }
+    if (mode=='a'){
+        Station <- c(activeStation(startDate,'u'),activeStation(startDate,'p'))}
     return(Station)
 }
 
