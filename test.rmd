@@ -2,8 +2,11 @@
 title: 'WANO Long-Term Targets Report'
 output: html_document
 ---
-```{r kable, fig.width=8, fig.height=4, warning=FALSE, eval=TRUE, message=FALSE, tidy=TRUE, dev='png', echo=FALSE, fig.show='hold', fig.align='center'}
+```{r, warning=FALSE, eval=TRUE, message=FALSE, tidy=TRUE, dev='png', echo=FALSE, fig.width=6}
 #library(knitr)
+library(ggplot2)
+source('shiny/data.r')
+source('functions.r')
 ww <- readRDS('LTT/Worldwide_LTT_201609.rds')
 #kable(ww)
 rc <- readRDS('LTT/RCs_LTT_201609.rds')
@@ -17,21 +20,29 @@ rc <- readRDS('LTT/RCs_LTT_201609.rds')
 
                                         #}
 ### Tables to radar
+                                        #library(ggplot)
+library(grid)
+grid.newpage()
 plot3 <- ggplot(rc,aes(unlist(Indicator),unlist(Ind.percentage),group=unlist(Centre),color=unlist(Centre)))+
     coord_polar()+
     geom_point()+
     geom_line()+
     theme(legend.title=element_blank(),axis.title.x=element_blank(),axis.title.y=element_blank())+
     ggtitle('The most recent percentage of units\nmeeting individual targets')
+ggsave('plot3.png')
 return(plot3)
 
+cat('\r\n\r\n')
+grid.newpage()
 plot4 <- ggplot(rc,aes(unlist(Indicator),unlist(Indust.percentage),group=unlist(Centre),color=unlist(Centre)))+
     coord_polar()+
     geom_point()+
     geom_line()+
     theme(legend.title=element_blank(),axis.title.x=element_blank(),axis.title.y=element_blank())+
     ggtitle('The most recent percentage of units\nmeeting industry targets')
+ggsave('plot4.png')
 return(plot4)
+cat('\r\n\r\n')
 
 
 ### plotting
@@ -70,35 +81,39 @@ plt <- function(i){
         geom_hline(aes(yintercept=100,color='Individual target'))+
         facet_grid(param~.)+
         ggtitle(paste(i,'performance'))
-                                        #ggsave(fn)
+        ggsave(fn)
     return(plt)
 }
 
 for (i in ind) plot(plt(i))
 ### Metrics
+print('Calculate and plot metrics...')
 M <- data.frame()
 cByCode <- c('AC','MC','PC','TC')
 mByCode <- c('PI1','LTP2','PI2andLTP1')
-                                        #dR <- c(201112,201212,201312,201412,201512,201609)
 dR <- dateRange
-for (date in dR){
-    fn <- paste('metrics/metrics_',date,'.rds',sep='')
+for (d in dR){
+    fn <- paste('metrics/metrics_',d,'.rds',sep='')
     file <- readRDS(fn)
+    print(paste('file',fn,'has read'))
     for (metric in c(1:3)){
         for (centre in c(1:4)){
-            M <- rbind(M,cbind(date,mByCode[metric],cByCode[centre],file[metric,centre]))
+            M <- rbind(M,cbind(d,mByCode[metric],cByCode[centre],file[metric,centre]))
         }}}
 colnames(M) <- c('date','metrics','centre','value')
 plt2 <- ggplot(M)+
-    geom_path(aes(x=factor(date),y=as.numeric(as.character(value)),group=factor(centre),color=factor(centre)))+
+    geom_path(aes(x=factor(d),y=as.numeric(as.character(value)),group=factor(centre),color=factor(centre)))+
     theme(legend.title=element_blank(),axis.title.y=element_blank())+
     facet_grid(metrics~.,scales="free_y")+
     ylab('Number')+
     xlab('Quarter')+
     ggtitle('PI programme metrics')
+ggsave('metrics.png')
 return(plt2)
 ```
 
-- PI-1 metric: unit and station reported out of 45 days period,
-- LTP-2 metric: time to promote data,
-- PI-2 metric: unit and station did not report any source data
+- PI-1 metric: unit and station reported out of 45 days period, number
+  (target is 0);
+- LTP-2 metric: time to promote data, days (target is 60);
+- PI-2 metric: unit and station did not report any source data, number
+  (target is 0 units);
