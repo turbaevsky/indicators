@@ -147,8 +147,8 @@ elByCode <- function(code) return(as.character(subset(elem,LabelCode==code,Label
 ### Tendency for PC-style report
 tendency <- function(indicator,x18,x36){
     if (indicator!='UCF  '){
-            if (x18==36) tendency <- '0'
-            if (x18<36*0.7) tendency <- '++'
+            if (x18==x36) tendency <- '0'
+            if (x18<x36*0.7) tendency <- '++'
             if (x18>x36*0.7 && x18<=x36) tendency <- '+'
             if (x18>x36 && x18<=x36*1.3) tendency <- '-'
             if (x18>x36*1.3) tendency <- '--'
@@ -168,16 +168,16 @@ quart <- function(indicator,x,res){
     X <- "X"
     if (indicator!='UCF  '){
         if (x>=quantile(res)[[1]] && x<=quantile(res)[[2]]) Q <- c(X,'','','','')
-        if (x>=quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- c('',X,'','','')
-        if (x>=quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- c('','',X,'','')
-        if (x>=quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- c('','','',X,'')
-        if (x>=quantile(res,probs=seq(0,1,0.1))[[9]]) Q <- c('','','',X,X)
+        if (x>quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- c('',X,'','','')
+        if (x>quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- c('','',X,'','')
+        if (x>quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- c('','','',X,'')
+        if (x>=quantile(res,probs=seq(0,1,0.1))[[9]] && x!=0) Q <- c('','','',X,X)
     }
     else {
-        if (x<=quantile(res)[[5]] && x>=quantile(res)[[4]]) Q <- c(X,'','','','')
-        if (x<=quantile(res)[[4]] && x>=quantile(res)[[3]]) Q <- c('',X,'','','')
-        if (x<=quantile(res)[[3]] && x>=quantile(res)[[2]]) Q <- c('','',X,'','')
-        if (x<=quantile(res)[[2]] && x>=quantile(res)[[1]]) Q <- c('','','',X,'')
+        if (x<=quantile(res)[[5]] && x>quantile(res)[[4]]) Q <- c(X,'','','','')
+        if (x<=quantile(res)[[4]] && x>quantile(res)[[3]]) Q <- c('',X,'','','')
+        if (x<=quantile(res)[[3]] && x>quantile(res)[[2]]) Q <- c('','',X,'','')
+        if (x<=quantile(res)[[2]] && x>quantile(res)[[1]]) Q <- c('','','',X,'')
         if (x<=quantile(res,probs=seq(0,1,0.1))[[2]]) Q <- c('','','',X,X)
     }
     return(Q)
