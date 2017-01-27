@@ -286,7 +286,9 @@ shinyServer(function(input, output, clientData, session) {
     output$indtrend <- renderPlot(iPlot())
     #output$Atable <- renderDataTable(iPlot$A)
 
+    ###########################################################################
 ################################ PIRA #########################################
+    ###########################################################################
     histAll <- reactive({
         Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
         print(paste('Id=',Id))
@@ -298,7 +300,7 @@ shinyServer(function(input, output, clientData, session) {
         print(paste('ReactorType=',rt))
         rc <- unique(unlist(subset(relation,relation$LocId %in% Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))) # Regional Centre
         print(paste('RC=',rc))
-        print(c(length(rt),length(rc)))
+        #print(c(length(rt),length(rc)))
         #if (length(rc)==1 && length(rt)==1 & !(input$PRind %in% plants)) updateSelectInput(session,'dist',choices = c('Worldwide','Same reactor type','Same reactor type and RC'))
         #if (length(rc)>1) updateSelectInput(session,'dist',choices = c('Worldwide','Same reactor type'))
         #if (length(rt)>1 || (input$PRind %in% plants)) updateSelectInput(session,'dist',choices = c('Worldwide'))
@@ -306,7 +308,8 @@ shinyServer(function(input, output, clientData, session) {
         if (input$PRind %in% plants) # Station's value
             Id <- plantID(Id)
         print(Id)
-### Results distribution ###
+        print(input$dist)
+### Results distribution for AC report ###
         mRes <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
         if (input$dist == 'Worldwide')
             res <- mRes
@@ -337,24 +340,40 @@ shinyServer(function(input, output, clientData, session) {
                 text(x=x[i],y=0,signif(x[i],2))
             }
             legend('topright',legend=input$PRname,text.col=rgb(color))
-        #}
+                                        #}
+        ############################################################################
 ### Create a table in the PC style ###
         #if (input$rStyle == 'pc'){
-            col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
-            pcResult <- list()
+            col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit Id','PI-36 result','PI-18 result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
+        pcResult <- list()
+        mRes36 <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+        if (input$dist == 'Worldwide')
+            res36 <- mRes36
+        if (input$dist == 'Same reactor type' && !(input$PRind %in% plants))
+            res36 <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+        if (input$dist == 'Same reactor type' && input$PRind %in% plants)
+            res36 <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
+        if (input$dist == 'Same reactor type and RC' && !(input$PRind %in% plants))
+            res36 <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+        if (input$dist == 'Same reactor type and RC' && input$PRind %in% plants)
+            res36 <- unlist(subset(r,IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
 ### tendency ###
-            xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-            x <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
-            xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
-            print(c(x,xOld))
-            for (i in c(1:length(x))){
-                tendency <- tendency(input$PRind,x[i],xOld[i])
+            #xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
+            x18 <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
+            x36 <- unlist(subset(r,LocId %in% Id & IndicatorCode==input$PRind & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+            print(paste('18/36 results are:',x18,x36))
+            for (i in c(1:length(x36))){
+                tendency <- tendency(input$PRind,x18[i],x36[i])
+                print(tendency)
 ### Which quantile ###
                 X <- "X"
-                print(paste('Quantile:',quantile(res)))
-                Q <- quart(input$PRind,x[i],res)
+                print(paste('Quantile:',quantile(res36)))
+                Q <- quart(input$PRind,x36[i],res36)
 ### create table ###
-                d <- c(input$PRind,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),Id[i],signif(xCur[[i]],2),tendency,length(res),unlist(Q))
+                if (input$PRind=='UCF  ')
+                    d <- c(input$PRind,signif(quantile(res36)[[4]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[2]],3),Id[i],signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q))
+                else
+                    d <- c(input$PRind,signif(quantile(res36)[[2]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[4]],3),Id[i],signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q))
                 #print(d)
                 pcResult <- rbind(pcResult,d)
             }
@@ -367,59 +386,69 @@ shinyServer(function(input, output, clientData, session) {
     output$pc <- renderDataTable(histAll(),options=list(paging = FALSE,searching=FALSE))
 
 ### Create PC style downloadable report ###<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    pcAll <- reactive(if (input$piraTable){
-                          withProgress(message="Calculating...",value=0,
-                          {
-                              pcAll <- list()
-                              Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
-                              plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
-                              rt <- unique(unlist(subset(uData,LocId %in% Id,NsssTypeId))) # Reactor type
-                              rc <- unique(unlist(subset(relation,relation$LocId %in% Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))) # Regional Centre
+    observeEvent(input$piraTable,{
+        withProgress(message="Calculating...",value=0,
+        {
+            pcAll <- list()
+            Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
+            plants <- c('SP5  ','ISA1 ','ISA2 ','CISA1','CISA2','TISA2')
+            rt <- unique(unlist(subset(uData,LocId %in% Id,NsssTypeId))) # Reactor type
+            rc <- unique(unlist(subset(relation,relation$LocId %in% Id & relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))) # Regional Centre
 ### Worldwide list ###
-                              for (indicator in c('CISA2','ISA2 ','CRE  ','CY   ','FLR  ','GRLF ','SP1  ','SP2  ','SP5  ','UA7  ','UCF  ','UCLF ','US7  ')){
-                                  incProgress(1/16,detail = indicator)
-                                  print(indicator)
-                                  if (indicator %in% plants) # Station's value
-                                      Id <- plantID(Id)
-                                  else
-                                      Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
+            for (indicator in c('CISA2','ISA2 ','CRE  ','CY   ','FLR  ','GRLF ','SP1  ','SP2  ','SP5  ','UA7  ','UCF  ','UCLF ','US7  ')){
+                incProgress(1/16,detail = indicator)
+                print(indicator)
+                if (indicator %in% plants) # Station's value
+                    Id <- plantID(Id)
+                else
+                    Id <- unique(unlist(subset(place,place$AbbrevLocName %in% input$PRname,LocId)))
 ### Results distribution ###
-                                  mRes <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-                                  if (input$dist == 'Worldwide')
-                                      res <- mRes
-                                  if (input$dist == 'Same reactor type' && !(indicator %in% plants))
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
-                                  if (input$dist == 'Same reactor type' && indicator %in% plants)
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
-                                  if (input$dist == 'Same reactor type and RC' && !(indicator %in% plants))
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
-                                  if (input$dist == 'Same reactor type and RC' && indicator %in% plants)
-                                      res <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
+                mRes36 <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+                if (input$dist == 'Worldwide')
+                    res36 <- mRes36
+                if (input$dist == 'Same reactor type' && !(indicator %in% plants))
+                    res36 <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]],ResultsValue))
+                if (input$dist == 'Same reactor type' && indicator %in% plants)
+                    res36 <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])),ResultsValue))
+                if (input$dist == 'Same reactor type and RC' && !(indicator %in% plants))
+                    res36 <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% uType$rType[[which(rTypeCode==rt)]] & LocId %in% unitsByCentre$uList[[which(centreCode==rc)]],ResultsValue))
+                if (input$dist == 'Same reactor type and RC' && indicator %in% plants)
+                    res36 <- unlist(subset(r,IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ' & LocId %in% unique(plantID(uType$rType[[which(rTypeCode==rt)]])) & LocId %in% unique(plantID(unitsByCentre$uList[[which(centreCode==rc)]])),ResultsValue))
 ### Current value(s) ###
-                                  xCur <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==input$PRwindow & NonQualCode == ' ',ResultsValue))
-                                  x <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
+                x36 <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+                x18 <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==18 & NonQualCode == ' ',ResultsValue))
 
 ### tendency ###
-                                  xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
-                                  for (i in c(1:length(x))){
-                                      print(paste(indicator,'x=',x,'xOld=',xOld))
-                                      tendency <- tendency(indicator,x[i],xOld[i])
+                                  #xOld <- unlist(subset(r,LocId %in% Id & IndicatorCode==indicator & PeriodEndYrMn==input$PIRAqtr & NumOfMonths==36 & NonQualCode == ' ',ResultsValue))
+                for (i in c(1:length(x36))){
+                    print(paste(indicator,'x36=',x36,'x18=',x18))
+                    tendency <- tendency(indicator,x18[i],x36[i])
 ### Which quantile ###
-                                      X <- "X"
-                                      print(paste('Quantile:',quantile(res)))
-                                      Q <- quart(indicator,x[i],res)
+                    X <- "X"
+                    print(paste('Quantile:',quantile(res36),"Result:",res36))
+                    Q <- quart(indicator,x36[i],res36)
 ### create table ###
-                                      d <- c(indicator,signif(quantile(res)[[2]],2),signif(quantile(res)[[3]],2),signif(quantile(res)[[4]],2),i,signif(xCur[[i]],2),tendency,length(res),unlist(Q))
-                                      print(d)
-                                      pcAll <- rbind(pcAll,d)
-                                  }}
-                              col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit No','PI result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
-                              colnames(pcAll) <- col
-                          })
-                          print(pcAll)
-                      })
+                    if (indicator=='UCF  ')
+                        d <- c(indicator,signif(quantile(res36)[[4]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[2]],3),i,signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q))
+                    else
+                        d <- c(indicator,signif(quantile(res36)[[2]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[4]],3),i,signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q))
+                    print(d)
+                    pcAll <- rbind(pcAll,d)
+                }}
+            col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit No','PI-36 result','PI-18 result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
+            colnames(pcAll) <- col
+        })
+        #print(pcAll)
+        output$pcAll <- renderDataTable(pcAll,options=list(paging = FALSE,searching=FALSE))
+        ### save to file ###
+        if (input$piraDown){
+            fn <- paste(trimws(input$PRname[[1]]),"_PIRA_",Sys.Date(),"_",input$dist,"_Report.csv", sep="")
+            print(fn)
+            write.csv(pcAll,fn)
+        }
+    })
 
-    output$pcAll <- renderDataTable(pcAll(),options=list(paging = FALSE,searching=FALSE))
+    #output$pcAll <- renderDataTable(pcAll,options=list(paging = FALSE,searching=FALSE))
 
                                         #observeEvent(updateSelectInput(session,'dist',selected = input$dist))
 

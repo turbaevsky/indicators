@@ -87,13 +87,13 @@ navbarPage("Performance Analysis",
                    selectizeInput("PRind","Indicator and source data for:",
                                   choices = i, selected = i[1], multiple=FALSE),
                    selectInput("PRwindow","Data window, months:",
-                               choices = c(3,24,36), selected = 36),
+                               choices = c(3,18,24,36), selected = 36),
                    selectInput("dist","Distribution:",choices = c('Worldwide','Same reactor type','Same reactor type and RC')),
                    #radioButtons('rStyle','Report style:',
                    #c("WANO AC style" = 'ac',
                    #  "WANO PC style" = 'pc')),
-                   checkboxInput("piraTable","Create and show downloadable report",value=FALSE),
-                   downloadButton('PIRA', label = "Download")
+                   actionButton("piraTable","Full PI report"),
+                   checkboxInput("piraDown","and save it",value=TRUE)
                ),
                mainPanel(
                    plotOutput('acAll', height = "600px"),
