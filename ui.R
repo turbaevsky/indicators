@@ -126,11 +126,11 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectizeInput("metricsqtr", "Quarter(s):",
-                               choices = qtrs,selected=tail(qtrs,1),multiple=TRUE),
+                               choices = qtrs,selected=tail(qtrs,1),multiple=F),
                    #selectInput("metricsFirstQtr", "Starting quarter:",
                                #choices = qtrs,selected=qtrs[1]),
                    selectizeInput("centre","Centre No.(1=AC, 2=MC, 3=PC, 4=TC):",
-                                  choices = c(1,2,3,4), selected = 1, multiple=TRUE),
+                                  choices = c(1,2,3,4), selected = 1, multiple=F),
                    checkboxInput("mDetail","Detailed metrics info",value=FALSE),
                    checkboxInput("mChart","Chart",value=FALSE)
                ),

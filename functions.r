@@ -67,8 +67,8 @@ dateToReal <- function(date,mode="b") # Convert the date likes 201512 to 2015-12
         else if (mode == 's' || mode == 'p')
         {
             if (mn<12) mn=mn+1 else {mn=1; yr=yr+1}
-            if (mode  == 's') Rdate <- as.Date(paste(yr,mn,'01'),"%Y %m %d")+45
-            else if (mode  == 'p') Rdate <- as.Date(paste(yr,mn,'01'),"%Y %m %d")+60
+            if (mode  == 's') Rdate <- as.Date(paste(yr,mn,'01'),"%Y %m %d")+46
+            else if (mode  == 'p') Rdate <- as.Date(paste(yr,mn,'01'),"%Y %m %d")+61
 }
 	return(Rdate)
 	}

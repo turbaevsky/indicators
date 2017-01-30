@@ -230,7 +230,7 @@ shinyServer(function(input, output, clientData, session) {
 
     metrics <- reactive(if (input$mDetail)
                             withProgress(message="Calculating...",value=0,
-                                         m(input$metricsqtr,as.numeric(input$centre))))
+                                         m(input$metricsqtr,as.numeric(input$centre),TRUE)))
     output$metrics <- renderPrint(metrics())
 ### charts
     #cNames <- c('AC','MC','PC','TC')
@@ -240,7 +240,8 @@ shinyServer(function(input, output, clientData, session) {
                                for (d in input$metricsqtr)
                                    res <- rbind(res,m(d,as.numeric(input$centre)))
                                print(res)
-                               mPlot <- barplot(res,names.arg = input$centre,legend = rownames(res),beside = TRUE, col = c("darkblue","green","yellow"))
+                               mPlot <- barplot(res,names.arg = input$centre,legend = rownames(res),
+                                                beside = TRUE, col = c("darkblue","green","yellow"))
                            }))
     output$pi1 <- renderPlot(mPlot())
 ############################ Outliers ##########################
