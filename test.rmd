@@ -124,8 +124,9 @@ ggsave('metrics.png')
 return(plt2)
 ```
 
-- PI-1 metric: unit and station reported out of 45 days period, number
+- PI-1 metric: unit(s) sent data to RC out of 45 days period, number
   (target is 0);
-- LTP-2 metric: time to promote data, days (target is 60);
-- PI-2 metric: unit and station did not report any source data, number
+- LTP-2 metric: time RC promoted data, days (target is 60);
+- PI-2 metric: unit(s) did not report 100% source data (based on
+  calculated results), number
   (target is 0 units);

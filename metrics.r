@@ -29,7 +29,7 @@ unitsByCentre <- uByCentre()
 res <- c()
 
 ############################### PI-1 ##################################
-    if (print) print('PI-1 metric: unit and station reported out of 45 days period')
+    if (print) print('PI-1 metric: unit(s) sent data to RC out of 45 days period')
     pi1res <- c()
 for (d in dates){
     for (centre in centres){
@@ -46,7 +46,7 @@ for (d in dates){
     }}
 res <- rbind(res,pi1res)
 ############################### LTP-2 ##################################
-if (print) print('LTP-2 metric: time to promote data')
+if (print) print('LTP-2 metric: time RC promoted data for calculation (target is 60)')
 ltp2 <- c()
 
 for (d in dates){
@@ -66,20 +66,20 @@ for (d in dates){
 res <- rbind(res,ltp2)
 ############################## PI-2 and LTP-1 ###################################
 # TODO: count a number
-    if (print) print('PI-2 metric: unit and station did not report any source data')
+    if (print) print('PI-2 metric: unit(s) not reported 100% valid source data (based on calculation results)')
     pi2ltp1 <- c()
 r <- subset(r,r$PeriodEndYrMn %in% dates)
 for (d in dates){
     for (centre in centres){
-        as <- activeStation(d,'p') # Active Plants
-        plants <- intersect(as,unlist(unitsByCentre$uList[centre]))
+#        as <- activeStation(d,'p') # Active Plants
+#        plants <- intersect(as,unlist(unitsByCentre$uList[centre]))
                                         #print(plants)
         #print('Plants')
-        for (p in plants){
-            reported <- length(unlist(subset(r,r$PeriodEndYrMn == d & r$LocId == p & r$NumOfMonths == 3 & NonQualCode == ' ',LocId)))
-            pi2 <- reported/5
-            name <- unlist(subset(place, place$LocId == p,AbbrevLocName))
-            if (!pi2 && print) print(paste(d,centreNames[centre],'Station:',name,p))}
+#        for (p in plants){
+#            reported <- length(unlist(subset(r,r$PeriodEndYrMn == d & r$LocId == p & r$NumOfMonths == 3 & NonQualCode == ' ',LocId)))
+#            pi2 <- reported/5
+#            name <- unlist(subset(place, place$LocId == p,AbbrevLocName))
+#            if (!pi2 && print) print(paste(d,centreNames[centre],'Station:',name,p))}
 ################### non-repoting Units
         #print('Units')
         as <- activeStation(d,'u') # Active Units
@@ -88,10 +88,11 @@ for (d in dates){
         cnt <- 0
         for (u in units){
             reported <- length(unlist(subset(r,r$PeriodEndYrMn == d & r$LocId == u & r$NumOfMonths == 3 & NonQualCode == ' ',LocId)))
+            #print(paste(u,reported))
             pi2 <- reported/11
-            name <- unlist(subset(place, place$LocId == p,AbbrevLocName))
+            name <- unlist(subset(place, place$LocId == u,AbbrevLocName))
             if (!pi2){
-                if (print) print(paste(d,centreNames[centre],'Unit:',name,p))
+                if (print) print(paste(d,centreNames[centre],'Unit:',name,u))
                 cnt <- cnt+1
             }}
         #incProgress(1/(length(centres)*length(dates)*3))

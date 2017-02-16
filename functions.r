@@ -98,17 +98,17 @@ activeStation <- function(startDate,mode='u') # Getting active units list
         Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
                                         #Station <- c(Station,10213) # Add La Hague
     }
-    if (mode=='p'){
-        Station <- merge(place,placeAttributes,by='LocId')
-        Station <- unique(unlist(subset(Station,PlaceTypeId == 19 & AttributeTypeId == 15 & as.Date(EndDate) >= as.Date('2100-01-01'),LocId)))# & AttributeTypeId == 7
-                                 #& EndDate >= dateToReal(startDate)
-                                 #& (StartDate <= dateToReal(startDate) | is.na(StartDate))
-                                 #& IsDeleted == 0, LocId))
-        #INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),unlist(Station)) # US plants
-    }
-    if (mode=='a'){
-        Station <- c(activeStation(startDate,'u'),activeStation(startDate,'p'))}
-    return(Station)
+#    if (mode=='p'){
+#        Station <- merge(place,placeAttributes,by='LocId')
+#        Station <- unique(unlist(subset(Station,PlaceTypeId == 19 & AttributeTypeId == 15 & as.Date(EndDate) >= as.Date('2100-01-01'),LocId)))# & AttributeTypeId == 7
+#                                 #& EndDate >= dateToReal(startDate)
+#                                 #& (StartDate <= dateToReal(startDate) | is.na(StartDate))
+#                                 #& IsDeleted == 0, LocId))
+#        #INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),unlist(Station)) # US plants
+#    }
+#    if (mode=='a'){
+#        Station <- c(activeStation(startDate,'u'),activeStation(startDate,'p'))}
+#    return(Station)
 }
 
 ### Units by centre ==================================
