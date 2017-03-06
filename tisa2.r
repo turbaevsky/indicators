@@ -5,7 +5,7 @@
 
 source('functions.r')
 
-tisa2 <- function(startDate)
+tisa2 <- function(startDate,session=TRUE,debug=FALSE)
 {
 print(startDate)
 iv <- data
@@ -18,7 +18,7 @@ iv <- data
 #	& activeStation$AttributeTypeId == 7 & activeStation$EndDate >= '9999-01-01'
 #	& (activeStation$StartDate <= dateToReal(startDate) | is.na(activeStation$StartDate)) & IsDeleted == 0, LocId)
 INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),activeStation(startDate,'p')) # US plants
-#print(INPOStation)
+#if (debug) print(INPOStation)
 # Additional filtering (manual)
 #activeStation <- unlist(activeStation)
 #activeStation <- activeStation[!activeStation %in% c(1360,10111,10115)]
@@ -27,33 +27,40 @@ INPOStation <- intersect(unlist(subset(place,place$CountryId==50, LocId)),active
 
 place <- data.frame(lapply(place, as.character), stringsAsFactors=FALSE)
 
-iList <- c('M1   ','M2   ','M3   ','M5   ','M6   ','M8   ')
-iList2 <- c('M4   ','M7   ')
+iList <- c('M1   ','M2   ','M3   ','M5   ','M6   ','M8   ') # Faults
+iList2 <- c('M4   ','M7   ') # Total hours worked
 aList <- c(iList,iList2)
 month <- c(3,12,18,24,36,48)
 
-# Data range
-dateRange <- function(st,mnt)
+# Data range ###########################
+dateRange <- function(st,mnt,us=TRUE)
 {
+if (debug) print(us)
 st <- as.numeric(st)
 rng <- st
 for (m in 1:(mnt-1))
-	{
-	st <- st-1
-	if (as.integer(st/100)==st/100)
-		{
-		st <- st-(100-12)
-		}
-	rng <- c(rng,st)
-	}
+{
+    st <- st-1
+    if (as.integer(st/100)==st/100)
+    {
+        st <- st-(100-12)
+    }
+    if (!us & substr(as.character(st),5,6) %in% c('03','06','09','12')){
+        #if (debug) print('non-US')
+        rng <- c(rng,st)
+    }
+    if (us)
+        rng <- c(rng,st)
+}
+#if (debug) print(rng)
 return(rng)
 }
-
+########################################
 RecStatuses <- c('L','R','U')
 SourceCodes <- c('DN','L','UD','X','XX')
 
 ind <- subset(iv,iv$ElementCode %in% unlist(aList) & iv$SourceId %in% activeStation(startDate,'p')
-	& iv$RecStatus != 'U' & iv$SourceCode != 'DN')
+              & !(iv$RecStatus %in% RecStatuses) & !(iv$SourceCode %in% SourceCodes))
 ind <- merge(ind,place,by.x="SourceId",by.y="LocId")
 #print(ind)
 
@@ -64,22 +71,32 @@ data <- data.frame()
 pb <- txtProgressBar(min = 1, max = length(unique(ind$SourceId)), style = 3)
 i <- 0
 
-for (u in unique(ind$SourceId))
-#for (u in 886:888)
+############################################ Debug #########################################
+if (debug) U <- 10287
+else U <- unique(ind$SourceId)
+
+for (u in U)
+#for (u in 10287)
 	{
 	i <- i+1
 	setTxtProgressBar(pb, i)
-        incProgress(1/length(unique(ind$SourceId)),detail=u)
+        if (session) incProgress(1/length(unique(ind$SourceId)),detail=u)
 	r <- list()
 	r <- c(r,as.integer(u),place[place$LocId==u,6])
 	for (m in month)
-		{
-		dates <- dateRange(startDate,m)
+        {
+            if (u %in% INPOStation) dates <- dateRange(startDate,m)
+            else dates <- dateRange(startDate,m,FALSE)
+            if (debug) print(dates)
 		ss <- subset(ind,ind$SourceId == u & ind$ElementCode %in% iList & ind$YrMn %in% dates,
-			select=ElementValue)
+                             select=ElementValue)
+                #print(ss)
+                #print(paste('faults',m,length(unlist(ss))))
 		#try(s <- sum(ss))
 		dd <- subset(ind,ind$SourceId == u & ind$ElementCode %in% iList2 & ind$YrMn %in% dates,
-			select=ElementValue)
+                             select=ElementValue)
+                #print(dd)
+                if (debug) print(paste(m,'faults',length(unlist(ss)),'hours',length(unlist(dd))))
 		#try(d <- sum(dd))
 		#print(c(u,m,length(dates),length(unlist(ss))/6))
 		####### Check the source data completeness ##########
@@ -110,7 +127,7 @@ close(pb)
 colnames(data) <- c('LocID','name','3-Mo TISA1','3-Mo TISA2','1-Yr TISA1','1-Yr TISA2',
 	'18-Mo TISA1','18-Mo TISA2','2-Yr TISA1','2-Yr TISA2','3-Yr TISA1','3-Yr TISA2',
 	'4-Yr TISA1','4-Yr TISA2')
-#print(data)
+if (debug) print(data)
 fn1 <- paste('csv/TISA_',startDate,'.rds',sep='')
 fn2 <- paste('csv/TISA_',startDate,'.csv',sep='')
 saveRDS(t(t(data)),fn1)

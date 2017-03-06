@@ -17,7 +17,7 @@
 # 2-years in depth dates from the last one ###################################################
                                         #analisedDate <- c(201412,201512,201606)	# Next - 2014Q4,2015Q4 and 2016Q1
 
-xls <- function(analisedDate)
+xls <- function(analisedDate,Tisa=FALSE)
     {
                                         #analisedDate <- 201606
         tisa2(analisedDate)
@@ -94,12 +94,13 @@ fields <- c('CENTRE','MEMBER','UNIT NAME','REACTOR TYPE','Chemistry Group Code',
 tisa_fields <- c("1-Yr TISA1","1-Yr TISA2","18-Mo TISA1","18-Mo TISA2","2-Yr TISA1","2-Yr TISA2",
 				"3-Yr TISA1","3-Yr TISA2")
 
-#fields <- c(fields,tisa_fields)	# Add TISA fields
+if (Tisa) fields <- c(fields,tisa_fields)	# Add TISA fields
 
 periods <- c(12,18,24,36)
 
 indicators <- c('UCF  ','UCLF ','FLR  ','UA7  ','SP1  ','SP2  ','SP5  ','FRI  ','CY   ','CRE  ',
-	'ISA','CISA','GRLF ','US7  ')#R,'TISA')
+                'ISA','CISA','GRLF ','US7  ')
+if (Tisa) indicators <- c(indicators,'TISA')
 
 results <- subset(results,results$PeriodEndYrMn %in% analisedDate)
 ##################################################################
@@ -119,7 +120,7 @@ no <- 0
 sheet <- data.frame()
 #print(paste(dateToQ(startDate),': #',noDate,'of',length(analisedDate)))
 
-fn <- paste('csv/TISA_',startDate,'.csv',sep='')	# read TISA dataset
+fn <- paste('csv/TISA_',startDate,'.csv',sep='')	# read TISA dataset ###### Chrck if exist otherwise calculate #####
 tisa <- read.csv(fn)
 
 for (u in activeStation(startDate))
@@ -240,8 +241,9 @@ for (u in activeStation(startDate))
 	#finish.time <- as.integer(Sys.time()+unit.time*(length(activeStation)-no+1))
 	#print(paste('ETA=',secToTime(eta),' (',as.integer(unit.time),' sec. per unit)'))
 	}
-	colnames(sheet) <- fields
-	fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results.csv',sep='')
+colnames(sheet) <- fields
+if (Tisa) fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results.csv',sep='')
+else fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results_no_TISA.csv',sep='')
 	write.csv(sheet,file=fn)
 	#print('File has been saved')
 	#close(pb)

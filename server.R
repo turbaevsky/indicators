@@ -135,7 +135,8 @@ shinyServer(function(input, output, clientData, session) {
         system("C:\\Users\\volodymyr.turbaevsky\\portable\\MKTex\\miktex\\bin\\pdflatex.exe Qreport.tex")
     })
     # Excel (re)generation ######################################################
-    observeEvent(input$excel,withProgress(message = 'Selected quarter TISA & excel (re)generation',value=0,xls(input$repqtr)))
+    observeEvent(input$excel,withProgress(message = 'Selected quarter TISA & excel (re)generation',value=0,xls(input$repqtr,input$Tisa)))
+
     output$table <- renderTable(err())
     output$dbcopydate <- renderPrint(dbcopy)
 

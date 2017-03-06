@@ -69,6 +69,7 @@ navbarPage("Performance Analysis",
                    #actionButton("tisa","(Re)calculate TISA"),
                    #downloadButton('tisa_down', label = "Download"),
                    actionButton("excel","(Re)generate Excel spreadsheet"),
+                   checkboxInput("Tisa","TISA included",value=TRUE),
                    downloadButton('xls_down', label = "Download")
                ),
                mainPanel(
