@@ -131,7 +131,7 @@ navbarPage("Performance Analysis",
                    #selectInput("metricsFirstQtr", "Starting quarter:",
                                #choices = qtrs,selected=qtrs[1]),
                    selectizeInput("centre","Centre No.(1=AC, 2=MC, 3=PC, 4=TC):",
-                                  choices = c(1,2,3,4), selected = 1, multiple=F),
+                                  choices = c(1,2,3,4), selected = 1, multiple=T),
                    checkboxInput("mDetail","Detailed metrics info",value=FALSE),
                    checkboxInput("mChart","Chart",value=FALSE)
                ),

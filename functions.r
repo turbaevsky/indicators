@@ -94,6 +94,9 @@ activeStation <- function(startDate,mode='u') # Getting active units list
         list5 <- unlist(subset(uData,uData$IsUnitActive == 1,LocId)) # has IsActive status
         LTS <- setdiff(list3,list4)
         Station <- intersect(intersect(list1,list2),list5)
+        ### Commercial service started in previous quarter ###
+        list6 <- unlist(subset(uDate,uDate$DateTypeId == 4 & as.Date(uDate$UnitDate) <= dateToReal(startDate),LocId))
+        Station <- intersect(Station,list6)
         Station <- Station[!Station %in% LTS] # Remove LTS units
         Station <- Station[!Station %in% c(10117:10123,10212:10217)] # Remove reprocessing factories
                                         #Station <- c(Station,10213) # Add La Hague

@@ -47,7 +47,7 @@ cat('\r\n\r\n')
 
 ### plotting
 #library(ggplot2)
-dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201609)
+dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201612)
 data <- data.frame()
 ### Read RC and WW data
 for (date in dateRange){
@@ -128,5 +128,4 @@ return(plt2)
   (target is 0);
 - LTP-2 metric: time RC promoted data, days (target is 60);
 - PI-2 metric: unit(s) did not report 100% source data (based on
-  calculated results), number
-  (target is 0 units);
+  calculated results), number (target is 0 units);
