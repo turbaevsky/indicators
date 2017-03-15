@@ -229,17 +229,17 @@ shinyServer(function(input, output, clientData, session) {
 
 ############################ Metrics ###########################
 
-    metrics <- reactive(if (input$mDetail)
+    metrics.out <- reactive(if (input$mDetail)
                             withProgress(message="Calculating...",value=0,
-                                         m(input$metricsqtr,as.numeric(input$centre),TRUE)))
-    output$metrics <- renderPrint(metrics())
+                                         metrics(input$metricsqtr,as.numeric(input$centre),TRUE)))
+    output$metrics <- renderPrint(metrics.out())
 ### charts
     #cNames <- c('AC','MC','PC','TC')
     mPlot <- reactive( if (input$mChart)
                            withProgress(message = 'Metrics calculation',value=0,{
                                res <- c()
                                for (d in input$metricsqtr)
-                                   res <- rbind(res,m(d,as.numeric(input$centre)))
+                                   res <- rbind(res,metrics(d,as.numeric(input$centre)))
                                print(res)
                                mPlot <- barplot(res,names.arg = input$centre,legend = rownames(res),
                                                 beside = TRUE, col = c("darkblue","green","yellow"))

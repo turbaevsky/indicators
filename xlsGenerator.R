@@ -242,8 +242,8 @@ for (u in activeStation(startDate))
 	#print(paste('ETA=',secToTime(eta),' (',as.integer(unit.time),' sec. per unit)'))
 	}
 colnames(sheet) <- fields
-if (Tisa) fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results.csv',sep='')
-else fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results_no_TISA.csv',sep='')
+if (Tisa) fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results_incl_TISA.csv',sep='')
+else fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results.csv',sep='')
 	write.csv(sheet,file=fn)
 	#print('File has been saved')
 	#close(pb)

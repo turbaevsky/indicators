@@ -2,7 +2,7 @@
 # Calculates PI and PL metrics
 #######################################################################
 
-m <- function(dates,centres,print=FALSE){
+metrics <- function(dates,centres,print=FALSE){
 
 #source('functions.r')
 
