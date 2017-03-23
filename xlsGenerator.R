@@ -17,10 +17,10 @@
 # 2-years in depth dates from the last one ###################################################
                                         #analisedDate <- c(201412,201512,201606)	# Next - 2014Q4,2015Q4 and 2016Q1
 
-xls <- function(analisedDate,Tisa=FALSE)
+xls <- function(analisedDate,Tisa=TRUE,session=TRUE)
     {
                                         #analisedDate <- 201606
-        tisa2(analisedDate)
+        tisa2(analisedDate,session=session)
         dateRange <- analisedDate
 
 
@@ -111,16 +111,16 @@ results <- subset(results,results$PeriodEndYrMn %in% analisedDate)
 
 for (startDate in analisedDate)
 {
-setProgress(0)
+if (session) setProgress(0)
 print(dateToQ(startDate))
 print(length(activeStation(startDate)))
-#pb <- txtProgressBar(min = 0, max = length(activeStation(startDate)), style = 3)
+pb <- txtProgressBar(min = 0, max = length(activeStation(startDate)), style = 3)
 no <- 0
 #noDate <- 1
 sheet <- data.frame()
 #print(paste(dateToQ(startDate),': #',noDate,'of',length(analisedDate)))
 
-fn <- paste('csv/TISA_',startDate,'.csv',sep='')	# read TISA dataset ###### Chrck if exist otherwise calculate #####
+fn <- paste('csv/TISA_',startDate,'.csv',sep='')	# read TISA dataset ###### Check if exist otherwise calculate #####
 tisa <- read.csv(fn)
 
 for (u in activeStation(startDate))
@@ -129,8 +129,8 @@ for (u in activeStation(startDate))
 	#print(u)
 	start.unit.time <-Sys.time()
 	#print(paste('Unit ',nameByID(u),': #',no,' from ',length(activeStation(startDate))))
-        #setTxtProgressBar(pb, no)
-        incProgress(1/length(activeStation(startDate)),detail=nameByID(u))
+        setTxtProgressBar(pb, no)
+        if (session) incProgress(1/length(activeStation(startDate)),detail=nameByID(u))
 
 	centre <- unique(subset(relation,relation$LocId == u & relation$RelationId == 1
 		& as.Date(relation$EndDate) >= Sys.Date(), select=ParentLocId))
@@ -242,7 +242,7 @@ for (u in activeStation(startDate))
 	#print(paste('ETA=',secToTime(eta),' (',as.integer(unit.time),' sec. per unit)'))
 	}
 colnames(sheet) <- fields
-if (Tisa) fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results_incl_TISA.csv',sep='')
+if (Tisa) fn <- paste('spreadsheets/',substr(startDate,1,4),'_WANO_PIData_Rev.csv',sep='')
 else fn <- paste('spreadsheets/',dateToQ(startDate),'_AllLocations_Results.csv',sep='')
 	write.csv(sheet,file=fn)
 	#print('File has been saved')
