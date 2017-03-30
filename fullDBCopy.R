@@ -2,7 +2,7 @@
 library(RODBC)
 
 
-DBCopy <- function()
+DBCopy <- function(session=TRUE)
 	{
 	print('DB copying...')
 	i <- 0
@@ -17,7 +17,7 @@ DBCopy <- function()
 		#flush.console()
 		setTxtProgressBar(pb, i)
                 # shiny progressbar
-                incProgress(1/length(t(tables[1])),detail=tn)
+                if (session) incProgress(1/length(t(tables[1])),detail=tn)
                 # return(i)
 
 		t<-sqlFetch(channel,tn)
@@ -25,5 +25,6 @@ DBCopy <- function()
 		}
 	close(pb)
 	odbcCloseAll()
+        #system("zip.exe -r DBCopy.zip DBCopy")
 	}
 
