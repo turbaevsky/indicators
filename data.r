@@ -17,7 +17,7 @@ if (curM<3) {lastM <- '12'; curY <- curY-1}
 lastQtr <- paste(curY,lastM,sep='')
 qtrs <- c(lastQtr)
 
-for (i in c(1:20)){
+for (i in c(1:30)){
     lastQ <- tail(qtrs,1)
     if (substr(lastQ,5,6)=='03') {Y <- as.numeric(substr(lastQ,1,4))-1; M <- 12; Q <- paste(Y,M,sep='')}
     else {M <- paste('0',as.numeric(substr(lastQ,5,6))-3,sep=''); Q <- paste(substr(lastQ,1,4),M,sep='')}
