@@ -34,17 +34,20 @@ qtrs <- sort(qtrs)
 # dataset
 #--- from functions'r ---
 placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
+attrType <- readRDS('DBCopy/PI_PlaceAttributeTypeLookup.rds')
 uDate <- readRDS('DBCopy/PI_UnitDate.rds')
 uData <- readRDS('DBCopy/PI_UnitData.rds')
 place <- readRDS('DBCopy/PI_Place.rds')
 submit <- readRDS('DBCopy/PI_DataSubmittal.rds')
 idx <- readRDS('DBCopy/PI_ResultsIndex.rds')
 rTypes <- readRDS('DBCopy/PI_NsssTypeLookup.rds')
+rSub <- readRDS('DBCopy/PI_NsssSubTypeLookup.rds')
 ###
 data <- readRDS('DBCopy/PI_IndValues.rds') #Source  data
 data <- subset(data, YrMn>=200700)
 
 relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+relType <- readRDS('DBCopy/PI_PlaceRelationshipLookup.rds')
 #dataStatus <- readRDS('DBCopy/PI_DataStatus.rds')
 r <- readRDS('DBCopy/PI_Results.rds')
 r <- subset(r,PeriodEndYrMn>=200700)

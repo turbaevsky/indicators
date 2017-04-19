@@ -82,7 +82,7 @@ navbarPage("Performance Analysis",
            sidebarLayout(
                sidebarPanel(
                    selectizeInput("PRname", "Unit:",
-                                  choices = uNames,selected = uNames[1], multiple=FALSE),
+                                  choices = uNames,selected = uNames[1], multiple=TRUE),
                    selectizeInput("PIRAqtr", "Quarter:",
                                   choices = qtrs,selected=tail(qtrs,1),multiple=FALSE),
                    selectizeInput("PRind","Indicator and source data for:",
@@ -167,7 +167,9 @@ navbarPage("Performance Analysis",
                                choices = allNames)),
                mainPanel(
                    dataTableOutput("status"),
-                   dataTableOutput("uData")
+                   dataTableOutput("uData"),
+                   dataTableOutput("relat"),
+                   dataTableOutput("attr")
                    ))
            ),
   tabPanel("Submitting progress",

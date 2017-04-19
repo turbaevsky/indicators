@@ -9,9 +9,20 @@
 #source('data.r')
 
 ### Name of the elements ###
-el <- function(e) { return(subset(elem,elem$LabelCode==e,LabelText)[[1]]) }
+el <- function(e) { return(subset(elem,elem$LabelCode==e,LabelText)[[1]])}
 ### Name of unit status ###
-status <- function(cs) { return(subset(stat,stat[1]==cs,Description)[[1]]) }
+status <- function(cs) { return(subset(stat,stat[1]==cs,Description)[[1]])}
+relId <- function(rel) { return(subset(relType,RelationId==rel,Description)[[1]])}
+parent <- function(par) { return(subset(place,LocId==par,AbbrevLocName)[[1]])}
+reactor <- function(rt) { return(subset(rTypes,NsssTypeId==rt,NsssType)[[1]])}
+rSubType <- function(rs)
+{
+    #print(rs)
+    if (!is.na(rs)) rt <- (subset(rSub,NsssSubTypeId==rs,NsssSubType)[[1]])
+    else rt <- 'NA'
+    return(rt)
+    }
+aType <- function(at) {return(subset(attrType,AttributeTypeId==at,Description)[[1]])}
 
 units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
 
@@ -265,15 +276,33 @@ shinyServer(function(input, output, clientData, session) {
     output$boxplot <- renderPlot(outliers())
 
 ################################# Unit status #########################
+LID <-  reactive(subset(place,place$AbbrevLocName==input$pname)[[1]])
+
     pdate <- reactive({
-        p <- subset(dates,dates$LocId == subset(place,place$AbbrevLocName==input$pname)[[1]])
+        p <- subset(dates,dates$LocId == LID())
         pdate <- cbind(p[1:2],apply(p[3],1,status),p[4])
         #pdate <- pdate[order(UnitDate),]
     })
     output$status <- renderDataTable(pdate(),options=list(paging = FALSE,searching=FALSE))
 
-    uDatas <- reactive(subset(uData,LocId == subset(place,place$AbbrevLocName==input$pname)[[1]]))
+    uDatas <- reactive({
+        ud <- subset(uData,LocId == LID())
+        uDatas <- cbind(ud[1:4],apply(ud[5],1,reactor),ud[6:7],apply(ud[8],1,rSubType),ud[9:10])
+    })
+    #apply(ud[8],1,rSubType)
     output$uData <- renderDataTable(uDatas(),options=list(paging = FALSE,searching=FALSE))
+
+    relat <- reactive({
+        rlt <- subset(relation,LocId==LID())
+        relat <- cbind(rlt[1:2],apply(rlt[3],1,parent),apply(rlt[4],1,relId),rlt[5:6])})
+
+    output$relat <- renderDataTable(relat(),options=list(paging = FALSE,searching=FALSE))
+
+    attr <- reactive({
+        a <- subset(placeAttributes,LocId==LID())
+        attr <- cbind(a[1:2],apply(a[3],1,aType),a[4:5])
+        })
+    output$attr <- renderDataTable(attr(),options=list(paging = FALSE,searching=FALSE))
 
 ################################ Submitting progress ##################
     subPlot <- reactive(
