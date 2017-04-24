@@ -29,7 +29,8 @@
 ##placeAttributes <- readRDS('DBCopy/PI_PlaceAttribute.rds')
 #r <- readRDS('DBCopy/PI_Results.rds')
 #place <- readRDS('DBCopy/PI_Place.rds')
-#relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+                                        #relation <- readRDS('DBCopy/PI_PlaceRelationship.rds')
+#source('shiny/data.r')
 ic <- readRDS('DBCopy/PI_IndicatorCodes.rds')
 ic <- t(subset(ic,ic$IsActive== 1)[1])
 UnitData <- uData
@@ -80,7 +81,7 @@ for (centre in c(1:4))
 		& relation$RelationId == 1 & as.Date(relation$EndDate) >= Sys.Date(), select=LocId)) }
 
 # Reactor type related calculations ==================================================================
-rTypeResults <- function(centre,i,lastDate)
+rTypeResults <- function(centre,i,lastDate,byType=FALSE)
 	{
 	lowerId <- c()
 	lowerIs <- c()
@@ -108,19 +109,24 @@ rTypeResults <- function(centre,i,lastDate)
 		uNum <- c(uNum,length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
 			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(uType$rType[type])
 			& r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >=0 & r$LocId %in% activeStation(lastDate) ,LocId))))
+                #print(uNum)
 		}
 	Id <- round(sum(lowerId)/sum(uNum)*100,1)
 	Is <- round(sum(lowerIs)/sum(uNum)*100,1)
 	data.local <- list(as.character(centreNames[centre]),as.character(i),as.numeric(Id),
                            as.numeric(Is),as.integer(sum(lowerId)),as.integer(sum(lowerIs)),as.integer(sum(uNum)))
-        #print (data.local)
-	return(data.local)
+        #print (t(data.local))
+	if (!byType) return(data.local)
+        else {
+            saveRDS(lowerId/uNum,paste('LTT/',i,'_idv_',lastDate,'.rds',sep=''))
+            saveRDS(lowerIs/uNum,paste('LTT/',i,'_ids_',lastDate,'.rds',sep=''))
+        }
 	}
 
 # Calculate statistics by centre ==========================================================================
 # Key indicator list
 
-generate <- function(dateRange)
+generate <- function(dateRange,session=TRUE)
     {
 indicators <- c('FLR','CRE','TISA','US7','SSPI')
 
@@ -132,6 +138,7 @@ print(lastDate)
 pb <- txtProgressBar(min = 0, max = length(indicators)*4, style = 3)
 count <- 0
 d <- data.frame(stringsAsFactors=FALSE)
+sspi <- data.frame()
 for (centre in c(1:4))	# By centre
 	{
 	for (i in indicators)
@@ -187,15 +194,24 @@ for (centre in c(1:4))	# By centre
 			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
 			& r$ResultsValue <= hid('SP5  '),LocId))))
 			uNum <- length(unlist(subset(r,r$IndicatorCode %in% c('SP1  ','SP2  ','SP5  ') & r$PeriodEndYrMn == lastDate & r$NumOfMonths == 36 & r$NonQualCode == ' '
-			& r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId)))
-			Id <- round(sum(lowerId)/uNum*100,1)
+                                                     & r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId)))
+                        uNumS <- c()
+                        for (sys in c('SP1  ','SP2  ','SP5  '))
+                            uNumS <- c(uNumS,length(unlist(subset(r,r$IndicatorCode==sys
+                                                                  & r$PeriodEndYrMn == lastDate & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId))))
+
+                        Id <- round(sum(lowerId)/uNum*100,1)
+                        #IdperS <- lowerId/uNumS
 			Is <- Id	# Check the calculation - is it really the same as individual or I have to combine unit's system together
 			lowerIs <- sum(lowerId)
 			d <- rbind(d,t(list(as.character(centreNames[centre]),as.character(i),Id,Is,sum(lowerId),lowerIs,uNum)))
 			}
 		setTxtProgressBar(pb, count)
-                incProgress(1/(length(indicators)*4),detail=i)
+                if (session) incProgress(1/(length(indicators)*4),detail=i)
 		}
+### calculate SP1-5 details
+        sspi <- rbind(sspi,c(lowerId,uNumS))
+        colnames(sspi) <- c('SP1','SP2','SP5','uNumSP1','uNumSP2','uNumSP5')
 	}
 colnames(d) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units')
 # Worldwide status
@@ -213,6 +229,7 @@ colnames(w) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Unit
 
 saveRDS(w,paste('LTT/Worldwide_LTT_',lastDate,'.rds',sep=''))
 saveRDS(d,paste('LTT/RCs_LTT_',lastDate,'.rds',sep=''))
+saveRDS(sspi,paste('LTT/WW_SSPI_',lastDate,'.rds',sep=''))
 
 close(pb)
 #print(w)
