@@ -3,7 +3,9 @@
 #  to replace the existing one at http://www.wano.org/xwp10webapp/reports/TableReport.pdf?x=774741
 #  To generate pdf report the Sweave('QReport.rnw') command should be ran
 ##################################################################################################
-
+library(logging)
+basicConfig()
+setLevel('DEBUG',getHandler('basic.stdout'))
 #source('functions.r')
 
 #if (readline('Need you update the Db copy (Y/n)?')=='Y')
@@ -134,104 +136,149 @@ for (lastDate in dateRange)
 {
 fn <- paste('csv/TISA_',lastDate,'.csv',sep='')
 tisa <- read.csv(fn)
-print(lastDate)
-pb <- txtProgressBar(min = 0, max = length(indicators)*4, style = 3)
+loginfo(lastDate)
+# pb <- txtProgressBar(min = 0, max = length(indicators)*4, style = 3)
 count <- 0
 d <- data.frame(stringsAsFactors=FALSE)
 sspi <- data.frame()
+
 for (centre in c(1:4))	# By centre
-	{
-	for (i in indicators)
-		{
-		count <- count + 1
-		#Initialisation
-		#lowerId <- 0; lowerIs <- 0; uNum <- 0; Id <- 0; Is <- 0
-		#Calculation
-		if (i %in% c('CRE','US7')) {d <- rbind(d,t(rTypeResults(centre,i,lastDate)))}
-		if (i == 'TISA')
-			{
-			lowerId <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) &
-			tisa$X3.Yr.TISA2 <= hid('TISA2'),LocID)))
-			lowerIs <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) &
-                        tisa$X3.Yr.TISA2 <= his('TISA2'),LocID)))
-                        # Double checking units out of range
-                        #upperId <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) &
-			#tisa$X3.Yr.TISA2 > hid('TISA2'),LocID)))
-                        ### Fixed uNum excluded NA values
-			uNum <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) & tisa$X3.Yr.TISA2>=0,LocID)))
-			Id <- round(lowerId/uNum*100,1)
-			Is <- round(lowerIs/uNum*100,1)
-			d <- rbind(d,t(list(centreNames[centre],i,Id,Is,lowerId,lowerIs,uNum)))
+{
+    loginfo('Centre = %s',centre)
+    for (i in indicators)
+    {
+        loginfo(i)
+        count <- count + 1
+                                        #Initialisation
+                                        #lowerId <- 0; lowerIs <- 0; uNum <- 0; Id <- 0; Is <- 0
+                                        #Calculation
+        if (i %in% c('CRE','US7')) {d <- rbind(d,c(t(rTypeResults(centre,i,lastDate)),'NA'))}
+        if (i == 'TISA')
+        {
+            lowerId <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) &
+                                                 tisa$X3.Yr.TISA2 <= hid('TISA2'),LocID)))
+            lowerIs <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) &
+                                                 tisa$X3.Yr.TISA2 <= his('TISA2'),LocID)))
+                                        # Double checking units out of range
+                                        #upperId <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) &
+                                        #tisa$X3.Yr.TISA2 > hid('TISA2'),LocID)))
+### Fixed uNum excluded NA values
+            uNum <- length(unlist(subset(tisa,tisa$LocID %in% unlist(unitsByCentre$uList[centre]) & tisa$X3.Yr.TISA2>=0,LocID)))
+            Id <- round(lowerId/uNum*100,1)
+            Is <- round(lowerIs/uNum*100,1)
+            d <- rbind(d,t(list(centreNames[centre],i,Id,Is,lowerId,lowerIs,uNum,'NA')))
                         # Test
                         #print(c(centreNames[centre],lowerId,upperId,uNum))
-			}
-		if (i == 'FLR')
-			{
-			ind <- 'FLR  '
-			lowerId <- length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
-			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
-			& r$ResultsValue <= hid(ind) & r$LocId %in% activeStation(lastDate),LocId)))
-			lowerIs <- length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
-			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
-			& r$ResultsValue <= his(ind) & r$LocId %in% activeStation(lastDate),LocId)))
-			uNum <- length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
-                        & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
-                        & r$ResultsValue>=0 & r$LocId %in% activeStation(lastDate),LocId)))
-			Id <- round(lowerId/uNum*100,1)
-			Is <- round(lowerIs/uNum*100,1)
-			d <- rbind(d,t(list(as.character(centreNames[centre]),as.character(i),Id,Is,lowerId,lowerIs,uNum)))
-			}
-		if (i == 'SSPI')
-			{
-			lowerId <- c()
-			lowerId <- c(lowerId,length(unlist(subset(r,r$IndicatorCode=='SP1  ' & r$PeriodEndYrMn == lastDate
-			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
-			& r$ResultsValue <= hid('SP1  '),LocId))))
-			lowerId <- c(lowerId,length(unlist(subset(r,r$IndicatorCode=='SP2  ' & r$PeriodEndYrMn == lastDate
-			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
-			& r$ResultsValue <= hid('SP2  '),LocId))))
-			lowerId <- c(lowerId,length(unlist(subset(r,r$IndicatorCode=='SP5  ' & r$PeriodEndYrMn == lastDate
-			& r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
-			& r$ResultsValue <= hid('SP5  '),LocId))))
-			uNum <- length(unlist(subset(r,r$IndicatorCode %in% c('SP1  ','SP2  ','SP5  ') & r$PeriodEndYrMn == lastDate & r$NumOfMonths == 36 & r$NonQualCode == ' '
-                                                     & r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId)))
-                        uNumS <- c()
-                        for (sys in c('SP1  ','SP2  ','SP5  '))
-                            uNumS <- c(uNumS,length(unlist(subset(r,r$IndicatorCode==sys
-                                                                  & r$PeriodEndYrMn == lastDate & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId))))
+        }
+        if (i == 'FLR')
+        {
+            ind <- 'FLR  '
+            lowerId <- length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
+                                            & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
+                                            & r$ResultsValue <= hid(ind) & r$LocId %in% activeStation(lastDate),LocId)))
+            lowerIs <- length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
+                                            & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
+                                            & r$ResultsValue <= his(ind) & r$LocId %in% activeStation(lastDate),LocId)))
+            uNum <- length(unlist(subset(r,r$IndicatorCode==ind & r$PeriodEndYrMn == lastDate
+                                         & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
+                                         & r$ResultsValue>=0 & r$LocId %in% activeStation(lastDate),LocId)))
+            Id <- round(lowerId/uNum*100,1)
+            Is <- round(lowerIs/uNum*100,1)
+            d <- rbind(d,t(list(as.character(centreNames[centre]),as.character(i),Id,Is,lowerId,lowerIs,uNum,'NA')))
+        }
+        if (i == 'SSPI')
+        {
+            lowerId <- c()
+            lowerId <- c(lowerId,length(unlist(subset(r,r$IndicatorCode=='SP1  ' & r$PeriodEndYrMn == lastDate
+                                                      & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
+                                                      & r$ResultsValue <= hid('SP1  '),LocId))))
+            lowerId <- c(lowerId,length(unlist(subset(r,r$IndicatorCode=='SP2  ' & r$PeriodEndYrMn == lastDate
+                                                      & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
+                                                      & r$ResultsValue <= hid('SP2  '),LocId))))
+            lowerId <- c(lowerId,length(unlist(subset(r,r$IndicatorCode=='SP5  ' & r$PeriodEndYrMn == lastDate
+                                                      & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre])
+                                                      & r$ResultsValue <= hid('SP5  '),LocId))))
+            uNum <- length(unlist(subset(r,r$IndicatorCode %in% c('SP1  ','SP2  ','SP5  ') & r$PeriodEndYrMn == lastDate & r$NumOfMonths == 36 & r$NonQualCode == ' '
+                                         & r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId)))
+            uNumS <- c()
+            for (sys in c('SP1  ','SP2  ','SP5  '))
+                uNumS <- c(uNumS,length(unlist(subset(r,r$IndicatorCode==sys
+                                                      & r$PeriodEndYrMn == lastDate & r$NumOfMonths == 36 & r$NonQualCode == ' ' & r$LocId %in% unlist(unitsByCentre$uList[centre]) & r$ResultsValue >= 0 ,LocId))))
 
-                        Id <- round(sum(lowerId)/uNum*100,1)
+            Id <- round(sum(lowerId)/uNum*100,1)
                         #IdperS <- lowerId/uNumS
-			Is <- Id	# Check the calculation - is it really the same as individual or I have to combine unit's system together
-			lowerIs <- sum(lowerId)
-			d <- rbind(d,t(list(as.character(centreNames[centre]),as.character(i),Id,Is,sum(lowerId),lowerIs,uNum)))
-			}
-		setTxtProgressBar(pb, count)
-                if (session) incProgress(1/(length(indicators)*4),detail=i)
-		}
+			#Is <- Id	# Check the calculation - is it really the same as individual or I have to combine unit's system together
+			#lowerIs <- sum(lowerId)
+                        ###############################################################################
+### Industry level should be calculated as number of units didn't meet any of SSPI targets
+### then comment two code lines above
+### Check if it is applicable for US plants !!!
+
+            lowerIs <- 0
+            sspiNum <- length(intersect(unlist(unitsByCentre$uList[centre]),activeStation(lastDate)))
+            loginfo('There are %d units in the %d centre',sspiNum,centre)
+            rr <- subset(r,PeriodEndYrMn==lastDate)
+            for (uN in intersect(unlist(unitsByCentre$uList[centre]),activeStation(lastDate))){
+                                        #loginfo('unit=%d',uN)
+
+                sp1 <- subset(rr,rr$IndicatorCode=='SP1  ' & rr$PeriodEndYrMn == lastDate
+                              & rr$NumOfMonths == 36 & rr$NonQualCode == ' ' & rr$LocId == uN,ResultsValue)[[1]]
+                                        #loginfo('sp1 of type %s is %f',typeof(sp1),sp1)
+                sp2 <- subset(rr,rr$IndicatorCode=='SP2  ' & rr$PeriodEndYrMn == lastDate
+                              & rr$NumOfMonths == 36 & rr$NonQualCode == ' ' & rr$LocId == uN,ResultsValue)[[1]]
+                                        #logdebug('sp2=%f',sp2)
+                sp5 <- subset(rr,rr$IndicatorCode=='SP5  ' & rr$PeriodEndYrMn == lastDate
+                              & rr$NumOfMonths == 36 & rr$NonQualCode == ' ' & rr$LocId == plantID(uN),ResultsValue)[[1]]
+                                        #logdebug('sp5=%f',sp5)
+                                        #loginfo('%f %f %f',sp1,sp2,sp5)
+                if (length(sp1) && length(sp2) && length(sp5) && sp1 <= hid('SP1  ') && sp2 <= hid('SP2  ') && sp5 <= hid('SP5  ')) lowerIs <- lowerIs+1
+                else if (length(sp1) && length(sp2) && length(sp5))
+                    logdebug('for unit %s sp1=%f, sp2=%f, sp5=%f',nameByID(uN),sp1,sp2,sp5)
+                else {
+                    logwarn('Unit %s does not have all SSPI data',nameByID(uN))
+                    sspiNum <- sspiNum-1
+                }
+            }
+
+            Is <- round(sum(lowerIs)/sspiNum*100,1) ###################
+################################################################################
+            loginfo('Industry SSPI is %d (%d) units out of %d, or %.1f percent',lowerIs,sum(lowerIs),sspiNum,Is)
+            d <- rbind(d,t(list(as.character(centreNames[centre]),as.character(i),Id,Is,sum(lowerId),lowerIs,uNum,sspiNum)))
+        }
+        #setTxtProgressBar(pb, count)
+        if (session) incProgress(1/(length(indicators)*4),detail=i)
+    }
 ### calculate SP1-5 details
-        sspi <- rbind(sspi,c(lowerId,uNumS))
-        colnames(sspi) <- c('SP1','SP2','SP5','uNumSP1','uNumSP2','uNumSP5')
-	}
-colnames(d) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units')
-# Worldwide status
+    sspi <- rbind(sspi,c(lowerId,uNumS))
+    colnames(sspi) <- c('SP1','SP2','SP5','uNumSP1','uNumSP2','uNumSP5')
+    #print(sspi)
+}
+colnames(d) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units','SSPI.qual.units')
+print(d)
+                                        # Worldwide status
 w <- data.frame()
 for (i in indicators)
-	{
-	Ud <- sum(unlist(subset(d,d$Indicator==i,'Units met Id')))
-	Us <- sum(unlist(subset(d,d$Indicator==i,'Units met Is')))
-	Un <- sum(unlist(subset(d,d$Indicator==i,'Qualified units')))
-	Id <- round(Ud/Un*100,1)
-	Is <- round(Us/Un*100,1)
-	w <- rbind(w,t(list(as.character('WANO'),as.character(i),Id,Is,Ud,Us,Un)))
-	}
-colnames(w) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units')
+{
+    Ud <- sum(unlist(subset(d,d$Indicator==i,'Units met Id')))
+    Us <- sum(unlist(subset(d,d$Indicator==i,'Units met Is')))
+    Un <- sum(unlist(subset(d,d$Indicator==i,'Qualified units')))
+    if (i=='SSPI') sUn <- sum(unlist(subset(d,d$Indicator==i,'SSPI.qual.units')))
+    else sUn <- NA
+    Id <- round(Ud/Un*100,1)
+    if (i!='SSPI') Is <- round(Us/Un*100,1)
+    else Is <- round(Us/sUn*100,1)
+    w <- rbind(w,t(list(as.character('WANO'),as.character(i),Id,Is,Ud,Us,Un,sUn)))
+}
+colnames(w) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units','SSPI.qual.units')
+
+
+print(w)
 
 saveRDS(w,paste('LTT/Worldwide_LTT_',lastDate,'.rds',sep=''))
 saveRDS(d,paste('LTT/RCs_LTT_',lastDate,'.rds',sep=''))
 saveRDS(sspi,paste('LTT/WW_SSPI_',lastDate,'.rds',sep=''))
 
-close(pb)
+#close(pb)
 #print(w)
 #print(d)
 }}

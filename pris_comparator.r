@@ -1,4 +1,9 @@
-#library(telegram)
+###
+                                        # TODO: remove units have not enough data
+###
+
+
+                                        #library(telegram)
 #bot <- TGBot$new(token = '183104961:AAFOVTLmfQ0MDHdt2ZnLgtUZYkM_gbDFkLs')
 #bot$set_default_chat_id(181982455)
 
@@ -39,7 +44,7 @@ compare <- function(uNo,pris,pidb,delta,comm)
 
 	#print(c(abs(pidb-pris)/pidb,delta))
 	#if (pidb>0 && (abs(pidb-pris)/pidb)>delta)
-	if (pidb>0 && abs(pidb-pris)>delta) # Switched to the absolute difference
+	if (abs(pidb-pris)>delta) # Switched to the absolute difference
         {
             res <- t(c(u,centre,i,pris,round(pidb,2),as.integer(abs(pidb-pris)),comm))
             #print(res)
@@ -63,7 +68,7 @@ for (u in unlist(uID['UnitName']))
                 uNo <- as.numeric(uID[uID['UnitName']==u][3])[1]
                 pidb <- as.numeric(subset(results,results$LocId == uNo & results$IndicatorCode == i & results$PeriodEndYrMn == lastDate & results$NumOfMonths == m,
                                           select=ResultsValue)$ResultsValue)
-                try(switch(i,
+                tryCatch(switch(i,
                            'UCLF ' = {pris<-as.numeric(ucl[ucl['V1']==u][2]); delta<-5
                                comm <- sum(subset(indValues,indValues$SourceId==uNo & indValues$YrMn %in% period & indValues$ElementCode=='B3   ' & indValues$RecStatus==' ', select=ElementValue))
                                comm1 <- sum(subset(indValues,indValues$SourceId==uNo & indValues$YrMn %in% period & indValues$ElementCode=='B1   ' & indValues$RecStatus==' ', select=ElementValue))
@@ -94,9 +99,12 @@ for (u in unlist(uID['UnitName']))
 		'US7  ' = {pris<-as.numeric(us7[us7['V1']==u][2]); delta<-1e-1;
                     comm <- sum(subset(indValues,indValues$SourceId==uNo & indValues$YrMn %in% period & indValues$ElementCode %in% c('C1   ','C3   ') & indValues$RecStatus==' ', select=ElementValue))
                     comm1 <- sum(subset(indValues,indValues$SourceId==uNo & indValues$YrMn %in% period & indValues$ElementCode=='C2   ' & indValues$RecStatus==' ', select=ElementValue))
-                    comm <- paste('AS&MS=',comm,'HC=',comm1)
+                    comm <- paste('ASandMS=',comm,'HC=',comm1)
                 }
-		))
+		),
+                warning = function(w) {print(paste('Warning on unit',u,i))},
+                error = function(e) {print(paste('Error on unit',u,i))}
+                )
             #print(paste(pris,pidb))
             try(if (!is.na(pris) && !is.na(pidb)) {r <- rbind(r,compare(uNo,pris,pidb,delta,comm))})
         }

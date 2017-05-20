@@ -1,4 +1,7 @@
 library(ggplot2)
+library(logging)
+basicConfig()
+setLevel('DEBUG',getHandler('basic.stdout'))
 
 source('shiny/data.r')
 source('functions.r')
@@ -66,12 +69,13 @@ for (date in dateRange){
         data <- rbind(data,d)
     }
     p <- readRDS(paste('LTT/WW_SSPI_',date,'.rds',sep=''))
-    d1 <- data.frame(date=substr(date,1,4),ReactorType='SP1',Indicator='SSPI',Ind.percentage=signif(sum(p[1])/sum(p[4])*100,3),Indust.percentage=signif(sum(p[1])/sum(p[4])*100,3))
-    d2 <- data.frame(date=substr(date,1,4),ReactorType='SP2',Indicator='SSPI',Ind.percentage=signif(sum(p[2])/sum(p[5])*100,3),Indust.percentage=signif(sum(p[2])/sum(p[5])*100,3))
-    d5 <- data.frame(date=substr(date,1,4),ReactorType='SP5',Indicator='SSPI',Ind.percentage=signif(sum(p[3])/sum(p[6])*100,3),Indust.percentage=signif(sum(p[3])/sum(p[6])*100,3))
+    d1 <- data.frame(date=substr(date,1,4),ReactorType='SP1',Indicator='SSPI',Ind.percentage=signif(sum(p[1])/sum(p[4])*100,3),Indust.percentage=NA)
+    d2 <- data.frame(date=substr(date,1,4),ReactorType='SP2',Indicator='SSPI',Ind.percentage=signif(sum(p[2])/sum(p[5])*100,3),Indust.percentage=NA)
+    d5 <- data.frame(date=substr(date,1,4),ReactorType='SP5',Indicator='SSPI',Ind.percentage=signif(sum(p[3])/sum(p[6])*100,3),Indust.percentage=NA)
     data <- rbind(data,d1,d2,d5)
 }
 
+loginfo('data')
 #print(data)
 
 colnames(data)[4] <- 'IndPerc'
@@ -81,27 +85,53 @@ colnames(indPerc)[4] <- 'percentage'
 idsPerc <- cbind(subset(data,select=c(date,ReactorType,Indicator,IndustPerc)),param='Industry')
 colnames(idsPerc)[4] <- 'percentage'
 dd <- rbind(indPerc,idsPerc)
-print(dd)
+loginfo('dd table')
+#print(dd)
 ################################ Charting ##############################
 ind <- c('FLR','CRE','TISA','US7','SSPI')
 
 ############################## Plot function #############################
-plt <- function(i){
-    f <- subset(dd,Indicator==i)
+plt <- function(i,safety=FALSE,us7=FALSE){
+    if (us7 & i=='US7'){
+        f <- subset(dd,Indicator==i & as.numeric(as.character(date))>=2013)
+        loginfo('us7')}
+    else
+        f <- subset(dd,Indicator==i)
     fn <- paste(i,'.png',sep='')
-    plt <- ggplot(f)+
-        geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
+
+    if (!safety){
+        plt <- ggplot(f)+
+            geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
+            theme(legend.title=element_blank())+
+            geom_hline(data=idsPerc,aes(yintercept=75,color='Industry objective'))+
+            geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
+            facet_grid(param~.)+
+            ggtitle(paste(i,'performance'))+
+            scale_y_continuous(name="Percentage of units met target")+
+            scale_x_discrete(name="Year")
+        if (i=='FLR' || i=='TISA') plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#CC33CC"))
+        ggsave(fn)
+}
+    else if (safety){
+        plt <- ggplot(f)+
+geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
         theme(legend.title=element_blank())+
-        geom_hline(aes(yintercept=75,color='Industry target'))+
-        geom_hline(aes(yintercept=100,color='Individual target'))+
+        geom_hline(data=idsPerc,aes(yintercept=100,color='Industry objective'))+
+        geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
         facet_grid(param~.)+
         ggtitle(paste(i,'performance'))+
-        scale_y_continuous(name="Percentage of units met target")
+    scale_y_continuous(name="Percentage of units met target")+
+    scale_x_discrete(name="Year")
         ggsave(fn)
+    }
     return(plt)
 }
 ############################## Plotting #############################
-for (i in ind) plt(i)
+for (i in ind){
+    if (i=='SSPI') plt(i,T,F)
+    else if (i=='US7') plt(i,F,T)
+    else plt(i,F,F)
+    }
 
 ################################################################################
 ### Metrics info
