@@ -25,6 +25,20 @@ rSubType <- function(rs)
 aType <- function(at) {return(subset(attrType,AttributeTypeId==at,Description)[[1]])}
 
 units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
+### Create a list of months for predefined period ###
+monthsList <- function(start,duration){
+    d <- c(start)
+    while (duration>0){
+        n <- tail(d)-1
+        if (substr(n,5,6)=='00'){
+            yr <- as.numeric(substr(n,1,4))-1
+            mn <- 12
+            n <- paste(yr,mn,sep='')
+        }
+        d <- c(d,n)
+        }
+    return(d)
+    }
 
 ############################## Server ####################################
 shinyServer(function(input, output, clientData, session) {
@@ -79,9 +93,9 @@ shinyServer(function(input, output, clientData, session) {
         else uNo <- subset(place,place$AbbrevLocName %in% input$name)[[1]]
     })
 ### Comments for FRI ###
-    bq2ci <- 3.7e10
+    bq2ci <- 3.7e4 #to microCi
     note <- reactive(if (input$ind == 'FRI  ')
-                                out <- paste('Fuel criteria for BWR is 1.1E7 Bq/g =',signif(1.1E7/bq2ci,3),'Ci/g and for PWR/PWR - 1.9E1 Bq/g = ',signif(1.9E1/bq2ci,3),'Ci/g')
+                                out <- paste('Fuel criteria (FRI) for BWR is 1.1E7 Bq/sec =',signif(1.1E7/bq2ci,3),'microCi/g and for PWR/PWR - 1.9E1 Bq/g = ',signif(1.9E1/bq2ci,3),'microCi/g')
                      else out <- '')
     output$note <- renderText(note())
 
@@ -89,6 +103,9 @@ shinyServer(function(input, output, clientData, session) {
 ### Source data ###
     sourceData <- reactive(
     {
+### TODO: extend the reporing period for number of months ######################
+### then add summary information
+    # quarters <- monthsList(input$qtr,input$window)
     quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
     s <- subset(data,data$SourceId %in%  uNo() & data$YrMn %in% quarters & data$ElementCode %in% elByInd[input$ind][[1]])
     sourceData <- s
@@ -119,13 +136,13 @@ shinyServer(function(input, output, clientData, session) {
         barplot(t(d),xlab="Quarters",main = input$ind)#,xaxt='n')
                                         #axis(side=1,at=c(1:length(dataset[[2]])),labels=dataset[[2]])
         ### Add abline for FRI ###
-        #if (input$ind == 'FRI  '){
-        #    bq2ci <- 3.7e10
-        #    abline(h=1.1e7/bq2ci,col='red')
-        #    abline(h=1.9e1/bq2ci,col='red')
-        #    text(0,1.1e7/bq2ci,'BWR')
-        #    text(0,1.9e1/bq2ci,'PWR/PHWR')
-        #    }
+        if (input$ind == 'FRI  '){
+            bq2ci <- 3.7e10
+            abline(h=300,col='red')
+            abline(h=5e-4,col='red')
+            text(1,300,'BWR')
+            text(1,5e-4,'PWR/PHWR')
+        }
     })
 
     # progressbar for DB copying ################################################

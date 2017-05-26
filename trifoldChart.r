@@ -38,7 +38,7 @@ ggsave('plot4.png')
 ### Read RC and WW data
 ### Uncomment the 4 lines below if you want to see RCs performance
 data <- data.frame()
-rType <- c('Reactor:AGR','Reactor:BWR','Reactor:LWCGR','Reactor:PHWR','PWR','FBR','WANO')
+rType <- c('Reactor:AGR','Reactor:BWR','Reactor:LWCGR','Reactor:PHWR','Reactor:PWR','FBR','WANO')
 # Creating data table
 for (date in dateRange){
     #fn <- paste('LTT/RCs_LTT_',date,'.rds',sep='')
@@ -59,7 +59,7 @@ for (date in dateRange){
     cre.ids <- readRDS(paste('LTT/CRE_ids_',date,'.rds',sep=''))
     us7.idv <- readRDS(paste('LTT/US7_idv_',date,'.rds',sep=''))
     us7.ids <- readRDS(paste('LTT/US7_ids_',date,'.rds',sep=''))
-    for (type in 1:4){
+    for (type in 1:5){
         d <- data.frame(date=substr(date,1,4),ReactorType=rType[type],Indicator='CRE',Ind.percentage=signif(cre.idv[type]*100,3),Indust.percentage=signif(cre.ids[type]*100,3))
         #print(d)
         data <- rbind(data,d)
@@ -107,9 +107,10 @@ plt <- function(i,safety=FALSE,us7=FALSE){
             geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
             facet_grid(param~.)+
             ggtitle(paste(i,'performance'))+
-            scale_y_continuous(name="Percentage of units met target")+
+            scale_y_continuous(name="Percentage of units that met target")+
             scale_x_discrete(name="Year")
         if (i=='FLR' || i=='TISA') plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#CC33CC"))
+        else  plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#33FF00","#330099","#996633","#CC33CC"))
         ggsave(fn)
 }
     else if (safety){
@@ -122,6 +123,7 @@ geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist
         ggtitle(paste(i,'performance'))+
     scale_y_continuous(name="Percentage of units met target")+
     scale_x_discrete(name="Year")
+        plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#996633","#CC33CC"))
         ggsave(fn)
     }
     return(plt)
