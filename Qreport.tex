@@ -28,6 +28,7 @@
 %\evensidemargin=.1in
 %\headheight=-.3in
 
+\usepackage{Sweave}
 \begin{document}
 
 %------------------------------------------------------------
@@ -38,35 +39,17 @@
 %\date{}
 
 
-\SweaveOpts{highlight=TRUE, tidy=TRUE, keep.space=TRUE, keep.blank.space=FALSE, keep.comment=TRUE}
-\SweaveOpts{prefix.string=Fig}
-\SweaveOpts{echo=FALSE}
+
+
+
 
 %\maketitle
 
-<<ld>>=
-dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201612,201703)
-lastDate <- 201703
-#print(lastDate)
-fn <- paste('LTT/Worldwide_LTT_',lastDate,'.rds',sep='')
-ww <- readRDS(fn)
-fn <- paste('LTT/RCs_LTT_',lastDate,'.rds',sep='')
-rc <- readRDS(fn)
-@
-<<printLd>>=
-<<ld>>
-dateToQ <- function(date)
-	{
-	yr <- substr(date,1,4)
-	mn <- substr(date,5,6)
-	if (mn=='03')	{mn <- 'Q1'}
-	if (mn=='06')	{mn <- 'Q2'}
-	if (mn=='09')	{mn <- 'Q3'}
-	if (mn=='12')	{mn <- 'Q4'}
-	return(paste(yr,mn,sep=''))
-	}
-cat('Results through',dateToQ(lastDate),'have been generated on',date())
-@
+\begin{Schunk}
+\begin{Soutput}
+Results through 2017Q1 have been generated on Tue Jun 06 15:34:27 2017
+\end{Soutput}
+\end{Schunk}
 
 %\tableofcontents
 %------------------------------------------------------------
@@ -77,267 +60,110 @@ cat('Results through',dateToQ(lastDate),'have been generated on',date())
 \hline
 
 % ---------------------- Worldwide_LTT -------------------------
-<<wwtable,results=tex>>=
-<<ld>>
-column <- c('Key Indicator (Reactor types combined for applicable indicators)',
-'Percentage Achieving Individual Target (Objective is 100 percent)',
-'Percentage Achieving Industry Target (Objective is 75 percent (100 percent for SSPI))')
-
-cat(column[1],"&",column[2],"&",column[3],"\\\\\n\\hline\\hline","\n")
-for (i in 1:5)
-	{
-	cat(paste(ww[i,2],"&",ww[i,3],"&",ww[i,4],"\\\\\n\\hline","\n"))
-	}
-@
-\end{tabular}
+Key Indicator (Reactor types combined for applicable indicators) & Percentage Achieving Individual Target (Objective is 100 percent) & Percentage Achieving Industry Target (Objective is 75 percent (100 percent for SSPI)) \\
+\hline\hline FLR & 85.3 & 57.9 \\
+\hline 
+CRE & 91.3 & 77.8 \\
+\hline 
+TISA & 85.8 & 70.6 \\
+\hline 
+US7 & 84.7 & 60.9 \\
+\hline 
+SSPI & 98.5 & 96.3 \\
+\hline \end{tabular}
 \end{center}
 
 % ------------------------ LTT by Regional Centre -----------------------
-<<rcTable,results=tex>>=
-<<ld>>
-rcs <- c('Atlanta Centre','Moscow Centre','Paris Centre','Tokyo Centre')
-for (rcNum in 1:4)
-	{
-	#cat(rcs[rcNum])
-	cat('\\begin{center}',
-		'\\begin{tabular}{|p{1.5cm}||p{2.5cm}||p{2.5cm}|p{2.5cm}||p{2.5cm}|p{2.5cm}|}',
-		'\\hline')
-	cat('\\multicolumn{2}{|c||}{\\textbf{',rcs[rcNum],'}}','&',
-		'\\multicolumn{2}{|c||}{Individual Target Related Performance}','&',
-		'\\multicolumn{2}{|c|}{Industry Target Related Performance}',
-		'\\\\\n\\hline','\n')
-	cat('Key Indicator','&',
-		'Number of units (systems for SSPI) with qualified results','&',
-		'Number of units (systems for SSPI) achieving individual target','&',
-		'Percentage of regional centre units achieving individual target','&',
-		'Number of units achieving industry target','&',
-		'Percentage of regional centre units achieving industry target',
-		'\\\\\n\\hline','\n')
-	for (i in 1:5)
-		{
-		l <- i+(rcNum-1)*5
-		cat(paste(rc[l,2],"&",rc[l,7],"&",rc[l,5],"&",rc[l,3],"&",rc[l,6],"&",rc[l,4],"\\\\\n\\hline","\n"))
-		}
-	cat('\\end{tabular}','\\end{center}')
-	}
-@
-
+\begin{center} \begin{tabular}{|p{1.5cm}||p{2.5cm}||p{2.5cm}|p{2.5cm}||p{2.5cm}|p{2.5cm}|} \hline\multicolumn{2}{|c||}{\textbf{ Atlanta Centre }} & \multicolumn{2}{|c||}{Individual Target Related Performance} & \multicolumn{2}{|c|}{Industry Target Related Performance} \\
+\hline 
+Key Indicator & Number of units (systems for SSPI) with qualified results & Number of units (systems for SSPI) achieving individual target & Percentage of regional centre units achieving individual target & Number of units achieving industry target & Percentage of regional centre units achieving industry target \\
+\hline 
+FLR & 123 & 108 & 87.8 & 74 & 60.2 \\
+\hline 
+CRE & 123 & 118 & 95.9 & 105 & 85.4 \\
+\hline 
+TISA & 68 & 68 & 100 & 65 & 95.6 \\
+\hline 
+US7 & 123 & 108 & 87.8 & 74 & 60.2 \\
+\hline 
+SSPI & 314 & 306 & 97.5 & 115 & 93.5 \\
+\hline 
+\end{tabular} \end{center}\begin{center} \begin{tabular}{|p{1.5cm}||p{2.5cm}||p{2.5cm}|p{2.5cm}||p{2.5cm}|p{2.5cm}|} \hline\multicolumn{2}{|c||}{\textbf{ Moscow Centre }} & \multicolumn{2}{|c||}{Individual Target Related Performance} & \multicolumn{2}{|c|}{Industry Target Related Performance} \\
+\hline 
+Key Indicator & Number of units (systems for SSPI) with qualified results & Number of units (systems for SSPI) achieving individual target & Percentage of regional centre units achieving individual target & Number of units achieving industry target & Percentage of regional centre units achieving industry target \\
+\hline 
+FLR & 70 & 59 & 84.3 & 49 & 70 \\
+\hline 
+CRE & 69 & 62 & 89.9 & 52 & 75.4 \\
+\hline 
+TISA & 25 & 24 & 96 & 20 & 80 \\
+\hline 
+US7 & 69 & 66 & 95.7 & 56 & 81.2 \\
+\hline 
+SSPI & 163 & 159 & 97.5 & 65 & 94.2 \\
+\hline 
+\end{tabular} \end{center}\begin{center} \begin{tabular}{|p{1.5cm}||p{2.5cm}||p{2.5cm}|p{2.5cm}||p{2.5cm}|p{2.5cm}|} \hline\multicolumn{2}{|c||}{\textbf{ Paris Centre }} & \multicolumn{2}{|c||}{Individual Target Related Performance} & \multicolumn{2}{|c|}{Industry Target Related Performance} \\
+\hline 
+Key Indicator & Number of units (systems for SSPI) with qualified results & Number of units (systems for SSPI) achieving individual target & Percentage of regional centre units achieving individual target & Number of units achieving industry target & Percentage of regional centre units achieving industry target \\
+\hline 
+FLR & 126 & 104 & 82.5 & 63 & 50 \\
+\hline 
+CRE & 126 & 106 & 84.1 & 88 & 69.8 \\
+\hline 
+TISA & 70 & 43 & 61.4 & 23 & 32.9 \\
+\hline 
+US7 & 126 & 103 & 81.7 & 65 & 51.6 \\
+\hline 
+SSPI & 310 & 310 & 100 & 126 & 100 \\
+\hline 
+\end{tabular} \end{center}\begin{center} \begin{tabular}{|p{1.5cm}||p{2.5cm}||p{2.5cm}|p{2.5cm}||p{2.5cm}|p{2.5cm}|} \hline\multicolumn{2}{|c||}{\textbf{ Tokyo Centre }} & \multicolumn{2}{|c||}{Individual Target Related Performance} & \multicolumn{2}{|c|}{Industry Target Related Performance} \\
+\hline 
+Key Indicator & Number of units (systems for SSPI) with qualified results & Number of units (systems for SSPI) achieving individual target & Percentage of regional centre units achieving individual target & Number of units achieving industry target & Percentage of regional centre units achieving industry target \\
+\hline 
+FLR & 61 & 53 & 86.9 & 34 & 55.7 \\
+\hline 
+CRE & 61 & 60 & 98.4 & 50 & 82 \\
+\hline 
+TISA & 34 & 34 & 100 & 31 & 91.2 \\
+\hline 
+US7 & 61 & 44 & 72.1 & 36 & 59 \\
+\hline 
+SSPI & 156 & 154 & 98.7 & 59 & 96.7 \\
+\hline 
+\end{tabular} \end{center}
 %------------------------------------------------------------
 \clearpage
 \section*{Long-Term Targets Performance Bar Charts}
 \subsection*{Number of Units Not Meeting Individual Target per Regional Centre}
 %------------------------------------------------------------
-<<IdvCharts, fig=TRUE, height=5, width=6>>=
-<<ld>>
-par(mfrow=c(2,3))
-#library(plotrix)
-
-# Data in format non-archieved AC - MC - PC - TC
-
-ind <- c('FLR','CRE','TISA','US7','SSPI')
-for (i in 1:5)
-	{
-	# Charts
-	slices <- c(as.integer(rc[i,7])-as.integer(rc[i,5]),
-		as.integer(rc[i+5,7])-as.integer(rc[i+5,5]),
-		as.integer(rc[i+10,7])-as.integer(rc[i+10,5]),
-		as.integer(rc[i+15,7])-as.integer(rc[i+15,5]))
-	lbls <- c("AC", "MC", "PC", "TC")
-	lbls <- paste(lbls, slices) # add percents to labels
-	#pie(slices,labels = lbls, col=c('green','red','blue','yellow'),
-	#	main=ind[i])
-	barplot(slices, names.arg=lbls, horiz=T, las=1, cex.names=1.0, border=NA,
-		col=c('green','red','blue','yellow'),main=ind[i])
-	}
-@
+\includegraphics{Fig-IdvCharts}
 
 \subsection*{Number of Units Not Meeting Industry Target per Regional Centre}
 
-<<IdsCharts, fig=TRUE, height=5, width=6>>=
-<<ld>>
-ind <- c('FLR','CRE','TISA','US7','SSPI')
-par(mfrow=c(2,3))
-for (i in 1:5)
-	{
-	# Charts
-            if (i!=5)
-                slices <- c(as.integer(rc[i,7])-as.integer(rc[i,6]),
-                            as.integer(rc[i+5,7])-as.integer(rc[i+5,6]),
-                            as.integer(rc[i+10,7])-as.integer(rc[i+10,6]),
-                            as.integer(rc[i+15,7])-as.integer(rc[i+15,6]))
-            else slices <- c(as.integer(rc[i,8])-as.integer(rc[i,6]),
-                             as.integer(rc[i+5,8])-as.integer(rc[i+5,6]),
-                             as.integer(rc[i+10,8])-as.integer(rc[i+10,6]),
-                             as.integer(rc[i+15,8])-as.integer(rc[i+15,6]))
-	lbls <- c("AC", "MC", "PC", "TC")
-	lbls <- paste(lbls, slices) # add percents to labels
-	barplot(slices, names.arg=lbls, horiz=T, las=1, cex.names=1.0, border=NA,
-		col=c('green','red','blue','yellow'),main=ind[i])
+\includegraphics{Fig-IdsCharts}
 
-	}
-#print(rc)
-#print(slices)
-@
-
-<<PerfTrendCalc>>=
-<<ld>>
-rcs <- c('Atlanta Centre','Moscow Centre','Paris Centre','Tokyo Centre')
-ind <- c('FLR','CRE','TISA','US7','SSPI')
-cName <- c('FLR Individual Target','FLR Industry Target',
-	'CRE Individual Target','CRE Industry Target','TISA Individual Target','TISA Industry Target',
-	'US7 Individual Target','US7 Industry Target','SSPI Individual Target','SSPI Industry Target')
-res <- data.frame()
-ac <- data.frame()
-mc <- data.frame()
-pc <- data.frame()
-tc <- data.frame()
-
-for (d in dateRange)
-	{
-	fn <- paste('LTT/Worldwide_LTT_',d,'.rds',sep='')
-	fnRc <- paste('LTT/RCs_LTT_',d,'.rds',sep='')
-	ww <- readRDS(fn)
-	rc <- readRDS(fnRc)
-	r <- t(c(ww[1,3],ww[1,4],ww[2,3],ww[2,4],ww[3,3],ww[3,4],ww[4,3],ww[4,4],ww[5,3],ww[5,4]))
-	a <- t(c(rc[1,3],rc[1,4],rc[2,3],rc[2,4],rc[3,3],rc[3,4],rc[4,3],rc[4,4],rc[5,3],rc[5,4]))
-	m <- t(c(rc[6,3],rc[6,4],rc[7,3],rc[7,4],rc[8,3],rc[8,4],rc[9,3],rc[9,4],rc[10,3],rc[10,4]))
-	p <- t(c(rc[11,3],rc[11,4],rc[12,3],rc[12,4],rc[13,3],rc[13,4],rc[14,3],rc[14,4],rc[15,3],rc[15,4]))
-	t <- t(c(rc[16,3],rc[16,4],rc[17,3],rc[17,4],rc[18,3],rc[18,4],rc[19,3],rc[19,4],rc[20,3],rc[20,4]))
-
-	res <- rbind(res,r)
-	ac <- rbind(ac,a)
-	mc <- rbind(mc,m)
-	pc <- rbind(pc,p)
-	tc <- rbind(tc,t)
-	}
-colnames(res) <- cName
-colnames(ac) <- cName
-colnames(mc) <- cName
-colnames(pc) <- cName
-colnames(tc) <- cName
-
-s <- function(x) {substr(x,1,4)}
-dates <- lapply(dateRange,s)
-@
 
 \section*{Long-Term Target Performance Trends \footnote{Please see more detailed definition regarding new and updated targets and indicators on the last pages}}
 \subsection*{Worldwide Trends (percentage of units achieving targets)}
 
-<<PerfTrendWW, fig=TRUE, height=11, width=6>>=
-<<PerfTrendCalc>>
-par(mfrow=c(5,2))
-for (i in 1:10)
-	{
-	if (i%%2 || i==10) lim <- 100 else lim <- 75
-	ymin <- min(unlist(res[i]),na.rm=TRUE)
-	if (ymin>75 & !i%%2) ymin <- 75
-	plot(dates,t(res[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
-	abline(lim,0,col="red")
-	}
-@
+\includegraphics{Fig-PerfTrendWW}
 
 \subsection*{AC Trends (percentage of units achieving targets)}
-<<PerfTrendAC, fig=TRUE, height=11, width=6>>=
-<<PerfTrendCalc>>
-par(mfrow=c(5,2))
-for (i in 1:10)
-	{
-	if (i%%2 || i==10) lim <- 100 else lim <- 75
-	ymin <- min(unlist(ac[i]),na.rm=TRUE)
-	if (ymin>75 & !i%%2) ymin <- 75
-	plot(dates,t(ac[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
-	abline(lim,0,col="red")
-	}
-@
+\includegraphics{Fig-PerfTrendAC}
 
 \subsection*{MC Trends (percentage of units achieving targets)}
-<<PerfTrendMC, fig=TRUE, height=11, width=6>>=
-<<PerfTrendCalc>>
-par(mfrow=c(5,2))
-for (i in 1:10)
-	{
-	if (i%%2 || i==10) lim <- 100 else lim <- 75
-	ymin <- min(unlist(mc[i]),na.rm=TRUE)
-	if (ymin>75 & !i%%2) ymin <- 75
-	plot(dates,t(mc[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
-	abline(lim,0,col="red")
-	}
-@
+\includegraphics{Fig-PerfTrendMC}
 
 \subsection*{PC Trends (percentage of units achieving targets)}
-<<PerfTrendPC, fig=TRUE, height=11, width=6>>=
-<<PerfTrendCalc>>
-par(mfrow=c(5,2))
-for (i in 1:10)
-	{
-	if (i%%2 || i==10) lim <- 100 else lim <- 75
-	ymin <- min(unlist(pc[i]),na.rm=TRUE)
-	if (ymin>75 & !i%%2) ymin <- 75
-	plot(dates,t(pc[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
-	abline(lim,0,col="red")
-	}
-@
+\includegraphics{Fig-PerfTrendPC}
 
 \subsection*{TC Trends (percentage of units achieving targets)}
-<<PerfTrendTC, fig=TRUE, height=11, width=6>>=
-<<PerfTrendCalc>>
-par(mfrow=c(5,2))
-for (i in 1:10)
-	{
-	if (i%%2 || i==10) lim <- 100 else lim <- 75
-	ymin <- min(unlist(tc[i]),na.rm=TRUE)
-	if (ymin>75 & !i%%2) ymin <- 75
-	plot(dates,t(tc[i]),main=cName[i],ylab='Percent',xlab='',type='l',col='blue',ylim=c(ymin,100))
-	abline(lim,0,col="red")
-	}
-@
+\includegraphics{Fig-PerfTrendTC}
 
 %------------------------------------------------------------
 \section*{Long-Term Targets Performance Trends}
 %------------------------------------------------------------
 
-<<NewStyledPict>>=
-require(ggplot2)
-<<ld>>
-data <- data.frame()
-### Read RC and WW data
-for (date in dateRange){
-    fn <- paste('LTT/RCs_LTT_',date,'.rds',sep='')
-    wwfn <- paste('LTT/Worldwide_LTT_',date,'.rds',sep='')
-    d <- readRDS(fn)
-    d <- cbind(date=substr(date,1,4),d)
-    data <- rbind(data,d)
-    d <- readRDS(wwfn)
-    d <- cbind(date=substr(date,1,4),d)
-    data <- rbind(data,d)
-}
-colnames(data)[4] <- 'IndPerc'
-colnames(data)[5] <- 'IndustPerc'
-indPerc <- cbind(subset(data,select=c(date,Centre,Indicator,IndPerc)),param='Individual')
-colnames(indPerc)[4] <- 'percentage'
-idsPerc <- cbind(subset(data,select=c(date,Centre,Indicator,IndustPerc)),param='Industry')
-colnames(idsPerc)[4] <- 'percentage'
-dd <- rbind(indPerc,idsPerc)
-### charting
-ind <- c('FLR','CRE','TISA','US7','SSPI')
-
-plt <- function(i){
-    f <- subset(dd,Indicator==i)
-    fn <- paste(i,'_RC.png',sep='')
-    plt <- ggplot(f)+
-        geom_line(aes(x=date,y=unlist(percentage),group=unlist(Centre),color=unlist(Centre)))+
-        ylab('Percentage of units met target')+
-        theme(legend.title=element_blank())+
-        geom_hline(aes(yintercept=75,color='Industry target'))+
-        geom_hline(aes(yintercept=100,color='Individual target'))+
-        facet_grid(param~.)+
-        ggtitle(paste(i,'performance'))
-        ggsave(fn)
-    return(plt)
-}
-#par(mfrow=c(5,1))
-for (i in ind) plot(plt(i))
-@
 
 %\begin{center}
 \begin{figure}[h]

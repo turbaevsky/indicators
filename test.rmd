@@ -47,7 +47,7 @@ cat('\r\n\r\n')
 
 ### plotting
 #library(ggplot2)
-dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201612)
+dateRange <- c(200712,200812,200912,201012,201112,201212,201312,201412,201512,201612,201703)
 data <- data.frame()
 ### Read RC and WW data
 for (date in dateRange){

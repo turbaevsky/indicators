@@ -121,7 +121,7 @@ geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist
         geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
         facet_grid(param~.)+
         ggtitle(paste(i,'performance'))+
-    scale_y_continuous(name="Percentage of units met target")+
+    scale_y_continuous(name="Percentage of units that met target")+
     scale_x_discrete(name="Year")
         plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#996633","#CC33CC"))
         ggsave(fn)

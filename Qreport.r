@@ -232,8 +232,9 @@ for (centre in c(1:4))	# By centre
                                         #logdebug('sp5=%f',sp5)
                                         #loginfo('%f %f %f',sp1,sp2,sp5)
                 if (length(sp1) && length(sp2) && length(sp5) && sp1 <= hid('SP1  ') && sp2 <= hid('SP2  ') && sp5 <= hid('SP5  ')) lowerIs <- lowerIs+1
-                else if (length(sp1) && length(sp2) && length(sp5))
-                    logdebug('for unit %s sp1=%f, sp2=%f, sp5=%f',nameByID(uN),sp1,sp2,sp5)
+                else if (length(sp1) && length(sp2) && length(sp5) && (sp1 > hid('SP1  ') || sp2 > hid('SP2  ') || sp5 > hid('SP5  '))) loginfo('Unit %s did not meet industry target due to SP1=%f, SP2=%f and SP5=%f',nameByID(uN),sp1,sp2,sp5)
+                #else if (length(sp1) && length(sp2) && length(sp5))
+                #    logdebug('for unit %s sp1=%f, sp2=%f, sp5=%f',nameByID(uN),sp1,sp2,sp5)
                 else {
                     logwarn('Unit %s does not have all SSPI data',nameByID(uN))
                     sspiNum <- sspiNum-1
@@ -251,7 +252,7 @@ for (centre in c(1:4))	# By centre
 ### calculate SP1-5 details
     sspi <- rbind(sspi,c(lowerId,uNumS))
     colnames(sspi) <- c('SP1','SP2','SP5','uNumSP1','uNumSP2','uNumSP5')
-    #print(sspi)
+    print(sspi)
 }
 colnames(d) <- c('Centre','Indicator','Ind.percentage','Indust.percentage','Units met Id','Units met Is','Qualified units','SSPI.qual.units')
 print(d)
