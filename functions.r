@@ -116,7 +116,7 @@ activeStation <- function(startDate,mode='u') # Getting active units list
 
 ### Units by centre ==================================
         centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
-        centreNames <- c('AC','MC','PC','TC')
+        centreNames <- c('WANO:AC','WANO:MC','WANO:PC','WANO:TC')
 uByCentre <- function()
     {
         unitsByCentre <- list()
@@ -149,39 +149,113 @@ elByCode <- function(code) return(as.character(subset(elem,LabelCode==code,Label
 
 ### Tendency for PC-style report
 tendency <- function(indicator,x18,x36){
+    try({
     if (indicator!='UCF  '){
-            if (x18==x36) tendency <- '0'
-            if (x18<x36*0.7) tendency <- '++'
-            if (x18>x36*0.7 && x18<=x36) tendency <- '+'
-            if (x18>x36 && x18<=x36*1.3) tendency <- '-'
-            if (x18>x36*1.3) tendency <- '--'
+        if (x18==x36) tendency <- '0'
+        if (x18<x36*0.7) tendency <- '++'
+        if (x18>x36*0.7 && x18<=x36) tendency <- '+'
+        if (x18>x36 && x18<=x36*1.3) tendency <- '-'
+        if (x18>x36*1.3) tendency <- '--'
         }
     else {
-            if (x18==x36) tendency <- '0'
-            if (x18>x36*1.3) tendency <- '++'
-            if (x18<x36*1.3 && x18>=x36) tendency <- '+'
-            if (x18<x36 && x18>=x36*0.7) tendency <- '-'
-            if (x18<x36*0.7) tendency <- '--'
-        }
+        if (x18==x36) tendency <- '0'
+        if (x18>x36*1.3) tendency <- '++'
+        if (x18<x36*1.3 && x18>=x36) tendency <- '+'
+        if (x18<x36 && x18>=x36*0.7) tendency <- '-'
+        if (x18<x36*0.7) tendency <- '--'
+    }
+    })
     return(tendency)
 }
 
 ### Quartile info for PC-style report
 quart <- function(indicator,x,res){
+
     X <- "X"
-    if (indicator!='UCF  '){
-        if (x>=quantile(res)[[1]] && x<=quantile(res)[[2]]) Q <- c(X,'','','','')
-        if (x>quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- c('',X,'','','')
-        if (x>quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- c('','',X,'','')
-        if (x>quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- c('','','',X,'')
-        if (x>=quantile(res,probs=seq(0,1,0.1))[[9]] && x!=0) Q <- c('','','',X,X)
-    }
-    else {
-        if (x<=quantile(res)[[5]] && x>quantile(res)[[4]]) Q <- c(X,'','','','')
-        if (x<=quantile(res)[[4]] && x>quantile(res)[[3]]) Q <- c('',X,'','','')
-        if (x<=quantile(res)[[3]] && x>quantile(res)[[2]]) Q <- c('','',X,'','')
-        if (x<=quantile(res)[[2]] && x>quantile(res)[[1]]) Q <- c('','','',X,'')
-        if (x<=quantile(res,probs=seq(0,1,0.1))[[2]]) Q <- c('','','',X,X)
-    }
+    try({
+        if (indicator!='UCF  '){
+            if (x>=quantile(res)[[1]] && x<=quantile(res)[[2]]) Q <- c(X,'','','','')
+            if (x>quantile(res)[[2]] && x<=quantile(res)[[3]]) Q <- c('',X,'','','')
+            if (x>quantile(res)[[3]] && x<=quantile(res)[[4]]) Q <- c('','',X,'','')
+            if (x>quantile(res)[[4]] && x<=quantile(res)[[5]]) Q <- c('','','',X,'')
+            if (x>=quantile(res,probs=seq(0,1,0.1))[[9]] && x!=0) Q <- c('','','',X,X)
+        }
+        else {
+            if (x<=quantile(res)[[5]] && x>quantile(res)[[4]]) Q <- c(X,'','','','')
+            if (x<=quantile(res)[[4]] && x>quantile(res)[[3]]) Q <- c('',X,'','','')
+            if (x<=quantile(res)[[3]] && x>quantile(res)[[2]]) Q <- c('','',X,'','')
+            if (x<=quantile(res)[[2]] && x>quantile(res)[[1]]) Q <- c('','','',X,'')
+            if (x<=quantile(res,probs=seq(0,1,0.1))[[2]]) Q <- c('','','',X,X)
+        }
+        })
     return(Q)
     }
+
+
+plt <- function(i,safety=FALSE,us7=FALSE,group='ReactorType',col=TRUE){
+    if (us7 & i=='US7'){
+        f <- subset(dd,Indicator==i & as.numeric(as.character(date))>=2013)
+                                        #loginfo('us7')
+    }
+    else
+        f <- subset(dd,Indicator==i)
+    fn <- paste(i,'_',group,'.png',sep='')
+    plt <- ggplot(f)
+    if (group=='ReactorType')
+        plt <- plt + geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))
+    else if (group=='Centre')
+        plt <- plt + geom_line(aes(x=date,y=unlist(percentage),group=unlist(Centre),color=unlist(Centre)))
+
+    if (!safety){
+        plt <- plt +
+            #geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
+            theme(legend.title=element_blank())+
+            geom_hline(data=idsPerc,aes(yintercept=75,color='Industry objective'))+
+            geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
+            facet_grid(param~.)+
+            ggtitle(paste(i,'performance'))+
+            scale_y_continuous(name="Percentage of units that met target")+
+            scale_x_discrete(name="Year")
+        if ((i=='FLR' || i=='TISA')&& col) plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#CC33CC"))
+        else if (col)  plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#33FF00","#330099","#996633","#CC33CC"))
+        ggsave(fn)
+}
+    else if (safety){
+        plt <- plt +
+            theme(legend.title=element_blank())+
+            geom_hline(data=idsPerc,aes(yintercept=100,color='Industry objective'))+
+            geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
+            facet_grid(param~.)+
+            ggtitle(paste(i,'performance'))+
+            scale_y_continuous(name="Percentage of units that met target")+
+            scale_x_discrete(name="Year")
+        if (col)
+            plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#996633","#CC33CC"))
+        ggsave(fn)
+    }
+    return(plt)
+}
+
+
+### Create a list of months for predefined period ###
+monthsList <- function(start,duration){
+    start <- as.numeric(start)
+    duration <- as.numeric(duration)
+    #print(paste(start,duration))
+    d <- c(start)
+    while (duration>1){
+        n <- tail(d,1)-1
+        #print(paste(d/100,d%/%100))
+        if ((n/100)==(n%/%100)){
+            yr <- as.numeric(substr(n,1,4))-1
+            mn <- 12
+            n <- as.numeric(paste(yr,mn,sep=''))
+            d <- c(d,n)
+            #print(paste(n,d))
+        }
+        else d <- c(d,n)
+        duration <- duration - 1
+    }
+    #print(d)
+    return(d)
+}

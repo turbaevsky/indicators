@@ -76,7 +76,7 @@ for (t in c(1:6))
 	{ uType$rType[t] <- subset(UnitData,NsssTypeId == rTypeCode[t],select = 1)}
 # Units by centre
 centreCode <- c(1155,1158,1156,1159)	#AC,MC,PC,TC
-centreNames <- c('AC','MC','PC','TC')
+centreNames <- c('WANO:AC','WANO:MC','WANO:PC','WANO:TC')
 unitsByCentre <- list()
 for (centre in c(1:4))
 	{ unitsByCentre$uList[centre] <- unique(subset(relation,relation$ParentLocId == centreCode[centre]

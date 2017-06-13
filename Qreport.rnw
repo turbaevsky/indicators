@@ -53,6 +53,7 @@ ww <- readRDS(fn)
 fn <- paste('LTT/RCs_LTT_',lastDate,'.rds',sep='')
 rc <- readRDS(fn)
 @
+
 <<printLd>>=
 <<ld>>
 dateToQ <- function(date)
@@ -123,11 +124,11 @@ for (rcNum in 1:4)
 @
 
 %------------------------------------------------------------
-\clearpage
-\section*{Long-Term Targets Performance Bar Charts}
-\subsection*{Number of Units Not Meeting Individual Target per Regional Centre}
+%\clearpage
+%\section*{Long-Term Targets Performance Bar Charts}
+%\subsection*{Number of Units Not Meeting Individual Target per Regional Centre}
 %------------------------------------------------------------
-<<IdvCharts, fig=TRUE, height=5, width=6>>=
+<<IdvCharts, fig=FALSE, height=5, width=6>>=
 <<ld>>
 par(mfrow=c(2,3))
 #library(plotrix)
@@ -151,9 +152,9 @@ for (i in 1:5)
 	}
 @
 
-\subsection*{Number of Units Not Meeting Industry Target per Regional Centre}
+%\subsection*{Number of Units Not Meeting Industry Target per Regional Centre}
 
-<<IdsCharts, fig=TRUE, height=5, width=6>>=
+<<IdsCharts, fig=FALSE, height=5, width=6>>=
 <<ld>>
 ind <- c('FLR','CRE','TISA','US7','SSPI')
 par(mfrow=c(2,3))
@@ -220,10 +221,10 @@ s <- function(x) {substr(x,1,4)}
 dates <- lapply(dateRange,s)
 @
 
-\section*{Long-Term Target Performance Trends \footnote{Please see more detailed definition regarding new and updated targets and indicators on the last pages}}
-\subsection*{Worldwide Trends (percentage of units achieving targets)}
+%\section*{Long-Term Target Performance Trends \footnote{Please see more detailed definition regarding new and updated targets and indicators on the last pages}}
+%\subsection*{Worldwide Trends (percentage of units achieving targets)}
 
-<<PerfTrendWW, fig=TRUE, height=11, width=6>>=
+<<PerfTrendWW, fig=FALSE, height=11, width=6>>=
 <<PerfTrendCalc>>
 par(mfrow=c(5,2))
 for (i in 1:10)
@@ -236,8 +237,8 @@ for (i in 1:10)
 	}
 @
 
-\subsection*{AC Trends (percentage of units achieving targets)}
-<<PerfTrendAC, fig=TRUE, height=11, width=6>>=
+%\subsection*{AC Trends (percentage of units achieving targets)}
+<<PerfTrendAC, fig=FALSE, height=11, width=6>>=
 <<PerfTrendCalc>>
 par(mfrow=c(5,2))
 for (i in 1:10)
@@ -250,8 +251,8 @@ for (i in 1:10)
 	}
 @
 
-\subsection*{MC Trends (percentage of units achieving targets)}
-<<PerfTrendMC, fig=TRUE, height=11, width=6>>=
+%\subsection*{MC Trends (percentage of units achieving targets)}
+<<PerfTrendMC, fig=FALSE, height=11, width=6>>=
 <<PerfTrendCalc>>
 par(mfrow=c(5,2))
 for (i in 1:10)
@@ -264,8 +265,8 @@ for (i in 1:10)
 	}
 @
 
-\subsection*{PC Trends (percentage of units achieving targets)}
-<<PerfTrendPC, fig=TRUE, height=11, width=6>>=
+%\subsection*{PC Trends (percentage of units achieving targets)}
+<<PerfTrendPC, fig=FALSE, height=11, width=6>>=
 <<PerfTrendCalc>>
 par(mfrow=c(5,2))
 for (i in 1:10)
@@ -278,8 +279,8 @@ for (i in 1:10)
 	}
 @
 
-\subsection*{TC Trends (percentage of units achieving targets)}
-<<PerfTrendTC, fig=TRUE, height=11, width=6>>=
+%\subsection*{TC Trends (percentage of units achieving targets)}
+<<PerfTrendTC, fig=FALSE, height=11, width=6>>=
 <<PerfTrendCalc>>
 par(mfrow=c(5,2))
 for (i in 1:10)
@@ -318,41 +319,51 @@ colnames(indPerc)[4] <- 'percentage'
 idsPerc <- cbind(subset(data,select=c(date,Centre,Indicator,IndustPerc)),param='Industry')
 colnames(idsPerc)[4] <- 'percentage'
 dd <- rbind(indPerc,idsPerc)
+#print(dd)
 ### charting
 ind <- c('FLR','CRE','TISA','US7','SSPI')
 
-plt <- function(i){
-    f <- subset(dd,Indicator==i)
-    fn <- paste(i,'_RC.png',sep='')
-    plt <- ggplot(f)+
-        geom_line(aes(x=date,y=unlist(percentage),group=unlist(Centre),color=unlist(Centre)))+
-        ylab('Percentage of units met target')+
-        theme(legend.title=element_blank())+
-        geom_hline(aes(yintercept=75,color='Industry target'))+
-        geom_hline(aes(yintercept=100,color='Individual target'))+
-        facet_grid(param~.)+
-        ggtitle(paste(i,'performance'))
-        ggsave(fn)
-    return(plt)
-}
+source('functions.r')
+
+#plt <- function(i){
+#    f <- subset(dd,Indicator==i)
+#    fn <- paste(i,'_RC.png',sep='')
+#    plt <- ggplot(f)+
+#        geom_line(aes(x=date,y=unlist(percentage),group=unlist(Centre),color=unlist(Centre)))+
+#        ylab('Percentage of units that met target')+
+#        theme(legend.title=element_blank())+
+#        geom_hline(aes(yintercept=75,color='Industry target'))+
+#        geom_hline(aes(yintercept=100,color='Individual target'))+
+#        facet_grid(param~.)+
+#        ggtitle(paste(i,'performance'))
+#        ggsave(fn)
+#    return(plt)
+#}
 #par(mfrow=c(5,1))
-for (i in ind) plot(plt(i))
+
+#Centre <- c(1:4)
+
+for (i in ind){
+    if (i=='SSPI') plt(i,T,F,group='Centre',F)
+    else if (i=='US7') plt(i,F,T,group='Centre',F)
+    else plt(i,F,F,group='Centre',F)
+    }
 @
 
 %\begin{center}
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{FLR_RC}
+\includegraphics[scale=0.4]{FLR_Centre}
 \end{figure}
 \begin{figure}[p]
 \centering
-\includegraphics[scale=0.4]{CRE_RC}
-\includegraphics[scale=0.4]{TISA_RC}
+\includegraphics[scale=0.4]{CRE_Centre}
+\includegraphics[scale=0.4]{TISA_Centre}
 \end{figure}
 \begin{figure}[p]
 \centering
-\includegraphics[scale=0.4]{US7_RC}
-\includegraphics[scale=0.4]{SSPI_RC}
+\includegraphics[scale=0.4]{US7_Centre}
+\includegraphics[scale=0.4]{SSPI_Centre}
 \end{figure}
 %\end{center}
 
@@ -361,8 +372,8 @@ for (i in ind) plot(plt(i))
 \appendix
 \subsection*{Targets definition}
 
-For most performance indicators, the industry values were developed based on 2007 industry results. The industry-level targets are based on 75 percent of the industry achieving the 2007 industry median values. This would mean that overall industry performance has improved, with an additional one-fourth of the industry units or stations achieving performance indicators results better than the 2007 industry median. The individual unit or station performance targets are based on all units and stations achieving results that are better than the 2007 lowest quartile values.
-The safety system performance targets are based on a continuing reduction of the industry average safety system unavailability to below 2007 industry average values. The unit/station safety system targets are based on first keeping the unavailability below a threshold value (0.020 or 0.025 depending on the system) and also either maintaining or decreasing the individual unit/station safety system unavailability.
+For most performance indicators, the industry values were developed based on 2007 industry results. The industry-level targets were based on 75 percent of the industry achieving the 2007 industry median values. This would mean that overall industry performance has improved, with an additional one-fourth of the industry units or stations achieving performance indicators results better than the 2007 industry median. The individual unit or station performance targets were based on all units and stations achieving results that are better than the 2007 lowest quartile values.
+The safety system performance targets were based on a continuing reduction of the industry average safety system unavailability to below 2007 industry average values. The unit/station safety system targets were based on first keeping the unavailability below a threshold value (0.020 or 0.025 depending on the system) and also either maintaining or decreasing the individual unit/station safety system unavailability.
 
 \subsubsection*{WANO Performance Indicator Targets 2020}
 

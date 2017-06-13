@@ -91,43 +91,49 @@ loginfo('dd table')
 ind <- c('FLR','CRE','TISA','US7','SSPI')
 
 ############################## Plot function #############################
-plt <- function(i,safety=FALSE,us7=FALSE){
-    if (us7 & i=='US7'){
-        f <- subset(dd,Indicator==i & as.numeric(as.character(date))>=2013)
-        loginfo('us7')}
-    else
-        f <- subset(dd,Indicator==i)
-    fn <- paste(i,'.png',sep='')
+#plt <- function(i,safety=FALSE,us7=FALSE,group='ReactorType'){
+#    if (us7 & i=='US7'){
+#        f <- subset(dd,Indicator==i & as.numeric(as.character(date))>=2013)
+#        loginfo('us7')}
+#    else
+#        f <- subset(dd,Indicator==i)
+#    fn <- paste(i,'_',group,'.png',sep='')
+#    plt <- ggplot(f)
+#    if (group=='ReactorType')
+#        plt <- plt + geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))
+#    else if (group=='Centre')
+#        plt <- plt + geom_line(aes(x=date,y=unlist(percentage),group=unlist(Centre),color=unlist(Centre)))
+#
+#    if (!safety){
+#        plt <- plt +
+#            #geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
+#            theme(legend.title=element_blank())+
+#            geom_hline(data=idsPerc,aes(yintercept=75,color='Industry objective'))+
+#            geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
+#            facet_grid(param~.)+
+#            ggtitle(paste(i,'performance'))+
+#            scale_y_continuous(name="Percentage of units that met target")+
+#            scale_x_discrete(name="Year")
+#        if (i=='FLR' || i=='TISA') plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#CC33CC"))
+#        else  plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#33FF00","#330099","#996633","#CC33CC"))
+#        ggsave(fn)
+#}
+#    else if (safety){
+#        plt <- plt +
+#            theme(legend.title=element_blank())+
+#            geom_hline(data=idsPerc,aes(yintercept=100,color='Industry objective'))+
+#            geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
+#            facet_grid(param~.)+
+#            ggtitle(paste(i,'performance'))+
+#            scale_y_continuous(name="Percentage of units that met target")+
+#            scale_x_discrete(name="Year")
+#        plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#996633","#CC33CC"))
+#        ggsave(fn)
+#    }
+#    return(plt)
+#}
 
-    if (!safety){
-        plt <- ggplot(f)+
-            geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
-            theme(legend.title=element_blank())+
-            geom_hline(data=idsPerc,aes(yintercept=75,color='Industry objective'))+
-            geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
-            facet_grid(param~.)+
-            ggtitle(paste(i,'performance'))+
-            scale_y_continuous(name="Percentage of units that met target")+
-            scale_x_discrete(name="Year")
-        if (i=='FLR' || i=='TISA') plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#CC33CC"))
-        else  plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#33FF00","#330099","#996633","#CC33CC"))
-        ggsave(fn)
-}
-    else if (safety){
-        plt <- ggplot(f)+
-geom_line(aes(x=date,y=unlist(percentage),group=unlist(ReactorType),color=unlist(ReactorType)))+
-        theme(legend.title=element_blank())+
-        geom_hline(data=idsPerc,aes(yintercept=100,color='Industry objective'))+
-        geom_hline(data=indPerc,aes(yintercept=100,color='Individual objective'))+
-        facet_grid(param~.)+
-        ggtitle(paste(i,'performance'))+
-    scale_y_continuous(name="Percentage of units that met target")+
-    scale_x_discrete(name="Year")
-        plt <- plt+scale_color_manual(values=c("#FF0033","#FFCC00","#FF9900","#FF3300","#996633","#CC33CC"))
-        ggsave(fn)
-    }
-    return(plt)
-}
+
 ############################## Plotting #############################
 for (i in ind){
     if (i=='SSPI') plt(i,T,F)
