@@ -228,9 +228,12 @@ navbarPage("Performance Analysis",
                                   choices = uNames,selected = uNames[1], multiple=FALSE),
                    selectizeInput("idxQtr", "Quarter:",
                                   choices = qtrs,selected=tail(qtrs,1),multiple=FALSE),
-                   selectInput('Icountry','Country:',choices = names(country))),
+                   selectInput('Icountry','Country:',choices = names(country)),
+                   'to compare to (for a picture)',
+                   selectInput('I2country','Country:',choices = names(country))),
            mainPanel(
                dataTableOutput("UIdx"),
+               plotOutput("IdxPict"),
                dataTableOutput("IdxSum")
            )))
   )

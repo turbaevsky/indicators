@@ -615,7 +615,17 @@ LID <-  reactive(subset(place,place$AbbrevLocName==input$pname)[[1]])
     })
     output$IdxSum <- renderDataTable(IdxSum(),options=list(paging = FALSE,searching=FALSE))
 
-
+    idxPict <- reactive({
+        CSel <- country[[input$Icountry]]
+        uByCountry <- unique(unlist(subset(place,CountryId %in% CSel & PlaceTypeId %in% c(19,22),LocId)))
+        Idx <- subset(idx,IndexId==4 & PeriodEndYrMn %in% input$idxQtr & LocId %in% uByCountry,IndexValue)[[1]]
+        CSel2 <- country[[input$I2country]]
+        uByCountry2 <- unique(unlist(subset(place,CountryId %in% CSel2 & PlaceTypeId %in% c(19,22),LocId)))
+        Idx2 <- subset(idx,IndexId==4 & PeriodEndYrMn %in% input$idxQtr & LocId %in% uByCountry2,IndexValue)[[1]]
+        Idx <- cbind(Idx,Idx2)
+        boxplot(Idx)
+        })
+    output$IdxPict <- renderPlot(idxPict())
 ############################### The end #################################
 
 })
