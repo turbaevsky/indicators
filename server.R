@@ -25,20 +25,6 @@ rSubType <- function(rs)
 aType <- function(at) {return(subset(attrType,AttributeTypeId==at,Description)[[1]])}
 
 units <- readRDS('DBCopy/CORE_Unit.rds') # Look at OEDBID there; IAEARef and INPORef looks useful as well
-### Create a list of months for predefined period ###
-monthsList <- function(start,duration){
-    d <- c(start)
-    while (duration>0){
-        n <- tail(d)-1
-        if (substr(n,5,6)=='00'){
-            yr <- as.numeric(substr(n,1,4))-1
-            mn <- 12
-            n <- paste(yr,mn,sep='')
-        }
-        d <- c(d,n)
-        }
-    return(d)
-    }
 
 ############################## Server ####################################
 shinyServer(function(input, output, clientData, session) {
@@ -99,18 +85,33 @@ shinyServer(function(input, output, clientData, session) {
                      else out <- '')
     output$note <- renderText(note())
 
-
+#################################################################################
 ### Source data ###
-    sourceData <- reactive(
+#################################################################################
+    sourceData <- reactive( if (input$sourceDetails)
     {
-### TODO: extend the reporing period for number of months ######################
-### then add summary information
+### TODO: add summary information
     # quarters <- monthsList(input$qtr,input$window)
-    quarters <- c(input$qtr,as.numeric(input$qtr)-1,as.numeric(input$qtr)-2)
+        quarters <- monthsList(input$qtr,input$window)
+        #print(quarters)
     s <- subset(data,data$SourceId %in%  uNo() & data$YrMn %in% quarters & data$ElementCode %in% elByInd[input$ind][[1]])
     sourceData <- s
     sourceData <- cbind(s[1:3],apply(s[4],1,el),s[5:8])
     })
+
+    output$sourceData <- renderDataTable(sourceData(),options=list(paging = FALSE,searching=FALSE))
+######################## Summary for reporting period #######################
+    sourceDataSummary <- reactive({
+        rst <- data.frame()
+        quarters <- monthsList(input$qtr,input$window)
+        for (el in elByInd[input$ind][[1]]){
+            s <- sum(subset(data,data$SourceId %in%  uNo() & data$YrMn %in% quarters & data$ElementCode == el & SourceCode == '  ' & RecStatus == ' ',ElementValue)[[1]])
+            rst <- rbind(rst,data.frame(el(el),s))
+        }
+        sourceDataSummary <- rst
+        })
+    output$sourceDataSummary <- renderDataTable(sourceDataSummary(),options=list(paging = FALSE,searching=FALSE))
+
     ### Results ###
     res <- reactive(subset(r,r$LocId %in% uNo() & r$PeriodEndYrMn %in% input$qtr & r$IndicatorCode %in% input$ind & r$NumOfMonths == input$window))
     ### Index ###
@@ -167,8 +168,6 @@ shinyServer(function(input, output, clientData, session) {
 
     output$table <- renderTable(err())
     output$dbcopydate <- renderPrint(dbcopy)
-
-    output$sourceData <- renderDataTable(sourceData(),options=list(paging = FALSE,searching=FALSE))
     output$result <- renderDataTable(res(),options=list(paging = FALSE,searching=FALSE))
     output$unitStatus <- renderDataTable(udate(),options=list(paging = FALSE,searching=FALSE))
     output$comments <- renderDataTable(com(),options=list(paging = FALSE,searching=FALSE))
@@ -473,14 +472,19 @@ LID <-  reactive(subset(place,place$AbbrevLocName==input$pname)[[1]])
                     tendency <- tendency(indicator,x18[i],x36[i])
 ### Which quantile ###
                     X <- "X"
-                    print(paste('Quantile:',quantile(res36),"Result:",res36))
+                    #print(paste('Quantile:',quantile(res36),"Result:",res36))
                     Q <- quart(indicator,x36[i],res36)
 ### create table ###
                     if (indicator=='UCF  ')
-                        d <- c(indicator,signif(quantile(res36)[[4]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[2]],3),i,signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q))
-                    else
-                        d <- c(indicator,signif(quantile(res36)[[2]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[4]],3),i,signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q))
-                    print(d)
+                        try(
+                        #print(paste(indicator,res36))
+                            d <- c(indicator,signif(quantile(res36)[[4]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[2]],3),i,signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q)))
+
+                    else try(
+                        #print(paste(indicator,res36))
+                             d <- c(indicator,signif(quantile(res36)[[2]],3),signif(quantile(res36)[[3]],3),signif(quantile(res36)[[4]],3),i,signif(x36[[i]],3),signif(x18[[i]],3),tendency,length(res36),unlist(Q)))
+
+                    #print(d)
                     pcAll <- rbind(pcAll,d)
                 }}
             col <- c('Indicator','Top quartile','Median','Bottom quartile','Unit No','PI-36 result','PI-18 result','Performance tendency','Units reporting','Top quartile','2nd quartile','3rd quartile','Bott.quartile','Bott.10%')
