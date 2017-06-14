@@ -227,9 +227,10 @@ navbarPage("Performance Analysis",
                    selectizeInput("idxName", "Unit:",
                                   choices = uNames,selected = uNames[1], multiple=FALSE),
                    selectizeInput("idxQtr", "Quarter:",
-                                  choices = qtrs,selected=tail(qtrs,1),multiple=FALSE)),
+                                  choices = qtrs,selected=tail(qtrs,1),multiple=FALSE),
+                   selectInput('Icountry','Country:',choices = names(country))),
            mainPanel(
-               dataTableOutput("UIdx")
-               #verbatimTextOutput("UIdx")
+               dataTableOutput("UIdx"),
+               dataTableOutput("IdxSum")
            )))
   )
