@@ -1091,6 +1091,9 @@ The intention of this section is to cover all the necessary calculation.
 
 ## Development process
 
+The development will be based on
+[Agile](https://en.wikipedia.org/wiki/Agile_software_development)
+methodology (detailes are also available [here](http://agilemethodology.org/)
 
 ## CheckList
 
@@ -1099,8 +1102,11 @@ The intention of this section is to cover all the necessary calculation.
 - [ ] Have the first meeting to define/explain development strategy
   and to discuss all the related questions like communication
   protocol, minimal functional requarements etc.
+  - [ ] Have a chat with Ross and Sandor (beginning of week 4 2018)
+  - [ ] Have a meeting with Mark (mid of week 4 2018)
 - [ ] Officially start the development (incluging clear definition of roles
   and tasks for all the memebers)
+- [ ] to demonstrate the first prototype during Feb 2018 PI Programme Meeting
 
 
 
