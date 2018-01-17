@@ -19,7 +19,7 @@ developnemt necessity.
 
 DES was designed to enter source data, provide very basic calculation,
 and to provide some security functions. Also it supports the basic
-dataflow which mean review data then promote or reject them. More
+[dataflow](#data-processing) which mean review data then promote or reject them. More
 detailed information regarding DES please see
 [below](#data-entry-system-basic-functionality).
 
@@ -32,7 +32,176 @@ It seems reasonable _new system to calculate all the resuls on fly_.
 
 ## Data processing
 
-### Use of DES
+The following Performance Indicator’s process description flowchart describes the PIs process and its main phases. All these steps are described below.
+
+![](pic/dataflow.PNG)
+
+### Step 1 – Data collection, Members
+
+Each WANO member (nuclear operating organisation) is responsible for
+the element data collection. All necessary elements are identified in
+the Data Entry System (DES) section of the WANO member website. Most
+of the world plants report quarterly. However, the USA plants report
+monthly to the Institute of Nuclear Power Operations (INPO) using CDE
+(Consolidated Data Entry) system. The INPO transfer monthly all
+predefined data from CDE into PI DB through DES.
+
+### Step 2 – Data reporting and submission, Members
+
+Station PI staff is responsible for the first review and submittal of
+good quality data elements to Regional Centres (RCs) according to the
+PI Reference Manual and for informing RCs about data collection
+issues.
+
+These data elements should be collected for each operating nuclear
+station/reactor unit, and submitted to the member's RC within 45 days
+following the end of each calendar quarter.
+
+All PI data, with exception of the USA plants must be submitted
+through the DES of the WANO member website.
+
+Each WANO member can submit only data elements related to its own
+unit/station. All data elements which are significantly different from
+previous values, or reflected during Quality Report Review (QRR)
+system, should be commented into appropriated fields. Before
+submitting data should be checked by QRR system, and then using
+‘Calculate Indicator’ option into DES menu bar check results for all
+available date ranges.
+
+The number of units not reporting in time is measured through the
+PI-1, “Number of units not reporting in 45 days after end of quarter”
+scorecard (see details in the [Metrics](#metrics) section).
+
+### Step 3 – Data review, correction and acceptance, RC PI Managers
+
+WANO RCs’ PI managers are responsible for reviewing /screening data
+elements in their region and challenging inconsistent data. Acceptable
+data is promoted. At times, it is possible to place unacceptable data
+in production, but with a disqualification code , which will prevent
+its use in result calculations. WANO RCs are also responsible for
+maintaining knowledge of RC and stations’ personnel using PI in
+cooperation with other programmes and for providing regular ‘random’
+on-site data inserting check visits to be sure data is correctly
+collected and reported.
+
+RCs review and promote to production the submitted data in DES within
+60 days following the end of each calendar quarter. They inform the
+system administrator(s) when all data has been promoted.
+
+To resolve data inconsistencies or reporting problems, RCs can also reject the data to members. When they reject the data to members, it is a good practice to get in touch with the plant PI manager to clarify why the data elements have been rejected and also insert comments on each data element as appropriate.
+All data elements which are significantly different from previous
+values, or reflected during Quality Report Review (QRR) system, should
+be commented into appropriated fields. Before submitting data should
+be checked by [QRR](#qrr) system, and then using ‘Calculate Indicator’ option
+into DES menu bar for check results all available date ranges.
+
+London Office (LO) monitors the number of units without a complete set
+of data elements. LO works together with the respective RC PI manager
+to understand the reasons and resolve issues if necessary.
+
+### Step 4 – Calculation of results, WANO PI Administration staff
+
+The WANO PI SA initiates the calculation of indicator values of data
+the RCs placed in production.
+
+The number of units not reporting all data elements indicator is
+measured through the PI-2, “Number of units not reporting all data
+elements” scorecard (see details in the [Metrics](#metrics) section).
+
+### Step 5 – Posting and releasing of results, WANO PI Administration
+    staff
+
+The WANO PI SA(s) initiates calculations and releases the results for
+each quarter. Indicator values are automatically updated on the WANO
+member website every weekend or manually by SA (by request).
+
+If necessary LO sends the clarification request to the RC during step
+5 and 6 (see Fig. above).
+
+At the end of every year, the SA prepares a PI annual summary with the
+trend of a selection of indicators to show the general performance of
+the industry.
+
+Periodically, RC and LO staff may consider check quality data using
+available information, for example IAEA indicators, reported operating
+experience and on-site data checking.
+
+### Step 6 – Usage of results
+
+PIs are mainly used by WANO regional centres, members and stations to
+monitor performance and progress, set challenging goals for
+improvement and consistently compare performance with other plants or
+the wider industry.
+
+Performance indicators are also used to review industry performance,
+support other WANO programmes and identify areas of assistance to
+members if necessary. Great care should be exercised in the use of
+performance indicators to ensure they are not used in a manner that
+could encourage plant operating personnel to take non-conservative
+actions regarding plant safety in order to improve performance values
+or achieve performance goals that are based on the indicators. The
+following principles should be applied when using the WANO performance
+indicators:
+
+- Performance indicators are most appropriately used by nuclear
+  operating organisations for trending performance and, if needed,
+  adjusting priorities and resourcing; the relative emphasis to be
+  placed on a given indicator, or set of indicators, should be an
+  operating line management prerogative.
+
+- Performance indicators should be used in conjunction with other
+  review tools. They should not be used as the sole basis for
+  decisions. Excessive focus on a narrow set of indicators or one
+  indicator can be counter-productive to safety.
+
+- Detailed or process-related indicators requiring a detailed
+  knowledge of plant programmes should only be used by the plant
+  staff; comparisons of such indicators can provide the plant staff
+  with a useful perspective, but should not be used by other
+  organisations to compare performance.
+
+- Performance indicators should not be used for solely ranking plants
+  because they provide only a partial and historic perspective
+  regarding safe and reliable plant operation.
+
+Examples of use of WANO performance indicators are as follows:
+
+- Station: Performance trending, long-term station achievements,
+  comparison, areas for improvement, resource alignment, etc.
+
+- WANO RCs: Performance trending in the region, weak and good
+  performances, support other programmes (information for peer
+  reviews, technical support missions, OE performance), long-term
+  regional achievements, periodic regional performance review, etc.
+
+- WANO LO: Periodic industry performance review, strengths and weak
+  points, long-term industry achievements, support of other programmes
+  etc.
+
+It is important to respect the confidentiality of WANO performance
+indicators results for individual plants. Before quoting any
+performance indicator values outside of WANO, reference should be made
+to the current WANO Confidentiality Policy Document and WPG.
+
+### Metrics
+
+Metrics have been identified to monitor specific attributes of the programme.
+General principles
+
+Metrics have been identified to measure the main steps of the process
+and ensure outputs are fulfilling user needs.
+
+The set of metrics can evolve over time to fit the needs and evolution
+of the process.
+
+The metrics used to assess the PI Programme results are:
+
+- PI-1 - Number of units not submitting data within forty five (45) days after end of quarter
+- PI-2 – Number of units not reporting all data elements
+- PI-3 - Number of access to the PI reports area on the WANO member website
+- PI-4 - Number of trained WANO RCs’ and members’ staff
+
+## Use of DES
 
 The basic use of DES is as follows:
 
@@ -76,10 +245,10 @@ WANO comments are separate and cannot be modified by each other.
 
 ### About Security
 
-In this topic you can learn the following: 
+In this topic you can learn the following:
 
-- Why is there security? 
-- How DES security works 
+- Why is there security?
+- How DES security works
 
 #### Why is there security?
 
@@ -89,62 +258,62 @@ The DES needs security because all members access the system at the same place, 
 
 ##### Security is assigned by function and location
 
-DES security was designed to permit users to perform many functions or only a few, depending on how a member chooses to manage the data entry process. In order to permit this flexibility, security control is divided into many functions. Users can be assigned from one to all of these functions: 
+DES security was designed to permit users to perform many functions or only a few, depending on how a member chooses to manage the data entry process. In order to permit this flexibility, security control is divided into many functions. Users can be assigned from one to all of these functions:
 
 - Generation data entry - enter/update data elements needed to
   calculate planned & unplanned capability loss  and unplanned
-  automatic scrams indicators 
-  
+  automatic scrams indicators
+
 - Equipment performance (safety systems) data entry - enter/update
   data elements needed to calculate safety system performance
-  indicator 
-  
+  indicator
+
 - Chemistry data entry - enter/update data elements needed to calculate
-the chemistry performance indicator 
+the chemistry performance indicator
 
 - Fuel reliability data entry - enter/update data elements needed to
-  calculate the fuel reliability indicator 
-  
+  calculate the fuel reliability indicator
+
 - Radiation protection data entry - enter/update data elements needed
-  to calculate cumulative radiation exposure 
-  
+  to calculate cumulative radiation exposure
+
 - Personnel safety data entry - enter/update data elements needed to
-  calculate the industrial safety accident rate 
-  
+  calculate the industrial safety accident rate
+
 - View data only - view data elements for all indicators and run all
-  reports 
-  
+  reports
+
 - Submit data to WANO - designate station data as ready for use by
-  WANO 
-  
+  WANO
+
 - Local administrator - assign rights to perform the functions above
-  to other users in the organization 
-  
+  to other users in the organization
+
 The right to perform any of the above functions is assigned for specific units, stations, or organizations (such as a utility or member).
 
 If a member wishes to assign individuals data entry responsibilities for a specific category of data they may do so by assigning data entry privileges for that category. For example, if a station performance indicator data coordinator wished to assign the chemistry department responsibility for entering chemistry data, the coordinator would configure the User ID of one person in chemistry to permit data entry in the chemistry category. That person would then be permitted to enter data in the chemistry category but not any other category. Any user authorized to enter data in one category also is permitted to view that unit's data in other categories, though they will be unable to enter or change data in other categories.
 
 #### Local administrators assign security
 
-In order to assign security privileges within their organization, users must have their Ids configured as a "local administrator". Local administrators can delegate any function (all or any subset thereof) they possess to any user in their organization. For example, if a local administrator has data entry, submittal, and local administrator functions for all stations in a utility, that local administrator can delegate all or some of those functions to any user in their utility. 
+In order to assign security privileges within their organization, users must have their Ids configured as a "local administrator". Local administrators can delegate any function (all or any subset thereof) they possess to any user in their organization. For example, if a local administrator has data entry, submittal, and local administrator functions for all stations in a utility, that local administrator can delegate all or some of those functions to any user in their utility.
 
 #### Security is administered in tiers or levels
 
-Local administration is constructed in a tiered fashion. At the highest level, WANO Regional Center personnel are local administrators of all DES functions for every station in their region. They may delegate these privileges to any user within their region. Regional center personnel may elect to delegate local administrator privileges to one representative at each member, creating a tier of administrators that can delegate DES privileges for any station of that member. The member local administrator may delegate local administrator privileges to a representative of each utility affiliated with that member. Through this process, members can create as many or as few tiers of security administration as they wish. Listed below are some possible tiers of local administrators: 
+Local administration is constructed in a tiered fashion. At the highest level, WANO Regional Center personnel are local administrators of all DES functions for every station in their region. They may delegate these privileges to any user within their region. Regional center personnel may elect to delegate local administrator privileges to one representative at each member, creating a tier of administrators that can delegate DES privileges for any station of that member. The member local administrator may delegate local administrator privileges to a representative of each utility affiliated with that member. Through this process, members can create as many or as few tiers of security administration as they wish. Listed below are some possible tiers of local administrators:
 
 - Regional center administrator - All data entry privileges for all
-  stations in their region 
-  
+  stations in their region
+
 - Member administrator - All data entry privileges for all station of
-  their organization 
-  
+  their organization
+
 - Utility administrator - All data entry privileges for all stations
-  of their utility 
-  
+  of their utility
+
 - Station administrator - All or most data entry privileges for a
-  station 
-  
-- Unit administrator - All or most data entry privileges for a unit 
+  station
+
+- Unit administrator - All or most data entry privileges for a unit
 
 _Note that administrators can only delegate privileges they are assigned. For example, if data submittal to WANO is not assigned to an administrator, they cannot delegate that privilege._
 
@@ -312,7 +481,7 @@ _Please note that all the data in this manual are faked_
 
 ##### Data Status
 
-Data resides in one of four virtual views. These views are color coded to help users identify their status: 
+Data resides in one of four virtual views. These views are color coded to help users identify their status:
 - Utility - Data entered by a station but not submitted to WANO for use in performance indicator program. WANO does not use or view this data until the station submits it. The cell background will be green.
 - Review - Data submitted by a station to WANO but under review by a regional center. The cell background will be yellow.
 - Returned - Data submitted to WANO but not accepted to the production database. It was returned to the station for revision. The cell background will be red.
@@ -364,7 +533,7 @@ completed cell will display green, which means that data has been
 entered by the unit and is only viewed by the station prior to being
 submitted to WANO.
 
-5. Continue in this fashion until you have entered all the desired data. 
+5. Continue in this fashion until you have entered all the desired data.
 
 _Note: For some data categories, such as Chemistry and Fuel Reliability, it is not appropriate to report data when the unit is shut down. During such time periods, you may enter the letters "DN" into the data entry field to denote that accurate data could not be collected because the unit was shut down. The "DN" will be move from the data entry cell to the code field next to the cell when your cursor leaves that cell._
 
@@ -548,10 +717,10 @@ This page enables local administrators to change the DES privileges of an existi
 
 ####### Page Elements
 
-A list of User Ids in your organization that are already configured for the DES are displayed. You have two choices: 
+A list of User Ids in your organization that are already configured for the DES are displayed. You have two choices:
 
-- Add a new user 
-- Update an existing user 
+- Add a new user
+- Update an existing user
 
 This page also displays a dialog box that is used to find users by their name, UserID, or organization.
 
@@ -559,15 +728,15 @@ This page also displays a dialog box that is used to find users by their name, U
 
 ######## Add a new user
 
-Click "Add" in the upper right hand corner of the page. A search form will appear that permits you to search for users by: 
+Click "Add" in the upper right hand corner of the page. A search form will appear that permits you to search for users by:
 
-- Name 
-- Organization name 
-- User Id 
+- Name
+- Organization name
+- User Id
 
 Add User Dialog Box Select UserID Dialog Box ![](pic/addUser.gif)
 
-Enter your search criteria and click the search button. If your search is successful, one or more User Ids will be listed below the search form. Select one of the Ids using the checkbox to the left of each Id. 
+Enter your search criteria and click the search button. If your search is successful, one or more User Ids will be listed below the search form. Select one of the Ids using the checkbox to the left of each Id.
 
 
 Add User Search ResultsAdd User Search Results ![](pic/searchUser.gif)
@@ -615,25 +784,25 @@ This function is intended primarily for use by regional centers for monitoring t
 
 ###### Reports
 
-Two reports are available for administering security: 
+Two reports are available for administering security:
 - [All Users](#all-users-in-organization-report) in your org - lists all users in the organizations for which your are able to administer security.
 - All Users in your org [with security](#users-with-privileges-in-your-organization-report) - lists all the DES capabilities
   of each ID in your organization that has DES privileges
-  
-  
+
+
 ####### All Users in Organization Report
 
 ######## Purpose
 
 This report shows all User IDs assigned to personnel in your
-organization. You can delegate DES privileges to these User IDs. 
+organization. You can delegate DES privileges to these User IDs.
 
 ######## Page Elements
 
 The list of User IDs is presented at the summary level, which is
 signified by plus signs next to organization names. User IDs are
 sorted by WANO Regional Center, WANO Member, utility, station, and
-unit. 
+unit.
 
 ######## Using the Page
 
@@ -641,7 +810,7 @@ Clicking on a plus sign will expand the User ID list to display the
 next level of detail. Continue clicking plus signs to get down to the
 unit level. User IDs are displayed beneath the organizational level to
 which they are assigned. A minus sign indicates all detail is
-displayed at that level. Click the minus signs to compress the list. 
+displayed at that level. Click the minus signs to compress the list.
 
 ![](pic/allUsers.gif)
 
@@ -657,7 +826,7 @@ in this report.
 
 Information is presented at the summary level, which is signified by
 plus signs next to organization names. User IDs are sorted by WANO
-Regional Center, WANO Member, utility, station, and unit. 
+Regional Center, WANO Member, utility, station, and unit.
 
 ######## Using the Page
 
@@ -665,7 +834,7 @@ Clicking on a plus sign will expand the User ID list to display the
 next level of detail. Continue clicking plus signs to get down to the
 unit level. User IDs are displayed beneath the organizational level to
 which they are assigned. A minus sign indicates all detail is
-displayed at that level. Click the minus signs to compress the list. 
+displayed at that level. Click the minus signs to compress the list.
 
 ![](pic/userSec.gif)
 
@@ -697,10 +866,10 @@ will be represented in the drop-down menus._
 	- Click on the down arrow to the right of the Utility cell and select the utility.
 	- Click on the down arrow to the right of the Station cell and select the station.
 
-3. After these four selections have been made, the options will differ according to the type of report you are creating. 
-For instructions on how to generate a specific report, click on the appropriate link below. 
+3. After these four selections have been made, the options will differ according to the type of report you are creating.
+For instructions on how to generate a specific report, click on the appropriate link below.
 
-Timeliness Report - This report provides data for users to assess the punctuality of data provided to the regional centers. Data that is submitted to the appropriate WANO regional center in accordance with the associated Due Date (30 days from the end of the report quarter for Atlanta Center and 75 days for other centers) is deemed to be Timely. 
+Timeliness Report - This report provides data for users to assess the punctuality of data provided to the regional centers. Data that is submitted to the appropriate WANO regional center in accordance with the associated Due Date (30 days from the end of the report quarter for Atlanta Center and 75 days for other centers) is deemed to be Timely.
 
 Completeness Report - The report offers an additional selection value, Desired Quarter, so that a specific time frame can be chosen. This report helps Users determine the status of reporting of performance indicators by WANO members, and shows the amount of data that has been submitted by the station and reviewed and accepted by WANO.
 
@@ -710,7 +879,7 @@ Pedigree Data Review - The purpose of the Pedigree Data Report is for users to d
 
 #### QRR
 
-There are four Quality Review Reports: 
+There are four Quality Review Reports:
 
 1. Missing Data Report
 
@@ -730,11 +899,11 @@ There are four Quality Review Reports:
 
 ##### Page Elements
 
-You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus. 
+You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus.
 
 _Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
 
- To complete the Quality Review Report set-up, eight additional values and four report options have been added for selection: 
+ To complete the Quality Review Report set-up, eight additional values and four report options have been added for selection:
 
 - Time Period ![](pic/timePeriod.gif)
 
@@ -743,14 +912,14 @@ _Note: Only the locations for which you are authorized to enter data will be rep
 ##### How to Use This Page
 
 1. If you click the Unit arrow, the report will provide detailed data
-   for each unit identified for that station. 
-   
+   for each unit identified for that station.
+
 2. Use the check boxes to choose the data categories for which you
    want to measure completeness or choose All to view all categories.
-   
+
 3. Click on the down arrow to the right of Report Options: and you
    will see that four report types are available:
-   
+
    - Missing Data
    - Range Checks
    - Consistency
@@ -758,7 +927,7 @@ _Note: Only the locations for which you are authorized to enter data will be rep
 
 Follow these steps for each of the four reports listed above.
 
-4. Click Go, and the requested Quality Review Report will be generated. 
+4. Click Go, and the requested Quality Review Report will be generated.
 
 _Note: The All report option has been selected; thus, the example below depicts a consolidated report._
 
@@ -766,13 +935,13 @@ Quality Review Report ![](pic/QRReport.gif)
 
 5. Beginning with the first month of the selected quarter, the report
    will display, from left to right:
-   
+
    - the data category
    - the data element
    - the data element value
    - QRR message explaining why the value is in question
    - Click on Data Entry to display the data entry page and change the data value or provide an explanatory comment
-   - After you have made the necessary data changes, you may return to Reports/QRR and generate a new report. 
+   - After you have made the necessary data changes, you may return to Reports/QRR and generate a new report.
 
 
 #### Calculate Indicators
@@ -801,7 +970,7 @@ _Note the frame to the right of the report formats._
    the left of the format name, a preview of the format will appear in
    the frame adjacent to the format selection. In the example below,
    Indicator-Trend by Indicator has been chosen.
-   
+
 3. Under Units of Measure, US Units of Measure has been selected.
 
 4. Under Data Level, Utility Data has been chosen.
@@ -810,7 +979,7 @@ Example of Report Format Display ![](pic/repFormat.gif)
 
 5. Click on Go and the Report: Indicators by Unit - Select Final
    Criteria screen will be displayed.
-   
+
 This is the second of two pages used to calculate WANO performance indicator values for any unit for which you are permitted to enter data or view data. The select report format page precedes this page, where you specified the format of the calculation results.
 
 ##### Page Elements
@@ -819,9 +988,9 @@ The top form on this page is used to select the indicators that will be calculat
 
 The second form selects the period end data or range of period end dates. Period End date is the last period in a range of periods used to calculate an indicator. For example, a one-year indicator value with a period end date of 2000-Q1 is calculated using the indicator values for 1999-Q2, 1999-Q3, 1999-Q4, and 2000-Q1. For trend reports, indicator values are calculated for a series of periods with consecutive end dates. For these reports, two Period Ending dropdown lists are used to select the series of consecutive period to calculate.
 
-The final form on this page specifies how many time periods will be used in a calculation. 
+The final form on this page specifies how many time periods will be used in a calculation.
 - Selected Period - Only data from a single period is used in the
-calculation. 
+calculation.
 - 1 year - One year's data, ending with the period end date are used in the calculation.
 - 2 year - Two years' data, ending with the period end date are used in the calculation.
 - 3 year - Three years' data, ending with the period end date are used in the calculation.
@@ -829,9 +998,9 @@ calculation.
 
 Final Criteria Form ![](pic/selCriteria.gif)
 
-##### Using this Page 
+##### Using this Page
 
-1. In the example above, under Indicators: Chemistry and Cumulative Radiation Exposure have been selected by clicking on the boxes directly to the left of CY and CRE. 
+1. In the example above, under Indicators: Chemistry and Cumulative Radiation Exposure have been selected by clicking on the boxes directly to the left of CY and CRE.
 2. Under Period (Ending): 2000-06 to 2000-09 (June 1, 2000 through September 30, 2000), and Time Spans: Custom: 3 Months have been selected.
 3. Click on Go and the report that you have designed will appear.
 
@@ -839,16 +1008,16 @@ Final Criteria Form ![](pic/selCriteria.gif)
 
 ##### Purpose of the Report
 
-This report provides data for users to assess the promptness and punctuality of data provided to the WANO Regional Centers. Data that is submitted to the appropriate WANO Regional Center in accordance with the associated Due Date (30 days for Atlanta Center and 75 days for other Centers from the end of the Reporting Quarter) is deemed to be Timely. 
+This report provides data for users to assess the promptness and punctuality of data provided to the WANO Regional Centers. Data that is submitted to the appropriate WANO Regional Center in accordance with the associated Due Date (30 days for Atlanta Center and 75 days for other Centers from the end of the Reporting Quarter) is deemed to be Timely.
 
 ##### Page Elements
 
-You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus. 
+You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus.
 
 _Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
 
 
-To complete the Timeliness Report set-up, two additional values have been added for selection: 
+To complete the Timeliness Report set-up, two additional values have been added for selection:
 - Time Period ![](pic/timePeriod.gif)
 - Unit Detail ![](pic/unitDetails.gif)
 
@@ -858,15 +1027,15 @@ To complete the Timeliness Report set-up, two additional values have been added 
    Utility and Station), click on the down arrow to the right of the
    Desired Quarter cell and select the calendar quarter desired for
    review.
-   
+
 2. If you desire detailed data for each unit identified for your
    Station, check the Include Unit Detail box. This will allow you to
    view statistics for individual units.
-   
+
 3. Click Go, and the Timeliness Report you have designed will be
    generated. Untimely units will be listed under the identification
    banner.
-   
+
 _Note: Data submittal dates were not recorded before 2001. As a result, this report will be valid only for reporting periods in the year 2001 or later._
 
 #### Pedigree Data Review
@@ -877,13 +1046,13 @@ The Pedigree Data Report allows individual users and WANO Regional Centers to de
 
 1. You have seen how to make the core report selections of Region,
    Member, Utility and Station (see Unit Selection-Reports Help) by
-   using the arrows to view the drop-down menus. 
-   
+   using the arrows to view the drop-down menus.
+
 _Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
 
 Core Location Selection Elements ![](pic/coreLoc.gif)
 
-2. Click on Go, and the requested Pedigree Data Report will appear. (See example report below.) 
+2. Click on Go, and the requested Pedigree Data Report will appear. (See example report below.)
 
 Pedigree Report ![](pic/pedigree.gif)
 
@@ -891,18 +1060,18 @@ Pedigree Report ![](pic/pedigree.gif)
 
 ##### Purpose of the Report
 
-This report shows the percentage of fields containing data in the WANO production database for selected time periods and categories. This percentage indicates how well stations have been able to fulfill their performance indicator data reporting commitment. 
+This report shows the percentage of fields containing data in the WANO production database for selected time periods and categories. This percentage indicates how well stations have been able to fulfill their performance indicator data reporting commitment.
 
 ##### Page Elements
 
-You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus. 
+You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus.
 
 _Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
 
 
  To fill out the Completeness Report set-up, eight additional values
- have been added for selection: 
- 
+ have been added for selection:
+
 - Time Period ![](pic/timePeriod.gif)
 - Category Selection ![](pic/catSelection.gif)
 
@@ -912,11 +1081,11 @@ _Note: Only the locations for which you are authorized to enter data will be rep
    Utility and Station), click on the down arrow to the right of the
    Desired Quarter cell and select the calendar quarter desired for
    review.
-   
+
 2. Use the check boxes to choose the data categories for which you
    want to measure completeness or choose All to view all categories.
-   
-3. Click Go, and the Completeness Report you have designed will be generated. 
+
+3. Click Go, and the Completeness Report you have designed will be generated.
 
 ### Submittal
 
@@ -932,25 +1101,25 @@ This page is used to select data to be submitted or recalled from your
 WANO Regional Center. Data is submitted and recalled in increments of
 unit, category, and time period. You may select data for as little as
 one unit, one time period, and one performance indicator category or
-many units, time periods, and categories. 
+many units, time periods, and categories.
 
-The page title indicates whether this page was entered from the submit or recall option on the home page menu. 
+The page title indicates whether this page was entered from the submit or recall option on the home page menu.
 
 ##### Submit Page Elements
 
-Two drop down lists are used to select the range of data to be searched for data available for submittal. Tables contain three columns showing data status: show which categories have sufficient data to be submitted and which categories are missing data (and cannot be submitted). Additionally, data that is in review at the WANO regional center also is shown. 
+Two drop down lists are used to select the range of data to be searched for data available for submittal. Tables contain three columns showing data status: show which categories have sufficient data to be submitted and which categories are missing data (and cannot be submitted). Additionally, data that is in review at the WANO regional center also is shown.
 
 ###### Categories Ready
 
-Shows categories that have had utility level data that has been entered and not been submitted to WANO. Additionally, all fields in the category are complete. 
+Shows categories that have had utility level data that has been entered and not been submitted to WANO. Additionally, all fields in the category are complete.
 
 ###### Incomplete Categories
 
-Shows categories that have utility level data but some fields are blank. Categories cannot be submitted with blank data fields. 
+Shows categories that have utility level data but some fields are blank. Categories cannot be submitted with blank data fields.
 
 ###### Categories Submitted
 
-Shows categories successfully submitted to your WANO Regional Center and in Review status. 
+Shows categories successfully submitted to your WANO Regional Center and in Review status.
 
 ###### Category Abbreviations
 
@@ -971,7 +1140,7 @@ Submit/Recall Page Elements ![](pic/selSubmit.gif)
 ###### Date Field
 
 Before selecting the desired units, it is first necessary to select a
-date range. Note: The nomenclature for this field is YYYY-MM 
+date range. Note: The nomenclature for this field is YYYY-MM
 
 - Click on the arrow in the From: menu and highlight the desired year-month. (This field is defined as the first day of the selected month.)
 - Next, click on the arrow in the To: menu and highlight the desired year-month. (This field is defined as the last day of the selected month.)
@@ -980,7 +1149,7 @@ date range. Note: The nomenclature for this field is YYYY-MM
 
 _Note: In the above screen, the user will notice there are no units
  selected._
- 
+
 _Note: All stations for which your ID has authority to submit data will be listed under the Selectable Units list box._
 
 By clicking on the box to the left of the identified unit, that unit will be selected for placement in the Chosen Units table for submittal to the WANO Regional Center.
