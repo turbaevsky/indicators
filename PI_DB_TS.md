@@ -1216,7 +1216,381 @@ Within Custom Reports, an "index" value is an available option for a trend chart
 
 Additional information is provided on associated Help pages.
 
+## FAQ
 
+(copied from the PI webgage)
+
+### Data Entry Code Entries
+
+_When should data entry codes DN and X be used instead of numerical values?
+The data entry codes DN and X should only be used in the following
+specific circumstances. Normally, numerical values are entered and
+data fields are never left blank._
+
+The DN code should only be used instead of a numerical value when the
+value cannot be determined due to power requirements of the reporting
+guidance for the data element. Only the chemistry and fuel reliability
+data categories have data elements that have power
+requirements. Therefore, if no data element value meeting the data
+requirements is available, a DN code should be entered instead of
+leaving the field blank.
+
+The X code is used in any data element field where the value is not
+available due to circumstances that prevented collection of numerical
+data that would normally be available.
+
+The use of DN or X in a data field results in that period's data
+elements not being used in indicator calculations.
+
+### Performance Indicator Results Spreadsheets
+
+_Several columns in the unit performance indicator results published
+on the WANO Web site contain the words "data code" in the title. What
+are these columns for, and what do the single characters in these
+columns represent?_
+
+These columns indicate whether valid results could be calculated for
+the associated indicator using the raw data provided by the
+station. The letters are data disqualification codes. The presence of
+a disqualification code usually means that a valid result could not be
+calculated, and the letter indicates the reason why. In the WANO
+year-end report, indicator values with a disqualification code are
+excluded from calculation of industry values.
+
+
+A)	Commercial Date disqualification. The unit has no assigned commercial date or the indicator period starts before the unit's commercial date and there is:
+- More than 2 months qualified data for a quarterly value, or
+- More than 6 months qualified data for a 1-year value
+
+B)	Commercial Date disqualification. The unit has no assigned commercial date or the indicator period starts before the unit's commercial date and there is:
+- More than 12 months qualified data for a 2-year value, or
+- More than 18 months qualified data for a 3-year value.
+
+C)	Commercial Date disqualification. The unit has no assigned commercial date or the indicator period starts before the unit's commercial date and there is
+- Less than 2 months qualified data for a quarterly value, or
+- Less than 6 months qualified data for a 1-year value, or
+- Less than 12 months qualified data for a 2-year value, or
+- Less than 18 months qualified data for a 3-year value.
+
+D)	Value not qualified due to errors in the data provided.
+
+H)	Value not qualified due to insufficient critical hours.
+
+L)	Value not qualified because unit is in long-term shutdown.
+
+M)	Value not qualified due to insufficient or invalid data.
+
+P)	Value not qualified because reactor power was below required
+level.
+
+_What do the column headings SP1, SP2, and SP5 mean in the performance
+indicator results table published on the WANO Web site?_
+
+These headings identify the safety systems monitored by the safety
+system performance indicator. SP5 refers to the emergency AC power
+system. Other systems monitored vary according to reactor type. The
+table below explains what systems are referred to by the designators
+SP1 and SP2.
+
+|Reactor Type|	SP1|	SP2|
+|------------|-----|-------|
+|PWR / VVER|	high pressure safety injection system|	auxiliary feedwater system|
+|BWR|	high pressure injection/heat removal systems|	residual heat removal system|
+|RBMK| (first generation)| 	emergency heat removal system|
+|RBMK| (second generation)| 	first emergency heat removal system	second emergency heat removal system|
+|PHWR|	high pressure emergency coolant injection system|	auxiliary boiler feedwater system|
+|Magnox Reactors|	emergency feed system|	tertiary feed system|
+|Advanced Gas Cooled Reactors|	emergency feed system|	back up cooling system/decay heat loops|
+|FPF (fuel processing facility)|	N/A|	N/A|
+
+### Performance Indicator Definition Interpretation Issues
+
+_In the Performance Indicator Reference Manual chapter for "UNPLANNED SCRAMS PER 7000 HOURS CRITICAL", a clarifying note states : "Each scram caused by intentional manual tripping of the turbine should be analysed to determine those which clearly involve a conscious decision by the operator to manually trip the turbine to protect important equipment or to minimize the effects of a transient. Scrams that involve such a decision are considered to be manual scrams." However, is the scram reported as a manual scram or automatic scram when the reactor scram is caused by the operator manually tripping the turbine unintentionally or unconsciously because of human error?_
+
+If an operator had no intention (did not involve a conscious decision)
+of tripping the turbine to protect important equipment or to minimize
+the effects of a transient (whether by human error or otherwise) and
+an automatic scram resulted from the operator actions, the reactor
+scram would be reported as an automatic scram. The clarifying note in
+the guidance is provided to characterize the intentional turbine trip
+that results in a reactor scram as "manual" because the intention of
+the operator was to protect important equipment or to minimize the
+effects of a transient by tripping the turbine and the reactor (in
+other words, it was a conscious decision). When an unintentional trip
+of the turbine results in a reactor scram, it is reported as
+"automatic" because it reflects the response of the reactor protection
+system to the unintentional turbine trip.
+
+_In the Safety System Performance Indicator chapters, a clarifying
+note is provided under Support System Unavailability that reads:
+"Unavailable hours are also reported for the unavailability of support
+systems that maintain required environmental conditions in rooms in
+which monitored safety system components are located if the absence of
+those conditions is determined to have rendered a monitored function
+of a train unavailable for service at a time it was required to be
+available." Since it is the unavailability of the function of the
+monitored system that is being reported, how does support system
+unavailability affect data reporting? If the temperature is normal,
+but cooling is unavailable, is unavailability reported?_
+
+Unavailable hours are reported for the monitored system, not the
+support system, so the reported unavailable hours are only those for
+when the monitored system is unavailable. If the temperature (or other
+environmental conditions) in a room are such (e.g., high), due to the
+unavailability of the support system, that the monitored train, as
+determined by station staff, cannot then perform its monitored
+function, unavailable hours are reported. If the temperature (or other
+environmental conditions) in a room are such (e.g., normal) that the
+conditions do not then affect the monitored function, as determined by
+engineering evaluation, no unavailable hours are reportable - even if
+the support system is unavailable - as long as the monitored train is
+able to perform its monitored function. Once environmental conditions
+reach the point the monitored train cannot or did not perform its
+function, unavailable hours are reported. An engineering determination
+is required to determine if (or when) the monitored function is lost.
+
+_A nuclear power station often does not own the switchyard even though
+it is on-site. Distribution company staff often perform work and
+various other activities in the switchyard. The station does not own
+the equipment and the workers may not even be assigned to the
+station. Are generation losses due to causes, actions, or equipment
+failures within the switchyard reportable to WANO for use in the UCF,
+UCLF, and FLR indicators?_
+
+WANO reporting guidance does not base reportability of generation losses on "who owns" the equipment or "who performed" activities that resulted in generation losses. Rather, reportability is based on whether the causes of the generation loss were "under the control of plant management.
+Management control at a nuclear power station and its switchyard is
+viewed as very extensive. Because plant management is expected to
+"have control" over the switchyard equipment, the status of the
+equipment, and the activities in the switchyard that may result in
+lost generation, the generation losses would be reportable.
+
+_Multi-unit CANDU nuclear power stations have sometimes experienced
+difficulty in determining reportable component unavailability to WANO
+in the monitored safety systems due to the design redundancy and
+spares. This is partly due to the design and the difficulty in
+identifying the trains and the effect on the identified trains. How
+can local terminology assist in determining the data to be reported?
+How is the indicator calculated for these stations when as little as
+one train may serve multiple units?_
+
+The WANO performance indicator program reference manual establishes
+guidance for reporting unavailability data for three separate safety
+system performance indicators. For comparability worldwide, the
+indicators are defined in terms on "unavailability per train". The
+indicator is calculated using each system's number of trains,
+pre-identified by the station, and "unavailable hours" based on
+"component" unavailability that result in the monitored train/system
+being unable to perform the monitored function, and the number of
+hours these trains are required to be available for service while the
+unit is operating. Since CANDU reactors at multi-unit stations often
+have (are designed with) component redundancy built-in rather than a
+redundancy of trains of components within a system, the provided
+guidance may be difficult to apply consistently.
+
+At some stations, only one monitored train may exist with multiple
+redundant components within the train. Determining "unavailable hours"
+requires knowledge of the components to be monitored (only those
+required to be in service while a unit is operating) and the hours a
+system/train is required to be in service. The hours those trains are
+required to be in service are defined by the guidance depending on the
+monitored system, and a default value is used in the indicator
+calculations. The unavailable hours are reported by every unit that is
+affected by the unavailability.
+
+At many CANDU units, component unavailability affecting system
+function is defined in terms of "levels of impairment". Multiple pumps
+and other components result in train/system redundancy that allows an
+unavailability of some components to have no affect on the ability of
+the monitored system to perform the monitored functions. These
+redundant components may be considered installed spares if
+unavailability does not affect the ability of the trains to perform
+its functions. These may be currently identified as "level 3"
+impairments, i.e. reduction in redundancy. An unavailability that
+results in a "level 1 or 2 impairment" is considered as resulting in
+component unavailable hours, and those unavailable hours (planned or
+unplanned) are reported to WANO. Identified fault exposure hours must
+be considered (unavailable hours of "spares" are not reported, but the
+full reference manual guidance should be reviewed for details). As
+mentioned, if unavailability affects more than one unit at a
+multi-unit station, the unavailability is reported by each unit.
+
+Knowing unavailable hours of the monitored components, the required
+hours (default values), and the number of trains, the safety system
+indicators can be calculated in terms of "unavailability/train" for
+each of the three systems within the WANO PI program.
+
+_At a PWR, letdown flow normally includes flow through
+demineralizers. If the demineralizers are out of service the iodine
+concentrations in the reactor coolant increase. Does having the
+demineralizers out of service satisfy the steady state conditions
+needed for valid data collection? In other words, should fuel
+reliability indicator (FRI) data be collected and used from periods
+when the purification demineralisers are out of service?_
+
+For PWRs, it is assumed that data collection occurs with normal
+letdown (purification) system conditions existing; these conditions
+include the demineralizers being in service with normal letdown flow
+and steady state chemistry conditions. If these conditions are not met
+the FRI data collected while the demineralizers were out of service
+should not be included with the remaining monthly data used to
+determine the FRI data element values for that month. This is the same
+as not using the data from when the unit is below 85% power or the
+unit was not at steady state power for at least three days as defined
+in the guidance.
+
+_Regarding the industrial safety accident rate indicator (ISA), if an
+employee who normally performs five different tasks is injured such
+that he/she is no longer capable of performing one of those tasks (but
+still capable of performing the remaining four tasks), should that
+injury be reported as a restricted work accident? (This also applies
+to contactor employees for CISA.)_
+
+Yes. Even though the employee is capable of performing most of the
+tasks, since he/she is not capable of performing them all, it is a
+restricted work accident.
+
+_Regarding the safety system performance indicators (SSPI), I
+     understand that some other non-WANO indicators do not use the
+     same guidance for fault exposure as WANO, and some organizations
+     do not wish to include fault exposure hours in their
+     calculations; are fault exposure hours still reportable to WANO
+     for the WANO performance indicators?_
+
+
+Yes. Fault exposure hours are still to be reported to WANO as part of
+the safety system performance indicator as specified in the
+guidance. There are several (non-WANO) indicators throughout the
+worldwide nuclear industry and their definitions may vary from the
+WANO definitions. However, the WANO safety system performance
+indicators use fault exposure hours as one of three unavailability
+terms in its calculation and therefore the fault exposure data for all
+reportable systems are to be reported to WANO as part of the WANO
+performance indicators.
+
+_We have heard that some non-WANO groups asked that fault exposure
+data collection be stopped. Is that true?_
+
+Yes, a non-WANO member did request that the fault exposure data not be
+collected for emergency AC power systems. Since fault exposure is
+considered an integral part of the determination of all safety system
+unavailability, fault exposure was not removed from the indicator
+definition and data collection of fault exposure hours was never
+stopped. All fault exposure hours are to be reported per the WANO
+reporting guidelines for all the reportable safety systems, including
+emergency AC power.
+
+_What planned outage end date do I use to determine the amount of
+unplanned energy losses that my unit experiences? Our station has an
+end date established with and agreed to by the grid dispatcher, but we
+also have a work schedule which shows a scheduled outage end
+date. Some units have a detailed schedule of activities used for
+directing the outage. Which date is the basis for determining if an
+outage extends beyond its planned end and therefore requires
+"unplanned energy losses (outage extension)" be reported?_
+
+The clarifying notes of the reporting guidance specify that the end
+date of planned outages are those negotiated with and agreed to by the
+network and/or grid dispatcher. This date may differ from dates shown
+on schedules used by the utility to manage the outage on a day-to-day
+basis.
+
+_There is a small amount of dose received outside of our generating
+stations (waste reduction, laundry facilities, radiography) that
+originates from station radioactive or contaminated material. We
+currently take this dose and divide by the total number of stations
+and add the result to each unit's total whole body dose. Is it
+appropriate to include this nonstation dose in the CRE?_
+
+Based on the indicator definition, the indicator is measuring exposure
+"at the facility". Even though the material originated on-site, only
+(and all) exposure to monitored personnel on-site should be
+counted. Nonstation dose should not be counted.
+
+_Regarding Standby Emergency AC generators (2 out of 4 required), is a
+station penalized for the unavailability of one or two generators if
+only two are required to meet the design criteria?_
+
+The unavailability incurred for any one or two generators when
+multiple emergency AC power trains are installed depends upon the
+design basis requirements at a station. To not have unavailable hours
+of a train count, or be reported, the emergency AC power train must
+either be "not required" or must be an installed spare that is not in
+service. Whether the plant is operating or shutdown, the train is
+considered to be required and any unavailable hours counted (and thus,
+are to be reported). An exception for a single- or multi-unit station
+with all units shut down, is that one emergency generator at a time
+may be electively taken out of service without incurring planned or
+unplanned unavailable hours, providing that at least one operable
+emergency generator is available to supply emergency loads.
+
+An installed spare train is one that is used as a replacement for
+other trains to allow for the removal of equipment from service for
+preventive or corrective maintenance without incurring a limiting
+condition for operation (where applicable), or violating the single
+failure criterion. To be an "installed spare", it must not be required
+in the design basis safety analysis for the system to perform its
+safety function (and obviously, not acting as a replacement when the
+unavailability occurs). Additionally, some stations using the train
+failure-based reporting option may be able to take credit for extra
+(redundant) trains to avoid needing to count certain unavailable
+hours. See the train failure-based safety system performance indicator
+definition for further details.
+
+Also regarding a required train, as specified in the reporting
+guidelines, "unavailable hours are recorded only when the emergency
+generator train is unavailable to deliver emergency AC power. The
+failure of one of two redundant emergency generator support
+subsystems, for example, would not count toward emergency generator
+unavailability as long as the emergency generator train was still
+available."
+
+_It is not clear when reporting Industrial Safety Accident Rate
+information if the number of hours is payroll hours (including
+vacations, sick leave, and other absences), or just hours worked._
+
+The reporting guidance states that the number of hours is to be the
+number worked, not payroll hours.
+
+_Why does WANO still require the reporting of fault exposure
+unavailable hours as a part of the safety system performance indicator
+unavailability data?_
+
+Without the inclusion of a term to account for the effect on system
+unavailability of undiscovered faults, the indicator would be nothing
+more than a maintenance indicator showing the effects of planned and
+unplanned maintenance time. The intent of the indicator is to depict
+all sources of unavailability when the system is required to be in
+service. Sometimes, an undiscovered failure can render a train or
+system unavailable for prolonged periods of time, greatly effecting
+the overall system unavailability. The probabilistic approach used to
+estimate the unavailable hours due to latent or undiscovered faults is
+sound. More frequent testing of systems with weak performance
+histories can enable the detection of latent failures sooner which, in
+turn, reduces the unavailable hours due to those failures.
+
+_Since the mathematical approach to calculating fault exposure
+unavailable hours is essentially probabilistic in nature, shouldn't
+the individual unit and industry SSPI goals reflect what PSAs allow
+regarding system unavailability?_
+
+The safety system performance indicator was never intended to produce
+data directly usable in PSA calculations, nor were the established
+SSPI industry goals intended to be directly tied to individual station
+PSA assumptions. In setting year 2000 performance goals, many stations
+checked their PSA assumptions to ensure they did not establish a goal
+outside of what the PSA assumed, but in many cases, performance of
+these systems was already better than what PSAs assumed. Therefore,
+the goals set by individual stations for 2000 were based on past
+performance, modified, perhaps, by predictable effects of increased
+online maintenance or other factors.
+
+_The Performance Indicator Programme has been in place for many years
+and the original ten indicators included thermal performance and
+radioactive waste volumes. Also, the WANO Results Spreadsheets for
+1997 and earlier include this data. Where can the earlier performance
+indicator definitions be found?_
+
+The definitions for the early performance indicators (those in use before 2001) can be obtained from the Performance Indicator programme manager in the Coordinating Centre. The early performance indicator definitions were modified and replaced in January 2001 with ten indicators. Over time, additional changes have been made and these are shown in the current version of the Performance Indicator Reference Manual.
 
 ## Prototype functionality
 
