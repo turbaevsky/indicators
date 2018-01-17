@@ -108,8 +108,7 @@ The number of units not reporting all data elements indicator is
 measured through the PI-2, “Number of units not reporting all data
 elements” scorecard (see details in the [Metrics](#metrics) section).
 
-### Step 5 – Posting and releasing of results, WANO PI Administration
-    staff
+### Step 5 – Posting and releasing of results, WANO PI Administration staff
 
 The WANO PI SA(s) initiates calculations and releases the results for
 each quarter. Indicator values are automatically updated on the WANO
@@ -206,7 +205,10 @@ The metrics used to assess the PI Programme results are:
 The basic use of DES is as follows:
 
 Authorized IDs enter PI data. Data can be entered, saved, viewed, and
-calculated prior to submittal to WANO. Data may even be entered in advance for indicator projection calculations. (However, data cannot be submitted prior to the end of the period.)  Data entered at the unit/utility level has a green background.
+calculated prior to submittal to WANO. Data may even be entered in
+advance for indicator projection calculations. (However, data cannot
+be submitted prior to the end of the period (see
+[Data Processing Step 2](#data-processing) section)). Data entered at the unit/utility level has a green background.
 
 Data can and should be reviewed by other utility staff prior to
 submittal to WANO.  The data submittal authority is a separate
@@ -216,7 +218,9 @@ submittal authority is for all data categories, although the submitter
 may elect to submit data categories at different times.  It is
 recommended that initial data submittals for a new reporting period be
 done for all categories at the same time. The station level submittals
-are separate from unit level submittals - submitters should not forget that both submittals need to be done each period. Data that is submitted for WANO review has a yellow background.
+are separate from unit level submittals - submitters should not forget
+that both submittals need to be done each period (see
+[Data Processing Step 2](#data-processing) section). Data that is submitted for WANO review has a yellow background.
 
 IDs with data entry privileges may also Recall data that has been
 submitted - returning the data from the review (yellow) status to the utility level (green).
@@ -224,7 +228,7 @@ submitted - returning the data from the review (yellow) status to the utility le
 After data is submitted (a due date has been established for each
 reporting period - please check with your regional coordinator for the due date), the applicable WANO regional centre will review the submittals. The various results from review can be accepted, or returned to the submitter electronically. The reviewer may also elect to phone the submitter to resolve any questions. If the data is accepted, the reviewer will promote the data to production. The data will then be used in WANO calculations when the WANO system administrator calculates results. Data that is promoted (in production) has a white background.
 
-Data can also be disqualified - a UD code is assigned to a data
+Data can also be disqualified - a UD [code](#data-entry-code-entries) is assigned to a data
 element and then has a red background - or the data may be returned to the utility (the data is returned to a utility level (green) from the review status (yellow).
 
 Results are typically calculated by WANO once a calendar quarter after all worldwide data is placed in production.
