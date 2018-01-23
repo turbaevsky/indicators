@@ -156,9 +156,10 @@ and rehouses one. The risk matrix you can see below.
 
 The analysis show Project has not any extreme risk and has some High and Moderate risks. The main parts of risks are Low.
 
-	     | Negligible | Marginal	| Critical
----------|------------|-------------|----------
-Certain	 | Project schedule violation
+	     | Negligible | Marginal	| Critical |
+---------|------------|-------------|----------|
+Certain	 | Project schedule violation|||
+
 Likely   | Extra expert involving. The out-of-WANO expert may not be
 agree to support project | INPO resistance. This question should be
 settled by WANO top management
