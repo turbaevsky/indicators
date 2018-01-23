@@ -159,27 +159,17 @@ The analysis show Project has not any extreme risk and has some High and Moderat
 Category | Negligible | Marginal | Critical
 ---|---|---|---
 **Certain**	| Project schedule violation
-**Likely** | Extra expert involving. The out-of-WANO expert may not be
-agree to support project | INPO resistance. This question should be settled by WANO top management
-**Possible** | Communication problem between WANO PI staff. This
-question may be settled by WANO top management | Server down. It is
-risk with low probability and low impact. The server unavailable in
-couple of hours or even days is not critical. When server will up all
-the data can be synchronise (from INPO server duration test operation)
-or restore (if need) from local copy. | WANO LO image lost risk has
-low probability but high impact so we have to start a ‘commercial’ DB
+**Likely** | Extra expert involving. The out-of-WANO expert may not be agree to support project | INPO resistance. This question should be settled by WANO top management
+**Possible** | Communication problem between WANO PI staff. This question may be settled by WANO top management | Server down. It is
+risk with low probability and low impact. The server unavailable in couple of hours or even days is not critical. When server will up all
+the data can be synchronise (from INPO server duration test operation) or restore (if need) from local copy. | WANO LO image lost risk has low probability but high impact so we have to start a ‘commercial’ DB
 operational only after sufficient test in both internal and external modes
-**Unlikely** | Local network and environment problem duration local
-developing may be exclude using Virtual Machine system. | Low Security
-risk (unauthorised data access) should be excluding on the access
-system test. Used software (see Methodology -> Software part below) is
-well tested and secure. | Data lost risk. It can be excluding by
-regular DB backup copying. The very easy DB format (SQLite3, all the
-data is including to one file only) let make a backup copy process
-very simple as just file copy procedure. Also duration the test
+**Unlikely** | Local network and environment problem duration local developing may be exclude using Virtual Machine system. | Low Security
+risk (unauthorised data access) should be excluding on the access system test. Used software (see Methodology -> Software part below) is
+well tested and secure. | Data lost risk. It can be excluding by regular DB backup copying. The very easy DB format (SQLite3, all the
+data is including to one file only) let make a backup copy process very simple as just file copy procedure. Also duration the test
 operation INPO DB has the same data as our one
-**Rare** | Financial risk. The Project need not any extra cost excepting
-developer standard WANO salary.
+**Rare** | Financial risk. The Project need not any extra cost excepting developer standard WANO salary.
 
 ## Issues
 
