@@ -1185,6 +1185,14 @@ Instructions for using DES
 To access to the Report System you've to use
 [this](http://www.wano.org/xwp10webapp/Confidentiality.aspx) link.
 
+Be sure that you have access to the WANO member website because the system will asko you log in
+
+![](pic/login.PNG)
+
+Then you will see the Confidentiality Notice
+
+![](pic/notice.PNG)
+
 The PI REPORTS application on the Performance Indicator Web page allows users to obtain results, trend performance, and make comparison for units worldwide. Trend charts and summary tables can be viewed, copied, saved and printed.  WANO PI REPORTS is a time-saving and informative supplement to DES and the Microsoft Excel results spreadsheets.
 
 The Report System is designed to provide all kind of the precalculated
@@ -1198,27 +1206,419 @@ The design of the Report System is similar as
 
 By selecting [Standard Reports](#standard-reports) or [Custom Reports](#custom-reports) from the drop-down menus at the top of the page, a WANO user can review performance of any unit or group of units as measured by the performance indicator programme. Performance charts and tables can be viewed, copied, and saved. Please remember that data confidentiality and limited distribution policies apply.
 
+![](pic/rMenu1.bmp)
+![](pic/rMenu2.bmp)
+
 All results are for currently operating units reporting performance
 indicator data only
 
-Generating PI REPORTS with WANO Key Performance Indicator Reference Values Displayed - More information [here](http://www.wano.org/PerformanceIndicators/PI_Reports_Documents/Generating_PI_REPORTS_with_Interim_Goals.pdf)
+Generating PI REPORTS with WANO Key Performance Indicator Reference Values Displayed - More information [here](http://www.wano.org/PerformanceIndicators/PI_Reports_Documents/Generating_PI_REPORTS_with_Interim_Goals.pdf) and below.
+
+![](pic/rMenu3.bmp)
+![](pic/rMenu4.bmp)
+
+From the menu bar, the available types of reports can be viewed by passing the cursor over the Standard Reports and Custom Reports menu items. Select the desired drop-down report by single-clicking on it. Definitions are provided below. The selection will take the user to the appropriate report selection criteria screen.
+
+### Generating PI REPORTS with WANO Key Performance Indicator Targets Displayed on the Report
+
+#### Background and Objective:
+
+Upon the decision by the WANO Governing Board to implement Key Performance Indicator targets, a way was needed to observe performance relative to those values. The existing WANO application, PI REPORTS, was identified as an existing application that could be modified to display those values on the reports if a user so desired.
+
+#### Description:
+
+WANO PI REPORTS, available to WANO membership on the WANO restricted Web site since 2001,provides the capability to generate both summary tables (quarterly results) and trend charts (performance trended over time). The report selection process has been modified by adding steps related to the display of target values (also called reference values) for applicable indicators.
+
+##### Summary Table:
+
+An option was added to display for both individual and industry values on a summary table report. If selected, the “individual” unit (or station) WANO target is displayed on the table in the appropriate location in red font; when applicable, the “worst quartile target” will appear in red font next to the actual worst quartile value. The summary table report also now identifies the specific selected member or utility, or states “Custom” if a selection was modified.
+
+##### Trend Chart:
+
+A new step was added when generating a trend report. Depending on the criteria selected, either the individual or industry target may be selected to appear on a trend report; a link is provided on the Web page identifying the requirements for displaying various target values. Targets will be displayed in red.
+
+In reviewing the modified reports, users should have:
+
+1. a basic understanding of the WANO Performance Indicator Program
+2. an understanding of the WANO targets (see separate document available on WANO Web site)
+
+And be aware of the following:
+
+1. Target values can only be displayed for the selected WANO indicators: FLR, CRE, ISA,
+and SSPI (three indicators, SP1, SP2, and SP5).
+2. There are two types of target values: individual and industry. Individual reference values apply to units (CRE, FLR, SP1, SP2, SP5) and stations (ISA, SP5); industry goals may be a “worst quartile
+value” (CRE, FLR, ISA) or relative mean performance (SSPI) of worldwide units.
+3. Targets for CRE and SP1 and SP2 are based on reactor type.
+4. Displayed numerical values are approved target values.
+5. Values will only be displayed if appropriate criteria is selected; that is, for example, results period must be “36 months“.
+6. Display of target values on the reports is optional.
+7. Trend chart display requirements are described in a link available on the appropriate selection
+page in PI REPORTS.
+
+
 The Custom Reports currently include complete results through the most recent quarter currently available.  *Complete results are defined as being inclusive of all available unit data for the period. Results in Custom Reports are updated automatically every weekend to reflect data changes processed by WANO during the prior week.*
 
 ### Standard Reports
 
+Currently, the only standard reports available are standard charts. The standard charts are trend charts showing performance of pre-identified groups, using 1-year (12-month) indicator values, generated for applicable indicators and reactor type. The median value of the group is trended over 20 quarters ending with the most recently released quarter's results. Over 330 chart reports are available. Supporting data tables are also available. Pre-identified groups within standard charts include regional centers, major WANO members, and a worldwide group. Customized charts using other groupings, periods, or results may be obtained by using Custom Reports.
+
 Standard Reports include: Group Index Ranking reports for pre-selected groups, Index Tables for each unit, and Regional Center Target Performance Reports. Standard reports also include five-year trend charts of the median of the 12-month indicator values of each unit/station within pre-identified groups.  Performance charts are updated each quarter.
 
+#### Standard Report Selection
+
+##### Page Description
+
+This page identifies the selection criteria for choosing one of over 330+ standard charts that are available.  These standard charts are typically generated once per quarter (and therefore will not reflect changes to data/results until the next quarter’s charts are generated).  Each category/field must have a selection.  Clicking on View Report will display the trend chart for the selected criteria.
+
+##### Actions
+
+Make a selection from each field.  Some selections are limited based on other selections (i.e., a FRI standard report is not available for ALL reactor types.)   After all selections are complete, select the View Report button below the selection criteria window.  To leave the page without clicking on View Report, click on the Main Menu link in the upper left.  Close a chart by clicking on the x box in the upper right-hand corner.
+
+##### Definitions
+
+The following report types are available:
+
+###### Group
+
+One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centers, major members, and a worldwide group.  These groups are also available to select in most custom reports.
+
+###### Indicator
+Any of the currently active WANO performance indicators.  (To support the application some indicators are specially coded:  ISA1 is the Industrial Safety Accident Rate indicator calculated per 1,000,000 man-hours worked, whereas ISA2 is calculated per 200,000 man-hours worked.)
+
+###### Unit of Measure (UOM)
+
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
+
+###### Reactor Type
+
+Units worldwide are identified by type of reactor. Stations are not identified by reactor type because a station may have multiple units of differing reactor types. Various indicator charts are available per reactor type.  Some reports may provide a selection of ALL reactor types and others may limit selection to a specific available reactor type. Station level indicators cannot be selected based on reactor type because a station may have more than one reactor type when it has more than one unit.
+
+###### Result Period
+
+The result period is not a selection option for a standard chart but is described below for completeness.  Only 1-year results (12 months Results Period) are in standard charts.
+
+The results period identifies the number of months of data considered in calculating a single result.  Data is reported to WANO via the Data Entry System as either monthly or quarterly data, and for consistency, the selection of how much data to use for a single result is identified by the number of months. Therefore to view the 1-year results, the user selects 12 months, indicating that the indicator result will be based on qualified data from the 12 months (or 4 quarters) ending with the quarter for which the result is desired.  The available results periods are limited to 3 months (a calendar quarter), 12 months (a 1-year value), 18 months (a year-and-a-half value), 24 months (a 2-year value), and 36 months (a 3-year value).
+
+###### Ending Quarter
+
+The ending quarter for a standard chart is not a selection option, but is described below for completeness.  For a standard chart, the ending quarter is always the last released quarter.  See the Trend Chart Selection Help Page for a description of the last released quarter.
+
+The ending quarter for a trend chart is the last quarter for which performance is trended and cannot exceed the last released quarter.  To obtain a trend chart with a different ending quarter than used in a standard chart use a custom trend chart from Custom Reports.
+
+
+#### Index Table
+
+![](pic/index1.PNG)
+![](pic/index2.PNG)
+![](pic/index3.PNG)
+
+#### Group Index Ranking
+
+![](pic/grIndex1.PNG)
+![](pic/grIndex2.PNG)
+
 ### Custom Reports
+
+Custom reports are trend charts and summary tables that are generated based on the selections of users. The user may specify — within limitations of the data and the desired report — the unit or group, the applicable time period or time span, the indicator, reactor type, and the result period (the number of months of data used in calculating a single result, e.g., 3, 12, 18, 24, 36 months) for a desired report. Supporting data tables are also available for the trend charts.
 
 These are performance indicator trend charts or data tables for user-selected time periods, results periods, and units. These charts provide options to include target values for applicable indicators and the option to compare performance between units or groups on a single chart. The charts are generated from the most current available results. Typically, results are updated every weekend to reflect recent data changes.
 
 Within Custom Reports, an "index" value is an available option for a trend chart. "Method 4" is used to calculate an index value for all units, but only a user's unit(s) or group(s) is available to trend. Index tables are provided under Standard Reports.
 
+#### Summary Table
+
+The summary table is a data table showing a list of individual indicator results for the calendar quarter selected. The user selects a single result period, which is the number of months of data used to calculate a single result, e.g., 3, 12, 18, 24, or 36 months). The report also provides the median, mean, and upper and lower quartiles for the grouping of the selected units/stations. The user can select entire groups or select individual units/stations within centres to create a customized grouping.
+
+![](pic/sumTab1.PNG)
+![](pic/sumTab1_1.PNG)
+
+##### Page Description
+This page contains the selection criteria for a custom summary table.  The Summary Table is generated based on the selections made by the user, using the most recent unit/station results.  Clicking on “View Report” will display the summary table for the selected criteria.
+
+###### Actions
+
+Make a selection from each option.  Three pages are used as indicated by the 3 buttons on the left of the selection windows.  The buttons or the “Next Page” button may be used to move to the next selection screen.  Some selections are limited based on other selections.   After the final selection screen is complete, the summary of the report selection criteria can be reviewed.  When the review is complete, select “View Report” below the summary window.  To leave the page without clicking on “View Report”, click on the “Main Menu” link in the upper left.  The left buttons or the “Back” button below the selection/summary windows may be used to move between selection pages.
+
+![](pic/sel.bmp)
+
+###### Definitions
+
+The following report types are available:
+
+####### Group
+
+One of several pre-identified groups that comprise a different set of pre-selected units.  Pre-identified groups include regional centers, major members, and a worldwide group.  These groups are also available to select in Standard Charts and Custom Trend Charts.
+
+![](pic/sumTab2.PNG)
+![](pic/sumTab2_1.PNG)
+![](pic/sumTab3.PNG)
+![](pic/sumTab3_1.PNG)
+![](pic/sumTab4.PNG)
+![](pic/sumTab4_1.PNG)
+
+####### Indicator
+
+Any of the currently active WANO performance indicators.  (To support the application some indicators are specially coded:  ISA1 is the Industrial Safety Accident Rate indicator calculated per 1,000,000 man-hours worked, whereas ISA2 is calculated per 200,000 man-hours worked.)
+
+
+####### Unit of Measure (UOM)
+
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.
+
+####### Reactor Type
+
+Various indicator reports are available per reactor type.  Some reports may provide a selection of ALL reactor types and others may limit selection to a specific available reactor type.
+
+####### Result Period
+
+The number of months of data considered in calculating a single result.  Data is reported to WANO either on a monthly or quarterly basis, but for consistency, the selection within this application used to identify the amount of data to be considered for use in a single calculation is identified by months.  Therefore, to view a 1-year result – a result based on data from the past 4 quarters or 12 months, the user selects 12 months.  The desired indicator result that will be used/displayed in the report will be based on qualified data from the 12 months, or 4 quarters, ending with the quarter specified as the ending quarter.  The available results periods are limited to 3 months (a calendar quarter), 12 months (a 1-year value), 18 months (a year-and-a-half value), 24 months (a 2-year value), and 36 months (a 3-year value).
+
+The ending quarter can be any calendar quarter (back to 1990, inclusive).
+
+For example, a 1-year UCF result for a unit for the fourth quarter of 2001 would be calculated using the qualified data for the 12 months (or 4 quarters) prior to and including the fourth quarter of 2001.
+
+####### Starting Quarter
+
+The quarter which is the start of the indicator trend chart.  The starting quarter can be any calendar quarter (back to 1990 inclusive.)
+
+####### Ending Quarter
+
+The quarter which is the end of the indicator trend chart.  The ending quarter can be any calendar quarter up to the last released quarter.
+
+####### Last Released Quarter
+
+The last (most recent) quarter for which calculated results have been released by the WANO system administration.  Last released quarters may differ among members based on the data due dates  (i.e., members with data due sooner will likely have their data released earlier if all data is received.)
+
+#### Trend Chart
+
+The custom trend chart shows performance of a user-selected unit, pre-identified group, or user customized grouping. The selected performance can be compared to another selection if desired. The user specifies the start and end quarters of the chart, using any available calculated indicator result period (as indicated by the number of months in a single calculated result, e.g., 3, 12, 18, 24 or 36). Supporting data tables are also available.
+
+This page identifies the selection criteria for a custom trend chart.  These custom charts may be generated at any time and will be based on the latest results available.  Each field must have a selection, although some selections do have a default value.  Charting options are available.  Clicking on View Report will display the trend chart for the selected criteria.
+
+##### Actions
+
+Make a selection from each.  Four pages are used as indicated by the four buttons on the left of the selection/summary window.  The buttons or the Next Page button may be used to move to the next selection screen.  Some selections are limited based on other selections.   After the final selection screen is complete, a summary of the report selection criteria may be reviewed.  When the review is complete, select View Report below the summary window.  To leave the page without clicking on View Report, click on the Main Menu link in the upper left.  The left buttons or the Back button below the selection window may be used to move between selection/summary pages.
+
+##### Definitions
+
+The following report types are available:
+
+###### Group
+
+One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centers, major members, and a worldwide group.  These groups are also available to select in Standard Reports and Custom Summary Tables.
+
+###### Indicator
+
+Any of the currently active WANO performance indicators.  (To support the application some indicators are specially coded:  ISA1 is the Industrial Safety Accident Rate indicator calculated per 1,000,000 man-hours worked, whereas ISA2 is calculated per 200,000 man-hours worked.)
+
+![](pic/trend1.PNG)
+
+###### Unit of Measure (UOM)
+
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.
+
+###### Reactor Type
+
+Various indicator reports are available per reactor type.  Some reports may provide a selection of ALL reactor types and others may limit selection to a specific available reactor type.
+
+###### Result Period
+
+The number of months of data considered in calculating a single result.  Data is reported to WANO either on a monthly or quarterly basis, but for consistency, the selection within this application used to identify the amount of data to be considered for use in a single calculation is identified by months.  Therefore, to view a 1-year result – a result based on data from the past 4 quarters or 12 months, the user selects 12 months.  The desired indicator result that will be used/displayed in the report will be based on qualified data from the 12 months, or 4 quarters, ending with the quarter specified as the ending quarter.  The available results periods are limited to 3 months (a calendar quarter), 12 months (a 1-year value), 18 months (a year-and-a-half value), 24 months (a 2-year value), and 36 months (a 3-year value).
+
+For example, a 1-year UCF result for a unit for the fourth quarter of 2001 would be calculated using the qualified data for the 12 months (or 4 quarters) prior to and including the fourth quarter of 2001.
+
+###### Starting Quarter
+
+The quarter which is the start of the indicator trend chart.  The starting quarter can be any calendar quarter (back to 1990 inclusive.)
+
+###### Ending Quarter
+
+The quarter which is the end of the indicator trend chart.  The ending quarter can be any calendar quarter up to the last released quarter.
+
+###### Last Released Quarter
+
+The last (most recent) quarter for which calculated results have been released by the WANO system administration.  Last released quarters may differ among members based on the data due dates  (i.e., members with data due sooner will likely have their data released earlier if all data is received.)
+
+![](pic/trend2.PNG)
+
+###### Charting Options (within the trend chart selection criteria)
+
+The custom trend charts selection allows the user an option to obtain a trend of only one selection (for instance, a Base)  or two different selections (a Base and a Comparison).
+
+If only a Base is desired, only one selection is available (labeled Selection 1).  The options for the selection are statistic type and chart type.
+
+If both a Base and a Comparison are desired, two selections are made (labeled Selection 1 and Selection 2).  The options for each selection are statistic type and chart type.   If two selections are made, at least one selection must have a line chart type.
+
+###### Statistic Type
+
+A selection may be displayed as an individual trend (only if an individual unit/station is selected) or as a median, quartiles, or mean (average) if a group (more than one unit/station) is selected.
+
+###### Chart Type
+
+The selection’s indicator trend may be displayed as a line or a bar.  If two selections are made, only one may be a bar.  One must be a line.
+
+![](pic/trend3.PNG)
+![](pic/trend4.PNG)
+
+Report Selection Requirements to Display CRE, FLR, ISA, SP1, SP2, or SP5 Interim Targets on Trend Charts. (Only one option can be selected.)
+
+Individual: To display CRE, FLR, ISA, SP1, SP2, or SP5 individual targets on a trend chart, the following must be selected:
+
+- Reports Period must be "36 Months"
+- Statistic Type must be "Individual"
+
+Worldwide Worst Quartile: To display CRE, FLR, or ISA worst quartile targets on a trend chart, the following must be selected:
+
+- Reports Period must be "36 Months"
+- Statistic Type must be "Quartiles"
+- For CRE, Reactor must be a specific reactor type (AGR, BWR, LWCGR, PHWR, or PWR)
+- For FLR, Reactor must be "All Reactors"
+- Data Set must have all available regional centers selected
+
+Mean Performance: To display SP1, SP2, or SP5 mean performance target and result on a trend chart, the following must be selected:
+
+- Reports Period must be "36 Months"
+- Statistic Type must be "Mean"
+- For SP1 or SP2, Reactor must be a specific reactor type (AGR, BWR, LWCGR, PHWR, or PWR)
+- Data Set must have all available regional centers selected
+
+![](pic/trend5.PNG)
+![](pic/trend6.PNG)
+
+![](pic/dataOnly.PNG)
+![](pic/chartOnly.PNG)
+![](pic/chartAndData.PNG)
+
+#### Result Period
+
+The results period identifies the number of months of data considered in calculating a single result. Data is reported to WANO via the Data Entry System as either monthly or quarterly data; and for consistency, the selection of how much data to use for a single result is identified by the number of months. Therefore to view the 1-year results, the user selects 12 months indicating that the indicator result will be based on qualified data from the 12 months (or 4 quarters) ending with the quarter for which the result is desired. The available results periods are limited to 3 months (a calendar quarter), 12 months (a 1-year value), 18 months (a year-and-a-half value), 24 months (a 2-year value), and 36 months (a 3-year value).
+
+For example, a 1-year UCF result for a unit for the 4th quarter of 2001 would be calculated using the qualified data for the 12 months (or 4 quarters) prior to and including the 4th quarter of 2001.
+
 ### Maintenance
+
+#### Process Results
+
+![](pic/procRes1.PNG)
+![](pic/calcDate.PNG)
+![](pic/uSel.PNG)
+![](pic/uInfo.PNG)
+
+![](pic/procRes1_1.PNG)
+![](pic/procRes1_2.PNG)
+
+#### Release Data
+
+![](pic/relData.PNG)
+
+#### Generate Standard Reports
+
+##### Standard Report Selection
+
+###### Page Description
+
+This page identifies the selection criteria for choosing one of over 330+ standard charts that are available.  These standard charts are typically generated once per quarter (and therefore will not reflect changes to data/results until the next quarter’s charts are generated).  Each category/field must have a selection.  Clicking on View Report will display the trend chart for the selected criteria.
+
+####### Actions
+
+Make a selection from each field.  Some selections are limited based on other selections (i.e., a FRI standard report is not available for ALL reactor types.)   After all selections are complete, select the View Report button below the selection criteria window.  To leave the page without clicking on View Report, click on the Main Menu link in the upper left.  Close a chart by clicking on the x box in the upper right-hand corner.
+
+####### Definitions
+
+The following report types are available:
+
+![](pic/stRep1.PNG)
+
+######## Group
+
+One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centers, major members, and a worldwide group.  These groups are also available to select in most custom reports.
+
+######## Indicator
+
+Any of the currently active WANO performance indicators.  (To support the application some indicators are specially coded:  ISA1 is the Industrial Safety Accident Rate indicator calculated per 1,000,000 man-hours worked, whereas ISA2 is calculated per 200,000 man-hours worked.)
+
+######## Unit of Measure (UOM)
+
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
+
+######## Reactor Type
+
+Units worldwide are identified by type of reactor. Stations are not identified by reactor type because a station may have multiple units of differing reactor types. Various indicator charts are available per reactor type.  Some reports may provide a selection of ALL reactor types and others may limit selection to a specific available reactor type. Station level indicators cannot be selected based on reactor type because a station may have more than one reactor type when it has more than one unit.
+
+######## Result Period
+
+The result period is not a selection option for a standard chart but is described below for completeness.  Only 1-year results (12 months Results Period) are in standard charts.
+
+The results period identifies the number of months of data considered in calculating a single result.  Data is reported to WANO via the Data Entry System as either monthly or quarterly data, and for consistency, the selection of how much data to use for a single result is identified by the number of months. Therefore to view the 1-year results, the user selects 12 months, indicating that the indicator result will be based on qualified data from the 12 months (or 4 quarters) ending with the quarter for which the result is desired.  The available results periods are limited to 3 months (a calendar quarter), 12 months (a 1-year value), 18 months (a year-and-a-half value), 24 months (a 2-year value), and 36 months (a 3-year value).
+
+######## Ending Quarter
+
+The ending quarter for a standard chart is not a selection option, but is described below for completeness.  For a standard chart, the ending quarter is always the last released quarter.  See the Trend Chart Selection Help Page for a description of the last released quarter.
+
+The ending quarter for a trend chart is the last quarter for which performance is trended and cannot exceed the last released quarter.  To obtain a trend chart with a different ending quarter than used in a standard chart use a custom trend chart from Custom Reports.
+
+![](pic/stRep2.PNG)
+
+![](pic/promote_3.PNG)
+![](pic/promote_31.PNG)
+
+![](pic/view.PNG)
+![](pic/view2.PNG)
+![](pic/view3.PNG)
+
+#### Targets Report
+
+![](pic/target1.PNG)
+![](pic/target2.PNG)
+
+#### ISA Industry Calculation
+
+![](pic/isaCalc.PNG)
+
+#### Maintain Groups
+
+![](pic/group1.PNG)
+![](pic/group2.PNG)
+![](pic/group3.PNG)
+![](pic/group31.PNG)
+![](pic/group4.PNG)
+![](pic/group5.PNG)
+![](pic/group6.PNG)
+
+#### Chart Definitions
+
+![](pic/chartDef1.PNG)
+![](pic/chartDef11.PNG)
+
+#### Maintain Index
+
+![](pic/index01.PNG)
+![](pic/index02.PNG)
+![](pic/index021.PNG)
+![](pic/index03.PNG)
+![](pic/index031.PNG)
+![](pic/index04.PNG)
+
+#### Maintain Indicators
+
+![](pic/ind1.PNG)
+![](pic/ind11.PNG)
+
+#### Maintain Support Emails
+
+![](pic/email.PNG)
+
+#### View Error and Info Log
+
+(cuirrently unavailable)
 
 ### Help
 
-Additional information is provided on associated Help pages.
+Additional information is provided on associated Help pages
+
+#### Send us Your Comments/Questions
+
+![](pic/feedback.PNG)
 
 ## FAQ
 
