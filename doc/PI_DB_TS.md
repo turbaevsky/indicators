@@ -17,7 +17,7 @@ functions ehich are described into the
 condition to extend the existing DES-Reports functionality to justify
 developnemt necessity.
 
-Some extra (functionality)(#extra-functionality) is also described in here and is divided to _must_ and _should_ sections.
+Some extra [functionality](#extra-functionality) is also described in here and is divided to _must_ and _should_ sections.
 
 DES was designed to enter source data, provide very basic calculation,
 and to provide some security functions. Also it supports the basic
