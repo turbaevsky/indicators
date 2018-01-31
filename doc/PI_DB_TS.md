@@ -1,6 +1,6 @@
 # Performance Indicators Application Functional Specification
 
-version 0.0.0.9001 from 18-Jan-201 by
+version 0.0.0.9003 from 01-Feb-2018 by
 [Vladimir Turbayesky](mailto:volodymyr.turbayevsky@wano.org) (partly
 based on information presented on the [DES](http://www.wano.org/Dk01Asp/dkw000.asp) and [Reports](http://www.wano.org/xwp10webapp/Confidentiality.aspx) websites)
 
@@ -31,6 +31,34 @@ _precalculated_ results. The calculation of the results might be
 started manually or automatically (every weekend).
 
 It seems reasonable _new system to calculate all the resuls on fly_.
+
+## History 
+
+The Performance Indicator Programme (PIP) has started in 1990 and mainly used as a management tool. All WANO regional centres (RC), members and plants can monitor their performance and trends and set challenging goals for improvement and consistently compare their performance with other plants and nuclear industry. Performance indicators can also be used to assess industry performance, to support other WANO programmes and to provide assistance to members if necessary.
+
+Existing PI DB includes two structures: PI Data Entry System (DES) and PI REPORT system. The first one provides data entry and preliminary checking. The second one provides indicator and indexes calculation, and reporting and trending providing.
+
+Currently very limited number of people has enough knowledges and training to use the PI results in their practice. It is probably one of the reasons why PI programme does not use wide enough.
+
+WANO LO IS developed IS Strategy which includes IS Business Data Plan (BDP) (both documents are available at the SharePoint into Information System Area).
+
+Taking into account a serious potential problem to reconnect existing PIP users (especially INPO members) from existing DES the decision was found to retain the existing DES structure but modify PI REPORT System only (see Implementation of the project and Risks sections).
+
+To solve the existing problems and to improve PIP WANO LO management decided to implement this plan into TSE Strategy, IS Strategy and IS Business Data Plan.
+
+This document provides an overview of how WANO LO intends to approach the future development of systems to support the management of PI data and states the high level plan that we will use to inform the related planning and decision making processes. Detailed plans for specific work streams can be documented separately.
+
+All work in this area should be aligned with the principles described in this plan. The plan can be changed at any time if approved by the owner and should be updated regularly to remain current. The plan is owned by the CEO (CEO Deputy) and TSE Programme Directors.
+
+### Project advantages
+
+The main advantage of this project is it needn’t any changes of existing data structure or data flows. The existing PI DB and data flows will continue to work without any changes and independently from this project. The PI data customers will be able to choose which kind of report is more appropriate for their needs.
+
+Additional advantage is the WANO LO will be able to provide any new or updated calculations and reports without any request to INPO. It allows WANO LO to check any new method before realisation into INPO server, if WANO members decide continue to use the existing PI REPORT system.
+
+All the software will be developed are quite supportable by IT experts but not by PI system administrator only. It _might_ be based on popular Microsoft Power Business Intelligence (Power BI) system for online reports, on standard SQL for calculation module and on the SQL Server Reporting Services (SSRS) to provide paper reports.
+
+Finally, the approach is proposed let all the WANO members  to receive all kind of necessary information without any special knowledges and trainings. The Power BI online report examples are presented below.
 
 ## Data processing
 
@@ -2307,6 +2335,54 @@ The detailed information of the indexes for the first selected county (region) w
 
 ## Existing DB structure
 
+To ensure that reporting and data analysis is based on a consistent set of data, a new data warehouse database will be developed alongside the core database. This will take data from all the separate system databases, as well as the core database, spreadsheets and other structured documents that are identified during the requirements finding process.
+
+The following picture shows the current location and configuration of WANO’s databases and database servers.
+
+![](pic/curDB.png)
+
+Next picture shows the proposed location and configuration of WANO’s database servers upon completion of phase 1.
+
+![](pic/phase2.png)
+
+The new database that will support this data warehouse will be called WANO_DW and will facilitate an improved reporting and data analysis capability. This database will be populated with data from multiple sources, including the core database, the PI database, the OE database and any other identified key data sources, such as spreadsheets and structured documents.
+
+The design of a data warehouse is very different from design of an online transaction processing (OLTP) system. In contrast to an OLTP system, where the purpose is to capture high rates of data changes and additions, the purpose of a data warehouse is to organise large amounts of stable data for ease of reporting and analysis. Data warehouse data must be organised to meet this need for rapid access to information.
+
+Dimensional modelling is used in the design of data warehouse databases to organise the data for efficiency of queries that are intended to analyse and summarise large volumes of data. The data warehouse schema is almost always very different and much simpler than the schema of an OLTP system designed using entity-relation modelling.
+
+The use of online analytical processing (OLAP) and data mining is potentially in scope for this phase, but will be dependent on the requirement gathering process. 
+
+All of the Extracting, Transforming and Loading (ETL) processes required to transfer data between the various databases will be completed using SQL Server Integration Services (SSIS).
+
+The next picture shows the proposed data flows between WANO’s database servers upon completion of phase 2.
+
+![](pic/phase3.png)
+
+As part of the requirements gathering process, we will need to obtain specifications for the key reports and dashboards. These will be built using SQL Server Reporting Services (SSRS) reports.
+
+Business intelligence and data analytics _might_ be facilitated using Microsoft Power BI. This includes a website element for publishing and sharing dashboards and reports, as well as a suite of BI tools, which include a standalone design application (Power BI Designer) and a number of add-ins for Excel (Power Pivot, Power View and Power Query). Consideration for this approach has been made over other BI products due to:
+
+-	Native integration with our existing technology stack
+-	A majority fit with requirements that have already been identified
+-	Required skill set already available within IS LO
+-	Affordability
+-	Ease of use
+
+### PI DB specific information
+
+The following picture shows the current location and configuration of WANO’s PI databases and reflects the existing data flows. PI DB consists of three (the fourth is updated DB) DB. PEOPLEAND PLACE DB (older DBAA DB) means database with all units and persons information, including their moving history. DES is Data Entry System. CDE is Consolidated Data Entry system (for US plants only). IndValues is a table with source data into DBWP database. QRR module is Quality Report Review system which allows finding mistake after the end of data entry. Results table is one table from DBWP DB to save calculated results. The results are calculation every weekend or by SA request. Third-part software means auxiliary software was developed by WANO LO to produce some additional reports. 
+
+![](pic/flow01.jpg)
+
+On the first stage of phase 2 WANO LO will provide daily complete PI DB copy (about 2 GB) into WANO LO Core DB and/or WANO LO Data Warehouse. As a result the following dataflow will be provided.
+
+![](pic/flow02.jpg)
+
+When Calculation and Reporting modules (i.e. SSRS and Power BI) complete, and the necessary table of source data define, the final structure and PI dataflow _might_ be the following.
+
+![](pic/flow03.jpg)
+
 ## Calculation details
 
 Most of calculation regading Indicators and Indexes have already
@@ -2314,7 +2390,6 @@ describes into
 [PI Reference Manual](https://members.wano.org/getattachment/e13ff432-e4a2-49c4-94b9-c82b0fcfc48c/document). However, there are list of calculations which is not covered by existing references (e.g. AGR FRI, TISA etc.) or has a mistake (e.g. PWR FRI, CPI, SSPI etc.)
 
 The intention of this section is to cover all the necessary calculation.
-
 
 ## Development process
 
