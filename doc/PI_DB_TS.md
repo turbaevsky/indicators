@@ -10,12 +10,14 @@ It's a live document to describe the _minimal_ functionlaity of the
 Performance Indicators Application, which is currently work on the
 INPO servers as two apps which is DES and [Reports](#reports).
 
-As minimum, _all_ these functions _shold_ be included into the new PI
+As minimum, _all_ these functions _must_ be included into the new PI
 application. Also it is necessary to include all the reporting
 functions ehich are described into the
 [Prototype](#prototype-functionality) section. It is the vital
 condition to extend the existing DES-Reports functionality to justify
 developnemt necessity.
+
+Some extra (functionality)(#extra-functionality) is also described in here and is divided to _must_ and _should_ sections.
 
 DES was designed to enter source data, provide very basic calculation,
 and to provide some security functions. Also it supports the basic
@@ -1999,39 +2001,317 @@ The definitions for the early performance indicators (those in use before 2001) 
 ## Prototype functionality
 
 The aims of the development of the Performance Analysis (PA) prototype
-are:
-- to cover all the uncovered report functionality
-- to consolidate all the source data and results together
+are:  
+- to cover all the uncovered report functionality  
+- to consolidate all the source data and results together  
 - to have a direct access to the Operational Experience DB (OE DB)
-  directly from reporting page
-- to provide some kind of on-fly calculations
-- to cover all the uncovered by [Reports](#reports) calculations
-- to modify the [QRR](#qrr) system
-- to provide easy-to-use:
-  - Quarter Report,
-  - Long-Term Target Report,
-  - Outliers Report,
-  - Report for the Peer Review Team,
-  - PI Metrics Report,
-  - Units Status Report,
-  - Data Submittal Report,
-  - Scrams Summary Report
-  - etc.
+  directly from reporting page  
+- to provide some kind of on-fly calculations  
+- to cover all the uncovered by [Reports](#reports) calculations  
+- to modify the [QRR](#qrr) system  
+- to provide easy-to-use:  
+  - Quarter Report,  
+  - Long-Term Target Report,  
+  - Outliers Report,  
+  - Report for the Peer Review Team,  
+  - PI Metrics Report,  
+  - Units Status Report,  
+  - Data Submittal Report,  
+  - Scrams Summary Report  
+  - etc.  
+  
+All the functionality described below is already realised into PA Application prototype, and all the source code are available [here](https://wanolo.visualstudio.com/WANO%20PI/_versionControl?path=%24%2FWANO%20PI%2FWANO%20PI%2FCode%2FR-CRAN%2Fshiny&_a=contents)
 
 The top menu of the PA prototype is the follows ![pa-top](pic/pa-top.PNG)
 
+### PI and OEDB
+
+In the first tab menu you can choose the unit, quarter, indicator _and source data which is included in this indicator calculation_. All the monitored indicators included.
+
+Data window means the date range for date to be analysed. As it was described above, there are ususally 3, 12, 18, 24 and 36 months calculation intervals are using.
+
+The _Show all the source data_ checkbox means that all the source data will be showed instead of summary information.
+
+![](pic/pa-menu.PNG)
+
+The very top result show the utit history. It is extramely important to do any kind of the analysis.
+
+The second one show the calculated index, which is the reflection of the whole unit performance in one number.
+
+The next one show the source data cummulative (based on analysing period) or detailed information.
+
+![](pic/pa01.PNG)
+
+ The next one show all the available comments were provided. _It is vital to lock the source data when they need comments but comments were not provided_
+ 
+ The next table show the calculated indicator with calculation status.
+ 
+ Then we can see the indicator trend.
+
+![](pic/pa02.PNG)
+
+The next one is _one of the most useful function on this page_ - it provides us the direct link to the OE Database to let us analyse the event which might be related to the indicator we analyse.
+
+![](pic/pa03.PNG)
+
+### Outliers
+
+This tab was developed to find the units which need more attention based on their performance analyysis. 
+
+The menu form asks for a quarter, indicator and data window to be showed and has a slider to set the [IQR](https://en.wikipedia.org/wiki/Interquartile_range) to variate the results.
+
+![](pic/pa04.PNG)
+
+As a results we can see the boxplot with outliers (as points) positions.
+
+![](pic/pa05.PNG)
+
+Then the table with outliers positions and values is provided.
+
+![](pic/pa06.PNG)
+
+### Download reports
+
+This tab let us to check (or update) DB status from the DB Stage local storage. 
+
+![](pic/pa07.PNG)
+
+The DB status is reflected as below.
+
+![](pic/pa08.PNG)
+
+_The vital function for all the Regional Centres is generation of the results spreadsheet_.
+
+Pushing the button the process will be started and the following spreasheet will be generated.
+
+![](pic/spreadsheet.PNG)
+
+Spreadsheet specification can be find [here]()
+
+### PI report for Peer Review team
+
+The next _vital function_ for all the Regional Centres is _generation the report to be provided to the Peer Review team members_. It allows them to get the initial information regarding plant performance and to define the areas for further investigation.
+
+The top menu allows to select one or more units to be analysed. The quarter, indicator and data window selector have the same role as above.
+
+There are three kind of _Distribution_ selector:
+
+- worldwide - to compare the selected unit(s) worldwide;
+- the same reactor type;
+- the same reactor type for the same Regional Centre
+
+The _Full PI Report_ means that the full performance table will be prodused as _saved_ into xls-file if the appropriate checkbox will be checked.
+
+![](pic/pa09.PNG)
+
+The picture to show the unit position at the [quantile](https://en.wikipedia.org/wiki/Quantile) based distribution (_WANO AC style_) will be prodused as below.
+
+![](pic/pa10.PNG)
+
+The table to show the unit rank based on _distribution_ selector will be generated as well.
+
+![](pic/pa11.PNG)
+
+If _Full PI Report_ button is pressed, the whole performance report will be produced.
+
+![](pic/pa12.PNG)
+
+This report may be saved as Excel spreadsheet.
+
+![](pic/PRreport.PNG)
+
+PR Report specification can be find [here]()
+
+### LTT report
+
+Long-Term Target Report is the _most important report_ for top management.
+
+The charts will be showed if the according checkbox checked.
+
+To produce the sharable report the _(Re)create LTT report and update LTT data_ button might be pressed.
+
+Then the sharable report might be downloeded by pressing _Download_ button.
+
+![](pic/pa13.PNG)
+
+When the analysed quarter is selected, the world performance report will be showed.
+
+![](pic/pa14.PNG)
+
+At the same time, the more detailed Regional Centre performance report will be shown as well.
+
+![](pic/pa15.PNG)
+
+If _show chart_ function is active, the following charts will be shown.
+
+![](pic/pa16.PNG)
+![](pic/pa17.PNG)
+
+There are few different style to visualise the results.
+
+![](pic/pa18.PNG)
+![](pic/pa19.PNG)
+
+The prinable version of the LTT report will be prodused and can be downloaded by pressing the buttons in the top menu.
+
+It is _one of the most important report_ to be shared through top management.
+
+![](pic/lttRep01.PNG)
+
+The pictures as shown below are also uses in the _public version of the performance report_ called _Trifold_. 
+
+![](pic/CRE_Centre.jpg)
+![](pic/CRE_ReactorType.jpg)
+
+There are some additional information and _analysis_ are included into report there.
+
+![](pic/lttRep02.PNG)
+
+Report structure and specification can be find [here]()
+
+### PI metrics
+
+PI metrics definition can be find in the [PI Process Description]().
+
+The system allows to generate such kind of reports to see the RCs performance.
+
+In the top menu you can select the analysing period as well as RC to be shown. If you need a chart or detailed information the corresponding checkbox should be checked.
+
+![](pic/pa20.PNG)
+
+If you asked for detailed information, the following report will be produced.
+
+![](pic/pa21.PNG)
+
+If the chart was requested, the following picture will be shown.
+
+![](pic/pa22.PNG)
+
+### Indicator Trend
+
+One of the most _important and easy-to-undertsand_ reports is the report produces  here.
+
+The Indicator and reactor type (if applicable) can be choosen in the top menu.
+
+![](pic/pa23.PNG)
+
+Then the [boxplot](https://en.wikipedia.org/wiki/Box_plot) chart with the _Long-Term Targets_ will be shown. 
+
+The filter allows you to select the country you are interesed in.
+
+![](pic/pa24.PNG)
+
+If the _outlier_ checkbox is checked, the outliers will be shown as points.
+
+![](pic/pa25.PNG)
+
+### Unit Status
+
+It is the axuiliary report to check unit current status and history. It combines all the necessary information on the one page.
+
+_All the units_ (including out of service) are included.
+
+After selection the unit in the top menu
+
+![](pic/pa26.PNG)
+
+you can see this unit history.
+
+![](pic/pa27.PNG)
+
+Also the additional design related information are available there.
+
+![](pic/pa28.PNG)
+
+The unit relationship will be reflected as below.
+
+![](pic/pa29.PNG)
+
+Finally, some important DB statuses are shown.
+
+![](pic/pa30.PNG)
+
+### Submitting process
+
+To follow the PI process the data submitting process should be strictly monitored.
+
+When you select the reporting period and choose whether you need the detailed information 
+
+![](pic/pa31.PNG)
+
+you will see the following chart.
+
+![](pic/pa32.PNG)
+
+If the _detailed information_ requested, you will see the details of non-reporting units as below.
+
+![](pic/pa33.PNG)
+
+### QRR
+
+The implemented QRR currently just try to find any significant deviation looking at the source data were provided.
+
+In the new QRR realisation it should be much more intelledgence system witch have as mimimum the same tests and functionality as described in [QRR](#qrr) section above.
+
+In the top menu you can choose the quarter and indicator to be analysed.
+
+The _QRR sensivity_ means that the system will find the source data parameters which is out of normal distribution.
+
+![](pic/pa34.PNG)
+
+When the _Calcilate_ button be pressed, the system will prodice the following report.
+
+![](pic/pa35.PNG)
+
+_Note: is takes **very** long to prodice this report_.
+
+### Scrams summary
+
+Another example of the auxiluary report is scram distribution one.
+
+In the top menu you can choose the year and kind of scrams you would like to see.
+
+![](pic/pa36.PNG)
+
+Then the following picture will be produced.
+
+![](pic/pa37.PNG)
+
+The detailed table will be shown below.
+
+![](pic/pa38.PNG)
+
+As an experimental function, the [word cloud](https://www.wordclouds.com/) to reflect the most important reasons of scrams will be produced based on _minimum frequency_ and _maximum number of words_ parameter were set in the top menu.
+
+![](pic/pa39.PNG)
+
+### Unit index (online)
+
+Index calculation process is described in the PI Reference Manual in very detailed way. The index reports are shown [above](#Index).
+
+You can see the index for only unit which is selected in the top menu (currently the only Index Method 4 is supported).
+
+![](pic/pa40.PNG)
+
+As a result the following index table will be produced.
+
+![](pic/pa41.PNG)
+
+If you selected two countries or region in the top menu, the boxplot to reflect their relative position will be generated.
+
+![](pic/pa42.PNG)
+
+The detailed information of the indexes for the first selected county (region) will be shown in table way.
+
+![](pic/pa43.PNG)
 
 ## Existing DB structure
-
 
 ## Calculation details
 
 Most of calculation regading Indicators and Indexes have already
 describes into
-[PI Reference Manual](https://members.wano.org/getattachment/e13ff432-e4a2-49c4-94b9-c82b0fcfc48c/document). However,
-there are list of calculations which is not covered by existing
-references (e.g. AGR FRI, TISA etc.) or has a mistake (e.g. PWR FRI, CPI, SSPI
-etc.)
+[PI Reference Manual](https://members.wano.org/getattachment/e13ff432-e4a2-49c4-94b9-c82b0fcfc48c/document). However, there are list of calculations which is not covered by existing references (e.g. AGR FRI, TISA etc.) or has a mistake (e.g. PWR FRI, CPI, SSPI etc.)
 
 The intention of this section is to cover all the necessary calculation.
 
@@ -2044,16 +2324,36 @@ methodology (detailes are also available [here](http://agilemethodology.org/)
 
 ## CheckList
 
-- [X] Have the initial meeting
-  - [X] Prototype demonstration
+- [x] Have the initial meeting
+  - [x] Prototype demonstration
 - [ ] Have the first meeting to define/explain development strategy
   and to discuss all the related questions like communication
   protocol, minimal functional requarements etc.
-  - [ ] Have a chat with Ross and Sandor (beginning of week 4 2018)
-  - [ ] Have a meeting with Mark (mid of week 4 2018)
+  - [x] Have a chat with Ross and Sandor (beginning of week 4 2018)
+  - [x] Have a meeting with datB (30 Jan 18)
+  - [ ] Have a meeting with datB (2 Feb 18)
 - [ ] Officially start the development (incluging clear definition of roles
   and tasks for all the memebers)
 - [ ] to demonstrate the first prototype during Feb 2018 PI Programme Meeting
 
+## Extra functionality
 
+Some extra functionality must be provided. There are some of them:
 
+- The source data archive should be saved and achievable;
+- Source data change log;
+- The data archive should be created weekly; the track changing mode should be available;
+- Data entry field should be locked until commentary entered (if needed, based on QRR recommendation);
+- Metrics information should be provided;
+- mobile support;
+- IAEA-PI descripency report;
+- possibility to lock and check source data before submitting;
+- easy to change/add elements and indicators;
+- automated data validation process;
+- Trifold should be produced automatically;
+
+Some extra functionality may be provided. There are some of them:
+
+- language support;
+- trend predictive model;
+- user adjustable report;
