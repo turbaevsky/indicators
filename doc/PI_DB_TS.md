@@ -6,16 +6,16 @@ based on information presented on the [DES](http://www.wano.org/Dk01Asp/dkw000.a
 
 ## Abstract
 
-It's a live document to describe the _minimal_ functionlaity of the
+It's a live document to describe the _minimal_ functionality of the
 Performance Indicators Application, which is currently work on the
 INPO servers as two apps which is DES and [Reports](#reports).
 
 As minimum, _all_ these functions _must_ be included into the new PI
 application. Also it is necessary to include all the reporting
-functions ehich are described into the
+functions which are described into the
 [Prototype](#prototype-functionality) section. It is the vital
 condition to extend the existing DES-Reports functionality to justify
-developnemt necessity.
+development necessity.
 
 Some extra [functionality](#extra-functionality) is also described in here and is divided to _must_ and _should_ sections.
 
@@ -30,15 +30,15 @@ reports, groups and indexes tuning. Currently the system has the
 _precalculated_ results. The calculation of the results might be
 started manually or automatically (every weekend).
 
-It seems reasonable _new system to calculate all the resuls on fly_.
+It seems reasonable _new system to calculate all the results on fly_.
 
 ## History 
 
-The Performance Indicator Programme (PIP) has started in 1990 and mainly used as a management tool. All WANO regional centres (RC), members and plants can monitor their performance and trends and set challenging goals for improvement and consistently compare their performance with other plants and nuclear industry. Performance indicators can also be used to assess industry performance, to support other WANO programmes and to provide assistance to members if necessary.
+The Performance Indicator Program (PIP) has started in 1990 and mainly used as a management tool. All WANO regional centers (RC), members and plants can monitor their performance and trends and set challenging goals for improvement and consistently compare their performance with other plants and nuclear industry. Performance indicators can also be used to assess industry performance, to support other WANO programs and to provide assistance to members if necessary.
 
 Existing PI DB includes two structures: PI Data Entry System (DES) and PI REPORT system. The first one provides data entry and preliminary checking. The second one provides indicator and indexes calculation, and reporting and trending providing.
 
-Currently very limited number of people has enough knowledges and training to use the PI results in their practice. It is probably one of the reasons why PI programme does not use wide enough.
+Currently very limited number of people has enough knowledges and training to use the PI results in their practice. It is probably one of the reasons why PI program does not use wide enough.
 
 WANO LO IS developed IS Strategy which includes IS Business Data Plan (BDP) (both documents are available at the SharePoint into Information System Area).
 
@@ -54,11 +54,11 @@ All work in this area should be aligned with the principles described in this pl
 
 The main advantage of this project is it needn’t any changes of existing data structure or data flows. The existing PI DB and data flows will continue to work without any changes and independently from this project. The PI data customers will be able to choose which kind of report is more appropriate for their needs.
 
-Additional advantage is the WANO LO will be able to provide any new or updated calculations and reports without any request to INPO. It allows WANO LO to check any new method before realisation into INPO server, if WANO members decide continue to use the existing PI REPORT system.
+Additional advantage is the WANO LO will be able to provide any new or updated calculations and reports without any request to INPO. It allows WANO LO to check any new method before realization into INPO server, if WANO members decide continue to use the existing PI REPORT system.
 
-All the software will be developed are quite supportable by IT experts but not by PI system administrator only. It _might_ be based on popular Microsoft Power Business Intelligence (Power BI) system for online reports, on standard SQL for calculation module and on the SQL Server Reporting Services (SSRS) to provide paper reports.
+All the software will be developed are quite supportable by IT experts but not by PI system administrator only. It _might_ be based on popular Microsoft Power Business Intelligence (Power BI) system for on-line reports, on standard SQL for calculation module and on the SQL Server Reporting Services (SSRS) to provide paper reports.
 
-Finally, the approach is proposed let all the WANO members  to receive all kind of necessary information without any special knowledges and trainings. The Power BI online report examples are presented below.
+Finally, the approach is proposed let all the WANO members  to receive all kind of necessary information without any special knowledges and trainings. The Power BI on-line report examples are presented below.
 
 ## Data processing
 
@@ -68,7 +68,7 @@ The following Performance Indicator’s process description flowchart describes 
 
 ### Step 1 – Data collection, Members
 
-Each WANO member (nuclear operating organisation) is responsible for
+Each WANO member (nuclear operating organization) is responsible for
 the element data collection. All necessary elements are identified in
 the Data Entry System (DES) section of the WANO member website. Most
 of the world plants report quarterly. However, the USA plants report
@@ -367,7 +367,7 @@ DES has a Home Page that provides various programme information, reminders, and 
 
 ### Access
 
-The application requires access to the Internet using Internet Explorer version 5.0, service pack B, or better. If access is not currently available, a member may request its regional centres to enter its data for its units; however, it is strongly suggested that each member work towards improving its Internet access to benefit from efficient data reporting and utilization of the system features.
+The application requires access to the Internet using Internet Explorer version 5.0, service pack B, or better. If access is not currently available, a member may request its regional centres to enter its data for its units; however, it is strongly suggested that each member work toward improving its Internet access to benefit from efficient data reporting and utilization of the system features.
 
 The system is accessed through the Performance Indicator section on the WANO Web site.  An ID and password are required to access the WANO Web site; in addition, specific authorizations must be made for the ID to perform various actions within DES. The units assigned local administrator for the performance indicator program controls those authorizations.  The WANO regional centre data coordinators initially assign the local administrator authorization. The system administrator is located in WANO-Atlanta Center. (Passwords expire every 180 days.)
 
@@ -498,7 +498,7 @@ The Data Entry page is your platform for entering raw data from the units for wh
 
 This tab designed to enter the source data and to check data status
 accordingly to the [Data Processing](#data-processing). The main data
-entry window lokks like the following
+entry window looks like the following
 ![data-entry-window](pic/1.PNG)
 
 When first opened, the units and time periods selected for data entry are displayed. Additionally, the six data category tabs are displayed for selection. Clicking a data entry tab displays the data form for that category.
@@ -521,16 +521,16 @@ Data resides in one of four virtual views. These views are color coded to help u
 - Returned - Data submitted to WANO but not accepted to the production database. It was returned to the station for revision. The cell background will be red.
 - Production - Data that has been reviewed by WANO and promoted to the production database. This data is used for calculating the performance indicator values displayed on the WANO Web site and published in WANO reports. The cell background will be white.
 
-So, the white backgroung below the data entry fiend means that data has
+So, the white background below the data entry fiend means that data has
 been promoted (see the [data processing](#data-processing) for
-details). Yellow backgroung means data has been received from data
+details). Yellow background means data has been received from data
 promoter, and green one means data has been sent from data promoter
 but didn't submitted yet.
 
-It is _extremly important_ user to add the [comments](#comments) as shown below for
+It is _extremely important_ user to add the [comments](#comments) as shown below for
 all the data which is reflected into the [QRR](#qrr)
 report. ![comments](pic/comms.png)
-If the comments exist, the colour of the 'C' button is green.
+If the comments exist, the color of the 'C' button is green.
 
 ##### View and Enter Data
 
@@ -593,11 +593,11 @@ top of the window.
 ##### Submit tab
 
 Going to the Submit tab data promoter can select the units which data
-to be send to the Regional Centres for cheching and promotion. The
+to be send to the Regional Centres for checking and promotion. The
 data selection menu is the
 following. ![submit](pic/submit.png)
 
-_Do NOT_ forget to press _Save_ button wheb operation completed.
+_Do NOT_ forget to press _Save_ button when operation completed.
 
 ##### Indicator Calculator
 
@@ -629,7 +629,7 @@ The _Report Option_ are the following:
 - Range Checks
 - Consistency check
 
-Pressing _Go_ we can see the cheching result as follows ![qrr-check](pic/qrr-rep.png)
+Pressing _Go_ we can see the checking result as follows ![qrr-check](pic/qrr-rep.png)
 
 ### Data Review
 
@@ -713,7 +713,7 @@ Maintenance - Two options are available for members:
 ![](pic/maintUnitLabel.PNG)
 ![](pic/setUnitLabel.PNG)
 
-#### Sync Data Elemnts to the DK
+#### Sync Data Elements to the DK
 
 ![](pic/sync.PNG)
 
@@ -756,7 +756,7 @@ A list of User Ids in your organization that are already configured for the DES 
 - Add a new user
 - Update an existing user
 
-This page also displays a dialog box that is used to find users by their name, UserID, or organization.
+This page also displays a dialog box that is used to find users by their name, User ID, or organization.
 
 ####### Using this Page
 
@@ -768,12 +768,12 @@ Click "Add" in the upper right hand corner of the page. A search form will appea
 - Organization name
 - User Id
 
-Add User Dialog Box Select UserID Dialog Box ![](pic/addUser.gif)
+Add User Dialog Box Select User ID Dialog Box ![](pic/addUser.gif)
 
-Enter your search criteria and click the search button. If your search is successful, one or more User Ids will be listed below the search form. Select one of the Ids using the checkbox to the left of each Id.
+Enter your search criteria and click the search button. If your search is successful, one or more User Ids will be listed below the search form. Select one of the Ids using the check-box to the left of each Id.
 
 
-Add User Search ResultsAdd User Search Results ![](pic/searchUser.gif)
+Add User Search Results-Add User Search Results ![](pic/searchUser.gif)
 
 The administer function form will be displayed.
 
@@ -807,7 +807,7 @@ In the list of User Ids already configured for your organization,
 click on the User's ID next to the User name (Each User ID in the list
 is a hyperlink). The form ![form](pic/admFunc.gif) for updating the user's security privileges will appear.
 
-To change the scope of data entry privileges for the user, click change and continue as you would for adding a new user. To remove privileges for a User ID, uncheck boxes next to organizations, stations, or units.
+To change the scope of data entry privileges for the user, click change and continue as you would for adding a new user. To remove privileges for a User ID, unchecked boxes next to organizations, stations, or units.
 
 ###### Administer Security by Function
 
@@ -1020,7 +1020,7 @@ This is the second of two pages used to calculate WANO performance indicator val
 
 The top form on this page is used to select the indicators that will be calculated. Some report formats only permit calculating one indicator value. For those reports you will receive a warning message if you attempt to pick more than one indicator.
 
-The second form selects the period end data or range of period end dates. Period End date is the last period in a range of periods used to calculate an indicator. For example, a one-year indicator value with a period end date of 2000-Q1 is calculated using the indicator values for 1999-Q2, 1999-Q3, 1999-Q4, and 2000-Q1. For trend reports, indicator values are calculated for a series of periods with consecutive end dates. For these reports, two Period Ending dropdown lists are used to select the series of consecutive period to calculate.
+The second form selects the period end data or range of period end dates. Period End date is the last period in a range of periods used to calculate an indicator. For example, a one-year indicator value with a period end date of 2000-Q1 is calculated using the indicator values for 1999-Q2, 1999-Q3, 1999-Q4, and 2000-Q1. For trend reports, indicator values are calculated for a series of periods with consecutive end dates. For these reports, two Period Ending drop-down lists are used to select the series of consecutive period to calculate.
 
 The final form on this page specifies how many time periods will be used in a calculation.
 - Selected Period - Only data from a single period is used in the
@@ -1038,7 +1038,7 @@ Final Criteria Form ![](pic/selCriteria.gif)
 2. Under Period (Ending): 2000-06 to 2000-09 (June 1, 2000 through September 30, 2000), and Time Spans: Custom: 3 Months have been selected.
 3. Click on Go and the report that you have designed will appear.
 
-#### Reporting Timelines
+#### Reporting Timeliness
 
 ##### Purpose of the Report
 
@@ -1202,7 +1202,7 @@ Three kinds of help are available
 
 A link to the performance indicator definitions page.
 
-#### User Priviledges
+#### User Privileges
 
 Display User functions that are authorized.
 
@@ -1215,7 +1215,7 @@ Instructions for using DES
 To access to the Report System you've to use
 [this](http://www.wano.org/xwp10webapp/Confidentiality.aspx) link.
 
-Be sure that you have access to the WANO member website because the system will asko you log in
+Be sure that you have access to the WANO member website because the system will ask you log in
 
 ![](pic/login.PNG)
 
@@ -1226,7 +1226,7 @@ Then you will see the Confidentiality Notice
 The PI REPORTS application on the Performance Indicator Web page allows users to obtain results, trend performance, and make comparison for units worldwide. Trend charts and summary tables can be viewed, copied, saved and printed.  WANO PI REPORTS is a time-saving and informative supplement to DES and the Microsoft Excel results spreadsheets.
 
 The Report System is designed to provide all kind of the precalculated
-results and reports based on PI Programme needs. Howevew, the list of
+results and reports based on PI Programme needs. However, the list of
 indicators and reports is slightly out of dates, therefore you have to
 realise all the additional functionality described in
 [Prototype](#prototype) section below.
@@ -1317,7 +1317,7 @@ Any of the currently active WANO performance indicators.  (To support the applic
 
 ###### Unit of Measure (UOM)
 
-A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerel.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
 
 ###### Reactor Type
 
@@ -1393,7 +1393,7 @@ Any of the currently active WANO performance indicators.  (To support the applic
 
 ####### Unit of Measure (UOM)
 
-A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is micro-curies (US) and the Metric unit of measure is Becquerel.
 
 ####### Reactor Type
 
@@ -1445,7 +1445,7 @@ Any of the currently active WANO performance indicators.  (To support the applic
 
 ###### Unit of Measure (UOM)
 
-A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is micro-curies (US) and the Metric unit of measure is Becquerel.
 
 ###### Reactor Type
 
@@ -1569,7 +1569,7 @@ Any of the currently active WANO performance indicators.  (To support the applic
 
 ######## Unit of Measure (UOM)
 
-A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerels.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is micro-curies (US) and the Metric unit of measure is Becquerel.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
 
 ######## Reactor Type
 
@@ -1640,7 +1640,7 @@ The ending quarter for a trend chart is the last quarter for which performance i
 
 #### View Error and Info Log
 
-(cuirrently unavailable)
+(currently unavailable)
 
 ### Help
 
@@ -1728,11 +1728,11 @@ SP1 and SP2.
 
 |Reactor Type|	SP1|	SP2|
 |------------|-----|-------|
-|PWR / VVER|	high pressure safety injection system|	auxiliary feedwater system|
+|PWR / VVER|	high pressure safety injection system|	auxiliary feed-water system|
 |BWR|	high pressure injection/heat removal systems|	residual heat removal system|
 |RBMK| (first generation)| 	emergency heat removal system|
 |RBMK| (second generation)| 	first emergency heat removal system	second emergency heat removal system|
-|PHWR|	high pressure emergency coolant injection system|	auxiliary boiler feedwater system|
+|PHWR|	high pressure emergency coolant injection system|	auxiliary boiler feed-water system|
 |Magnox Reactors|	emergency feed system|	tertiary feed system|
 |Advanced Gas Cooled Reactors|	emergency feed system|	back up cooling system/decay heat loops|
 |FPF (fuel processing facility)|	N/A|	N/A|
@@ -1783,19 +1783,19 @@ reach the point the monitored train cannot or did not perform its
 function, unavailable hours are reported. An engineering determination
 is required to determine if (or when) the monitored function is lost.
 
-_A nuclear power station often does not own the switchyard even though
+_A nuclear power station often does not own the switch-yard even though
 it is on-site. Distribution company staff often perform work and
-various other activities in the switchyard. The station does not own
+various other activities in the switch-yard. The station does not own
 the equipment and the workers may not even be assigned to the
 station. Are generation losses due to causes, actions, or equipment
-failures within the switchyard reportable to WANO for use in the UCF,
+failures within the switch-yard reportable to WANO for use in the UCF,
 UCLF, and FLR indicators?_
 
-WANO reporting guidance does not base reportability of generation losses on "who owns" the equipment or "who performed" activities that resulted in generation losses. Rather, reportability is based on whether the causes of the generation loss were "under the control of plant management.
-Management control at a nuclear power station and its switchyard is
+WANO reporting guidance does not base report-ability of generation losses on "who owns" the equipment or "who performed" activities that resulted in generation losses. Rather, report-ability is based on whether the causes of the generation loss were "under the control of plant management.
+Management control at a nuclear power station and its switch-yard is
 viewed as very extensive. Because plant management is expected to
-"have control" over the switchyard equipment, the status of the
-equipment, and the activities in the switchyard that may result in
+"have control" over the switch-yard equipment, the status of the
+equipment, and the activities in the switch-yard that may result in
 lost generation, the generation losses would be reportable.
 
 _Multi-unit CANDU nuclear power stations have sometimes experienced
@@ -1877,7 +1877,7 @@ employee who normally performs five different tasks is injured such
 that he/she is no longer capable of performing one of those tasks (but
 still capable of performing the remaining four tasks), should that
 injury be reported as a restricted work accident? (This also applies
-to contactor employees for CISA.)_
+to contractor employees for CISA.)_
 
 Yes. Even though the employee is capable of performing most of the
 tasks, since he/she is not capable of performing them all, it is a
@@ -1933,12 +1933,12 @@ stations (waste reduction, laundry facilities, radiography) that
 originates from station radioactive or contaminated material. We
 currently take this dose and divide by the total number of stations
 and add the result to each unit's total whole body dose. Is it
-appropriate to include this nonstation dose in the CRE?_
+appropriate to include this non-station dose in the CRE?_
 
 Based on the indicator definition, the indicator is measuring exposure
 "at the facility". Even though the material originated on-site, only
 (and all) exposure to monitored personnel on-site should be
-counted. Nonstation dose should not be counted.
+counted. Non-station dose should not be counted.
 
 _Regarding Standby Emergency AC generators (2 out of 4 required), is a
 station penalized for the unavailability of one or two generators if
@@ -2016,7 +2016,7 @@ outside of what the PSA assumed, but in many cases, performance of
 these systems was already better than what PSAs assumed. Therefore,
 the goals set by individual stations for 2000 were based on past
 performance, modified, perhaps, by predictable effects of increased
-online maintenance or other factors.
+on-line maintenance or other factors.
 
 _The Performance Indicator Programme has been in place for many years
 and the original ten indicators included thermal performance and
@@ -2056,17 +2056,17 @@ The top menu of the PA prototype is the follows ![pa-top](pic/pa-top.PNG)
 
 In the first tab menu you can choose the unit, quarter, indicator _and source data which is included in this indicator calculation_. All the monitored indicators included.
 
-Data window means the date range for date to be analysed. As it was described above, there are ususally 3, 12, 18, 24 and 36 months calculation intervals are using.
+Data window means the date range for date to be analysed. As it was described above, there are usually 3, 12, 18, 24 and 36 months calculation intervals are using.
 
-The _Show all the source data_ checkbox means that all the source data will be showed instead of summary information.
+The _Show all the source data_ check-box means that all the source data will be showed instead of summary information.
 
 ![](pic/pa-menu.PNG)
 
-The very top result show the utit history. It is extramely important to do any kind of the analysis.
+The very top result show the unit history. It is extremely important to do any kind of the analysis.
 
 The second one show the calculated index, which is the reflection of the whole unit performance in one number.
 
-The next one show the source data cummulative (based on analysing period) or detailed information.
+The next one show the source data cumulative (based on analysing period) or detailed information.
 
 ![](pic/pa01.PNG)
 
@@ -2084,13 +2084,13 @@ The next one is _one of the most useful function on this page_ - it provides us 
 
 ### Outliers
 
-This tab was developed to find the units which need more attention based on their performance analyysis. 
+This tab was developed to find the units which need more attention based on their performance analysis. 
 
 The menu form asks for a quarter, indicator and data window to be showed and has a slider to set the [IQR](https://en.wikipedia.org/wiki/Interquartile_range) to variate the results.
 
 ![](pic/pa04.PNG)
 
-As a results we can see the boxplot with outliers (as points) positions.
+As a results we can see the box-plot with outliers (as points) positions.
 
 ![](pic/pa05.PNG)
 
@@ -2110,7 +2110,7 @@ The DB status is reflected as below.
 
 _The vital function for all the Regional Centres is generation of the results spreadsheet_.
 
-Pushing the button the process will be started and the following spreasheet will be generated.
+Pushing the button the process will be started and the following spreadsheet will be generated.
 
 ![](pic/spreadsheet.PNG)
 
@@ -2128,11 +2128,11 @@ There are three kind of _Distribution_ selector:
 - the same reactor type;
 - the same reactor type for the same Regional Centre
 
-The _Full PI Report_ means that the full performance table will be prodused as _saved_ into xls-file if the appropriate checkbox will be checked.
+The _Full PI Report_ means that the full performance table will be produced as _saved_ into xls-file if the appropriate check-box will be checked.
 
 ![](pic/pa09.PNG)
 
-The picture to show the unit position at the [quantile](https://en.wikipedia.org/wiki/Quantile) based distribution (_WANO AC style_) will be prodused as below.
+The picture to show the unit position at the [quantile](https://en.wikipedia.org/wiki/Quantile) based distribution (_WANO AC style_) will be produced as below.
 
 ![](pic/pa10.PNG)
 
@@ -2154,11 +2154,11 @@ PR Report specification can be find [here]()
 
 Long-Term Target Report is the _most important report_ for top management.
 
-The charts will be showed if the according checkbox checked.
+The charts will be showed if the according check-box checked.
 
 To produce the sharable report the _(Re)create LTT report and update LTT data_ button might be pressed.
 
-Then the sharable report might be downloeded by pressing _Download_ button.
+Then the sharable report might be downloaded by pressing _Download_ button.
 
 ![](pic/pa13.PNG)
 
@@ -2175,12 +2175,12 @@ If _show chart_ function is active, the following charts will be shown.
 ![](pic/pa16.PNG)
 ![](pic/pa17.PNG)
 
-There are few different style to visualise the results.
+There are few different style to visualize the results.
 
 ![](pic/pa18.PNG)
 ![](pic/pa19.PNG)
 
-The prinable version of the LTT report will be prodused and can be downloaded by pressing the buttons in the top menu.
+The printable version of the LTT report will be produced and can be downloaded by pressing the buttons in the top menu.
 
 It is _one of the most important report_ to be shared through top management.
 
@@ -2203,7 +2203,7 @@ PI metrics definition can be find in the [PI Process Description]().
 
 The system allows to generate such kind of reports to see the RCs performance.
 
-In the top menu you can select the analysing period as well as RC to be shown. If you need a chart or detailed information the corresponding checkbox should be checked.
+In the top menu you can select the analysing period as well as RC to be shown. If you need a chart or detailed information the corresponding check-box should be checked.
 
 ![](pic/pa20.PNG)
 
@@ -2217,25 +2217,25 @@ If the chart was requested, the following picture will be shown.
 
 ### Indicator Trend
 
-One of the most _important and easy-to-undertsand_ reports is the report produces  here.
+One of the most _important and easy-to-understand_ reports is the report produces  here.
 
-The Indicator and reactor type (if applicable) can be choosen in the top menu.
+The Indicator and reactor type (if applicable) can be chosen in the top menu.
 
 ![](pic/pa23.PNG)
 
 Then the [boxplot](https://en.wikipedia.org/wiki/Box_plot) chart with the _Long-Term Targets_ will be shown. 
 
-The filter allows you to select the country you are interesed in.
+The filter allows you to select the country you are interested in.
 
 ![](pic/pa24.PNG)
 
-If the _outlier_ checkbox is checked, the outliers will be shown as points.
+If the _outlier_ check-box is checked, the outliers will be shown as points.
 
 ![](pic/pa25.PNG)
 
 ### Unit Status
 
-It is the axuiliary report to check unit current status and history. It combines all the necessary information on the one page.
+It is the auxiliary report to check unit current status and history. It combines all the necessary information on the one page.
 
 _All the units_ (including out of service) are included.
 
@@ -2279,23 +2279,23 @@ If the _detailed information_ requested, you will see the details of non-reporti
 
 The implemented QRR currently just try to find any significant deviation looking at the source data were provided.
 
-In the new QRR realisation it should be much more intelledgence system witch have as mimimum the same tests and functionality as described in [QRR](#qrr) section above.
+In the new QRR realisation it should be much more intelligence system witch have as minimum the same tests and functionality as described in [QRR](#qrr) section above.
 
 In the top menu you can choose the quarter and indicator to be analysed.
 
-The _QRR sensivity_ means that the system will find the source data parameters which is out of normal distribution.
+The _QRR sensitivity_ means that the system will find the source data parameters which is out of normal distribution.
 
 ![](pic/pa34.PNG)
 
-When the _Calcilate_ button be pressed, the system will prodice the following report.
+When the _Calculate_ button be pressed, the system will produce the following report.
 
 ![](pic/pa35.PNG)
 
-_Note: is takes **very** long to prodice this report_.
+_Note: is takes **very** long to produce this report_.
 
 ### Scrams summary
 
-Another example of the auxiluary report is scram distribution one.
+Another example of the auxiliary report is scram distribution one.
 
 In the top menu you can choose the year and kind of scrams you would like to see.
 
@@ -2313,7 +2313,7 @@ As an experimental function, the [word cloud](https://www.wordclouds.com/) to re
 
 ![](pic/pa39.PNG)
 
-### Unit index (online)
+### Unit index (on-line)
 
 Index calculation process is described in the PI Reference Manual in very detailed way. The index reports are shown [above](#Index).
 
@@ -2325,7 +2325,7 @@ As a result the following index table will be produced.
 
 ![](pic/pa41.PNG)
 
-If you selected two countries or region in the top menu, the boxplot to reflect their relative position will be generated.
+If you selected two countries or region in the top menu, the box-plot to reflect their relative position will be generated.
 
 ![](pic/pa42.PNG)
 
@@ -2347,7 +2347,7 @@ Next picture shows the proposed location and configuration of WANO’s database 
 
 The new database that will support this data warehouse will be called WANO_DW and will facilitate an improved reporting and data analysis capability. This database will be populated with data from multiple sources, including the core database, the PI database, the OE database and any other identified key data sources, such as spreadsheets and structured documents.
 
-The design of a data warehouse is very different from design of an online transaction processing (OLTP) system. In contrast to an OLTP system, where the purpose is to capture high rates of data changes and additions, the purpose of a data warehouse is to organise large amounts of stable data for ease of reporting and analysis. Data warehouse data must be organised to meet this need for rapid access to information.
+The design of a data warehouse is very different from design of an on-line transaction processing (OLTP) system. In contrast to an OLTP system, where the purpose is to capture high rates of data changes and additions, the purpose of a data warehouse is to organise large amounts of stable data for ease of reporting and analysis. Data warehouse data must be organised to meet this need for rapid access to information.
 
 Dimensional modelling is used in the design of data warehouse databases to organise the data for efficiency of queries that are intended to analyse and summarise large volumes of data. The data warehouse schema is almost always very different and much simpler than the schema of an OLTP system designed using entity-relation modelling.
 
@@ -2375,17 +2375,17 @@ The following picture shows the current location and configuration of WANO’s P
 
 ![](pic/flow01.jpg)
 
-On the first stage of phase 2 WANO LO will provide daily complete PI DB copy (about 2 GB) into WANO LO Core DB and/or WANO LO Data Warehouse. As a result the following dataflow will be provided.
+On the first stage of phase 2 WANO LO will provide daily complete PI DB copy (about 2 GB) into WANO LO Core DB and/or WANO LO Data Warehouse. As a result the following data-flow will be provided.
 
 ![](pic/flow02.jpg)
 
-When Calculation and Reporting modules (i.e. SSRS and Power BI) complete, and the necessary table of source data define, the final structure and PI dataflow _might_ be the following.
+When Calculation and Reporting modules (i.e. SSRS and Power BI) complete, and the necessary table of source data define, the final structure and PI data-flow _might_ be the following.
 
 ![](pic/flow03.jpg)
 
 ## Calculation details
 
-Most of calculation regading Indicators and Indexes have already
+Most of calculation regarding Indicators and Indexes have already
 describes into
 [PI Reference Manual](https://members.wano.org/getattachment/e13ff432-e4a2-49c4-94b9-c82b0fcfc48c/document). However, there are list of calculations which is not covered by existing references (e.g. AGR FRI, TISA etc.) or has a mistake (e.g. PWR FRI, CPI, SSPI etc.)
 
@@ -2395,20 +2395,20 @@ The intention of this section is to cover all the necessary calculation.
 
 The development will be based on
 [Agile](https://en.wikipedia.org/wiki/Agile_software_development)
-methodology (detailes are also available [here](http://agilemethodology.org/)
+methodology (details are also available [here](http://agilemethodology.org/)
 
-## CheckList
+## Checklist
 
 - [x] Have the initial meeting
   - [x] Prototype demonstration
 - [ ] Have the first meeting to define/explain development strategy
   and to discuss all the related questions like communication
-  protocol, minimal functional requarements etc.
+  protocol, minimal functional requirements etc.
   - [x] Have a chat with Ross and Sandor (beginning of week 4 2018)
   - [x] Have a meeting with datB (30 Jan 18)
   - [ ] Have a meeting with datB (2 Feb 18)
-- [ ] Officially start the development (incluging clear definition of roles
-  and tasks for all the memebers)
+- [ ] Officially start the development (including clear definition of roles
+  and tasks for all the members)
 - [ ] to demonstrate the first prototype during Feb 2018 PI Programme Meeting
 
 ## Extra functionality
@@ -2421,7 +2421,7 @@ Some extra functionality must be provided. There are some of them:
 - Data entry field should be locked until commentary entered (if needed, based on QRR recommendation);
 - Metrics information should be provided;
 - mobile support;
-- IAEA-PI descripency report;
+- IAEA-PI discrepancy report;
 - possibility to lock and check source data before submitting;
 - easy to change/add elements and indicators;
 - automated data validation process;
