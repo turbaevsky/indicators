@@ -1,7 +1,7 @@
 # Performance Indicators Application Functional Specification
 
 version 0.0.0.9003 from 01-Feb-2018 by
-[Vladimir Turbayesky](mailto:volodymyr.turbayevsky@wano.org) (partly
+[Vladimir Turbayevsky](mailto:volodymyr.turbayevsky@wano.org) (partly
 based on information presented on the [DES](http://www.wano.org/Dk01Asp/dkw000.asp) and [Reports](http://www.wano.org/xwp10webapp/Confidentiality.aspx) websites)
 
 ## Abstract
@@ -21,7 +21,7 @@ Some extra [functionality](#extra-functionality) is also described in here and i
 
 DES was designed to enter source data, provide very basic calculation,
 and to provide some security functions. Also it supports the basic
-[dataflow](#data-processing) which mean review data then promote or reject them. More
+[data-flow](#data-processing) which mean review data then promote or reject them. More
 detailed information regarding DES please see
 [below](#data-entry-system-basic-functionality).
 
@@ -34,11 +34,11 @@ It seems reasonable _new system to calculate all the results on fly_.
 
 ## History 
 
-The Performance Indicator Program (PIP) has started in 1990 and mainly used as a management tool. All WANO regional centers (RC), members and plants can monitor their performance and trends and set challenging goals for improvement and consistently compare their performance with other plants and nuclear industry. Performance indicators can also be used to assess industry performance, to support other WANO programs and to provide assistance to members if necessary.
+The Performance Indicator Program (PIP) has started in 1990 and mainly used as a management tool. All WANO regional centres (RC), members and plants can monitor their performance and trends and set challenging goals for improvement and consistently compare their performance with other plants and nuclear industry. Performance indicators can also be used to assess industry performance, to support other WANO programs and to provide assistance to members if necessary.
 
 Existing PI DB includes two structures: PI Data Entry System (DES) and PI REPORT system. The first one provides data entry and preliminary checking. The second one provides indicator and indexes calculation, and reporting and trending providing.
 
-Currently very limited number of people has enough knowledges and training to use the PI results in their practice. It is probably one of the reasons why PI program does not use wide enough.
+Currently very limited number of people has enough knowledge and training to use the PI results in their practice. It is probably one of the reasons why PI program does not use wide enough.
 
 WANO LO IS developed IS Strategy which includes IS Business Data Plan (BDP) (both documents are available at the SharePoint into Information System Area).
 
@@ -54,11 +54,11 @@ All work in this area should be aligned with the principles described in this pl
 
 The main advantage of this project is it needn’t any changes of existing data structure or data flows. The existing PI DB and data flows will continue to work without any changes and independently from this project. The PI data customers will be able to choose which kind of report is more appropriate for their needs.
 
-Additional advantage is the WANO LO will be able to provide any new or updated calculations and reports without any request to INPO. It allows WANO LO to check any new method before realization into INPO server, if WANO members decide continue to use the existing PI REPORT system.
+Additional advantage is the WANO LO will be able to provide any new or updated calculations and reports without any request to INPO. It allows WANO LO to check any new method before realisation into INPO server, if WANO members decide continue to use the existing PI REPORT system.
 
 All the software will be developed are quite supportable by IT experts but not by PI system administrator only. It _might_ be based on popular Microsoft Power Business Intelligence (Power BI) system for on-line reports, on standard SQL for calculation module and on the SQL Server Reporting Services (SSRS) to provide paper reports.
 
-Finally, the approach is proposed let all the WANO members  to receive all kind of necessary information without any special knowledges and trainings. The Power BI on-line report examples are presented below.
+Finally, the approach is proposed let all the WANO members  to receive all kind of necessary information without any special knowledge and training. The Power BI on-line report examples are presented below.
 
 ## Data processing
 
@@ -68,7 +68,7 @@ The following Performance Indicator’s process description flowchart describes 
 
 ### Step 1 – Data collection, Members
 
-Each WANO member (nuclear operating organization) is responsible for
+Each WANO member (nuclear operating organisation) is responsible for
 the element data collection. All necessary elements are identified in
 the Data Entry System (DES) section of the WANO member website. Most
 of the world plants report quarterly. However, the USA plants report
@@ -78,7 +78,7 @@ predefined data from CDE into PI DB through DES.
 
 ### Step 2 – Data reporting and submission, Members
 
-Station PI staff is responsible for the first review and submittal of
+Station PI staff is responsible for the first review and submits of
 good quality data elements to Regional Centres (RCs) according to the
 PI Reference Manual and for informing RCs about data collection
 issues.
@@ -234,38 +234,38 @@ The metrics used to assess the PI Programme results are:
 
 The basic use of DES is as follows:
 
-Authorized IDs enter PI data. Data can be entered, saved, viewed, and
-calculated prior to submittal to WANO. Data may even be entered in
+Authorised IDs enter PI data. Data can be entered, saved, viewed, and
+calculated prior to submits to WANO. Data may even be entered in
 advance for indicator projection calculations. (However, data cannot
 be submitted prior to the end of the period (see
 [Data Processing Step 2](#data-processing) section)). Data entered at the unit/utility level has a green background.
 
 Data can and should be reviewed by other utility staff prior to
-submittal to WANO.  The data submittal authority is a separate
-authorization from data entry.  Furthermore, while data entry
+submits to WANO.  The data submits authority is a separate
+authorisation from data entry.  Furthermore, while data entry
 authority may be assigned to IDs by category, the assignment of
-submittal authority is for all data categories, although the submitter
+submits authority is for all data categories, although the submitter
 may elect to submit data categories at different times.  It is
-recommended that initial data submittals for a new reporting period be
-done for all categories at the same time. The station level submittals
-are separate from unit level submittals - submitters should not forget
-that both submittals need to be done each period (see
+recommended that initial data submits for a new reporting period be
+done for all categories at the same time. The station level submits
+are separate from unit level submits - submitter should not forget
+that both submits need to be done each period (see
 [Data Processing Step 2](#data-processing) section). Data that is submitted for WANO review has a yellow background.
 
 IDs with data entry privileges may also Recall data that has been
 submitted - returning the data from the review (yellow) status to the utility level (green).
 
 After data is submitted (a due date has been established for each
-reporting period - please check with your regional coordinator for the due date), the applicable WANO regional centre will review the submittals. The various results from review can be accepted, or returned to the submitter electronically. The reviewer may also elect to phone the submitter to resolve any questions. If the data is accepted, the reviewer will promote the data to production. The data will then be used in WANO calculations when the WANO system administrator calculates results. Data that is promoted (in production) has a white background.
+reporting period - please check with your regional coordinator for the due date), the applicable WANO regional centre will review the submits. The various results from review can be accepted, or returned to the submitter electronically. The reviewer may also elect to phone the submitter to resolve any questions. If the data is accepted, the reviewer will promote the data to production. The data will then be used in WANO calculations when the WANO system administrator calculates results. Data that is promoted (in production) has a white background.
 
 Data can also be disqualified - a UD [code](#data-entry-code-entries) is assigned to a data
 element and then has a red background - or the data may be returned to the utility (the data is returned to a utility level (green) from the review status (yellow).
 
 Results are typically calculated by WANO once a calendar quarter after all worldwide data is placed in production.
 
-Authorized IDs may calculate any indicators value in DES for the associated unit using data in the various levels (green, yellow, or white backgrounds.)
+Authorised IDs may calculate any indicators value in DES for the associated unit using data in the various levels (green, yellow, or white backgrounds.)
 
-Users with data entry, data submittal and view data authority may calculate indicator values for the associated units/stations.
+Users with data entry, data submitter and view data authority may calculate indicator values for the associated units/stations.
 
 The [QRR](#qrr) (Quality Review Report) may be used to identify potential data
 errors. QRRs are intended to help users ensure accurate data is reported. If you receive a QRR message, you are not required to make a comment in the Data Entry field; however, a comment may help explain the data to other data users
@@ -321,25 +321,25 @@ the chemistry performance indicator
   WANO
 
 - Local administrator - assign rights to perform the functions above
-  to other users in the organization
+  to other users in the organisation
 
-The right to perform any of the above functions is assigned for specific units, stations, or organizations (such as a utility or member).
+The right to perform any of the above functions is assigned for specific units, stations, or organisations (such as a utility or member).
 
-If a member wishes to assign individuals data entry responsibilities for a specific category of data they may do so by assigning data entry privileges for that category. For example, if a station performance indicator data coordinator wished to assign the chemistry department responsibility for entering chemistry data, the coordinator would configure the User ID of one person in chemistry to permit data entry in the chemistry category. That person would then be permitted to enter data in the chemistry category but not any other category. Any user authorized to enter data in one category also is permitted to view that unit's data in other categories, though they will be unable to enter or change data in other categories.
+If a member wishes to assign individuals data entry responsibilities for a specific category of data they may do so by assigning data entry privileges for that category. For example, if a station performance indicator data coordinator wished to assign the chemistry department responsibility for entering chemistry data, the coordinator would configure the User ID of one person in chemistry to permit data entry in the chemistry category. That person would then be permitted to enter data in the chemistry category but not any other category. Any user authorised to enter data in one category also is permitted to view that unit's data in other categories, though they will be unable to enter or change data in other categories.
 
 #### Local administrators assign security
 
-In order to assign security privileges within their organization, users must have their Ids configured as a "local administrator". Local administrators can delegate any function (all or any subset thereof) they possess to any user in their organization. For example, if a local administrator has data entry, submittal, and local administrator functions for all stations in a utility, that local administrator can delegate all or some of those functions to any user in their utility.
+In order to assign security privileges within their organisation, users must have their Ids configured as a "local administrator". Local administrators can delegate any function (all or any subset thereof) they possess to any user in their organisation. For example, if a local administrator has data entry, submitter, and local administrator functions for all stations in a utility, that local administrator can delegate all or some of those functions to any user in their utility.
 
 #### Security is administered in tiers or levels
 
-Local administration is constructed in a tiered fashion. At the highest level, WANO Regional Center personnel are local administrators of all DES functions for every station in their region. They may delegate these privileges to any user within their region. Regional center personnel may elect to delegate local administrator privileges to one representative at each member, creating a tier of administrators that can delegate DES privileges for any station of that member. The member local administrator may delegate local administrator privileges to a representative of each utility affiliated with that member. Through this process, members can create as many or as few tiers of security administration as they wish. Listed below are some possible tiers of local administrators:
+Local administration is constructed in a tiered fashion. At the highest level, WANO Regional Centre personnel are local administrators of all DES functions for every station in their region. They may delegate these privileges to any user within their region. Regional Centre personnel may elect to delegate local administrator privileges to one representative at each member, creating a tier of administrators that can delegate DES privileges for any station of that member. The member local administrator may delegate local administrator privileges to a representative of each utility affiliated with that member. Through this process, members can create as many or as few tiers of security administration as they wish. Listed below are some possible tiers of local administrators:
 
-- Regional center administrator - All data entry privileges for all
+- Regional Centre administrator - All data entry privileges for all
   stations in their region
 
 - Member administrator - All data entry privileges for all station of
-  their organization
+  their organisation
 
 - Utility administrator - All data entry privileges for all stations
   of their utility
@@ -349,7 +349,7 @@ Local administration is constructed in a tiered fashion. At the highest level, W
 
 - Unit administrator - All or most data entry privileges for a unit
 
-_Note that administrators can only delegate privileges they are assigned. For example, if data submittal to WANO is not assigned to an administrator, they cannot delegate that privilege._
+_Note that administrators can only delegate privileges they are assigned. For example, if data submitter to WANO is not assigned to an administrator, they cannot delegate that privilege._
 
 ## Data Entry System basic functionality
 
@@ -367,43 +367,43 @@ DES has a Home Page that provides various programme information, reminders, and 
 
 ### Access
 
-The application requires access to the Internet using Internet Explorer version 5.0, service pack B, or better. If access is not currently available, a member may request its regional centres to enter its data for its units; however, it is strongly suggested that each member work toward improving its Internet access to benefit from efficient data reporting and utilization of the system features.
+The application requires access to the Internet using Internet Explorer version 5.0, service pack B, or better. If access is not currently available, a member may request its regional centres to enter its data for its units; however, it is strongly suggested that each member work toward improving its Internet access to benefit from efficient data reporting and utilisation of the system features.
 
-The system is accessed through the Performance Indicator section on the WANO Web site.  An ID and password are required to access the WANO Web site; in addition, specific authorizations must be made for the ID to perform various actions within DES. The units assigned local administrator for the performance indicator program controls those authorizations.  The WANO regional centre data coordinators initially assign the local administrator authorization. The system administrator is located in WANO-Atlanta Center. (Passwords expire every 180 days.)
+The system is accessed through the Performance Indicator section on the WANO Web site.  An ID and password are required to access the WANO Web site; in addition, specific authorisations must be made for the ID to perform various actions within DES. The units assigned local administrator for the performance indicator program controls those authorisations.  The WANO regional centre data coordinators initially assign the local administrator authorisation. The system administrator is located in WANO-Atlanta Centre. (Passwords expire every 180 days.)
 
-### Personal Authorization
+### Personal Authorisation
 
 Local administrators control access to DES once an ID is assigned to the individual seeking access.
 
 ### Features
 
-The following features are included in DES:  [Data Entry](#data-entry) (the capability to enter data into data categories); [Data Submittal](#data-submittal) (the capability to submit data after entry to WANO regional centres for review, acceptance, and processing); [Data Review](#data-review) (the capability for regional centres to review and process data submitted by members); [Data View](#data-view) (the capability to view data entered into DES); and the capability to run several types of reports.
+The following features are included in DES:  [Data Entry](#data-entry) (the capability to enter data into data categories); [Data Submitter](#data-submitter) (the capability to submit data after entry to WANO regional centres for review, acceptance, and processing); [Data Review](#data-review) (the capability for regional centres to review and process data submitted by members); [Data View](#data-view) (the capability to view data entered into DES); and the capability to run several types of reports.
 
 The [Reports](#reports) include data quality reports, calculations, timeliness status, and unit pedigree information.
 
-The system also allows local administrators flexibility in assigning authorizations to other IDs of the same organization.  [Security](#administer-security) administration can be accessed under the  [Maintenance](#maintenance) tab on the DES Home Page.
+The system also allows local administrators flexibility in assigning authorisations to other IDs of the same organisation.  [Security](#administer-security) administration can be accessed under the  [Maintenance](#maintenance) tab on the DES Home Page.
 
-Several other features are included under the [Maintenance](#maintenance) tab that allows certain label customizations and selections. These features are suggested for advanced users.  Contact the regional coordinator regarding these features.
+Several other features are included under the [Maintenance](#maintenance) tab that allows certain label customisation and selections. These features are suggested for advanced users.  Contact the regional coordinator regarding these features.
 
-[Help](#help) screens are available under the Help tab but are very basic and limited. Improvements will be made as resources permit. Although print and copy capability is possible, the system is designed for electronic entry, submittal, and viewing of data, and therefore printouts may not be suitable for formal reports.
+[Help](#help) screens are available under the Help tab but are very basic and limited. Improvements will be made as resources permit. Although print and copy capability is possible, the system is designed for electronic entry, submitter, and viewing of data, and therefore printouts may not be suitable for formal reports.
 
 Users should review all available tabs and menu items to identify all available capabilities.
 
 ### Data Entry
 
-Authorized users enter performance data or codes in specific categories and the related comments if appropriate. If the category field has a selectable option for the corresponding unit of measure, that selection MUST be made first, turning the data field color green, before entering the numerical value. Data with a green field is called utility data as it has not been submitted to WANO for review. Calculations can be made in DES using utility data.
+Authorised users enter performance data or codes in specific categories and the related comments if appropriate. If the category field has a selectable option for the corresponding unit of measure, that selection MUST be made first, turning the data field colour green, before entering the numerical value. Data with a green field is called utility data as it has not been submitted to WANO for review. Calculations can be made in DES using utility data.
 
-### Submittal
+### Submitter
 
- Authorized users submit completed performance categories for specific periods.  Any or all categories may be selected for single or multiple periods at a single time. After submittal, the data field turns yellow. Data with a yellow field is called Review level data and is available to WANO for Review and acceptance. Data at the Review level cannot be changed by the utility. It is also not used by WANO in published calculations.   Authorized users can recall (by category) data in Review to utility data level if the data needs to be changed. Calculations can be made in DES using Review level data.
+ Authorised users submit completed performance categories for specific periods.  Any or all categories may be selected for single or multiple periods at a single time. After submitter, the data field turns yellow. Data with a yellow field is called Review level data and is available to WANO for Review and acceptance. Data at the Review level cannot be changed by the utility. It is also not used by WANO in published calculations.   Authorised users can recall (by category) data in Review to utility data level if the data needs to be changed. Calculations can be made in DES using Review level data.
 
 A separate ID can be used to submit data in order to allow an
 independent verification of data quality before data categories are
-submittal to WANO.
+submitter to WANO.
 
-Data submitters are reminded to submit "station" level data in
+Data submitter are reminded to submit "station" level data in
 addition to the "unit" level data (separate selections are
-required). We have noticed that station submittal is sometimes
+required). We have noticed that station submitter is sometimes
 overlooked. We are also investigating a software change to avoid this
 problem. Some units have data revisions remaining at the "utility"
 level (green).  Please remember to Submit data revisions, or Refresh
@@ -411,16 +411,16 @@ to return display to production values. "Green" data has not been
 submitted and is not used by WANO.  "Red" data is not used in
 calculations.
 
-Atlanta Center Stations:
+Atlanta Centre Stations:
 - U.S. Stations Only: Data is due per schedule established by INPO (within approximately 20-22 days after end of each calendar quarter).
-- Atlanta Center International Stations: Data is due 30 days following
+- Atlanta Centre International Stations: Data is due 30 days following
   end of calendar quarter.
 
-Moscow, Paris, and Tokyo Center Stations: Data is due 60 days following end of calendar quarter.
+Moscow, Paris, and Tokyo Centre Stations: Data is due 60 days following end of calendar quarter.
 
 ### Review by WANO Regional Staff
 
- Authorized users (IDs having Submit authority) submit completed performance categories for specific periods.  Any or all categories may be selected for single or multiple periods at a single time. After submittal, the data field turns yellow. Data with a yellow field is called Review level data and is available to WANO regional staff for Review and acceptance.  Data at the Review level cannot be changed by the utility. It is also not used by WANO in published calculations.  Authorized users can recall (by category) data in Review to utility data level if the data needs to be changed. Calculations can be made in DES using Review level data.
+ Authorised users (IDs having Submit authority) submit completed performance categories for specific periods.  Any or all categories may be selected for single or multiple periods at a single time. After submitter, the data field turns yellow. Data with a yellow field is called Review level data and is available to WANO regional staff for Review and acceptance.  Data at the Review level cannot be changed by the utility. It is also not used by WANO in published calculations.  Authorised users can recall (by category) data in Review to utility data level if the data needs to be changed. Calculations can be made in DES using Review level data.
 
 ### Calculation of Results
 
@@ -433,7 +433,7 @@ that may be available or other issues not addressed in this
 document. The DES Home Page may also be referenced for the latest
 information on the status of DES and current DES issues.
 
-DES added a feature in August 2002 that allows authorized users to
+DES added a feature in August 2002 that allows authorised users to
 view the data elements that contributed to the results, trend
 performance, and make comparisons for units worldwide. To use the
 feature, obtain a result using the Calculate Indicator feature. When
@@ -451,8 +451,8 @@ INPO CDE help line, (770) 644-8500, or WANO-AC if there are questions.
 A default unit of measure has been set for all units for applicable
 radiation protection and fuel reliability data.  Initial default
 settings are based on 2003Q3 data; however, members may change the
-default setting by using the unit label customization feature of DES.
-(Authority for label customization is required.)  Contact your
+default setting by using the unit label customisation feature of DES.
+(Authority for label customisation is required.)  Contact your
 regional data coordinator if you have questions.
 
 Attention U.S. members:  Some computer checks existing in DES are not in effect for U.S. members due to direct transfer into DES from CDE.  Please do not depend on computer checks to ensure data accuracy.
@@ -515,9 +515,9 @@ _Please note that all the data in this manual are faked_
 
 ##### Data Status
 
-Data resides in one of four virtual views. These views are color coded to help users identify their status:
+Data resides in one of four virtual views. These views are colour coded to help users identify their status:
 - Utility - Data entered by a station but not submitted to WANO for use in performance indicator program. WANO does not use or view this data until the station submits it. The cell background will be green.
-- Review - Data submitted by a station to WANO but under review by a regional center. The cell background will be yellow.
+- Review - Data submitted by a station to WANO but under review by a regional Centre. The cell background will be yellow.
 - Returned - Data submitted to WANO but not accepted to the production database. It was returned to the station for revision. The cell background will be red.
 - Production - Data that has been reviewed by WANO and promoted to the production database. This data is used for calculating the performance indicator values displayed on the WANO Web site and published in WANO reports. The cell background will be white.
 
@@ -530,7 +530,7 @@ but didn't submitted yet.
 It is _extremely important_ user to add the [comments](#comments) as shown below for
 all the data which is reflected into the [QRR](#qrr)
 report. ![comments](pic/comms.png)
-If the comments exist, the color of the 'C' button is green.
+If the comments exist, the colour of the 'C' button is green.
 
 ##### View and Enter Data
 
@@ -580,10 +580,10 @@ should be corrected as soon as the data becomes available._
 
 ##### Comments
 
-1. To enter a comment in a cell, click on the "c" icon and the Enter/Update User Comments dialog window appears. Enter your comments in the Utility Comments box and click OK to return to the data entry form. If a comment has been entered the "c" icon is highlighted in a bright green color when you return to the data entry form.
+1. To enter a comment in a cell, click on the "c" icon and the Enter/Update User Comments dialog window appears. Enter your comments in the Utility Comments box and click OK to return to the data entry form. If a comment has been entered the "c" icon is highlighted in a bright green colour when you return to the data entry form.
 
 _Note: There is a response box called "WANO Centre Comments" where
-WANO Regional Center personnel may enter comments about the data._
+WANO Regional Centre personnel may enter comments about the data._
 
 2. To save the data you have entered. Click on the Save button at the
 top of the window.
@@ -662,8 +662,8 @@ or to [calculate](#indicator-calculator) indicators or to run
 
 Maintenance - Two options are available for members:
 - Administer Security
-- Unit Label Customization
-  - Permits your unit labels to be customized
+- Unit Label Customisation
+  - Permits your unit labels to be customised
   - Data value range check values can be updated for each data entry field.
 
 #### Codes Maintenance
@@ -732,7 +732,7 @@ _Note: the advanced Security Application is now in the trial operation_
 
 ##### Purpose
 
-This is the main menu of the DES security system. From this menu you may administer security by user or by function. More general information on how DES security works is available on the following page.  Reports also are available regarding the assignment of data entry functions in your organization.
+This is the main menu of the DES security system. From this menu you may administer security by user or by function. More general information on how DES security works is available on the following page.  Reports also are available regarding the assignment of data entry functions in your organisation.
 
 ##### Using the Page
 
@@ -744,19 +744,19 @@ This is the main menu of the DES security system. From this menu you may adminis
 
 From the security menu click on "Administer by User" and then click on
 the menu options below, which will be "As 'entity name'".  "Entity
-name" will be the name of the organization, station, or unit for which
+name" will be the name of the organisation, station, or unit for which
 you are a local administrator.
 
 This page enables local administrators to change the DES privileges of an existing user or to add and assign privileges to a new user.
 
 ####### Page Elements
 
-A list of User Ids in your organization that are already configured for the DES are displayed. You have two choices:
+A list of User Ids in your organisation that are already configured for the DES are displayed. You have two choices:
 
 - Add a new user
 - Update an existing user
 
-This page also displays a dialog box that is used to find users by their name, User ID, or organization.
+This page also displays a dialog box that is used to find users by their name, User ID, or organisation.
 
 ####### Using this Page
 
@@ -765,7 +765,7 @@ This page also displays a dialog box that is used to find users by their name, U
 Click "Add" in the upper right hand corner of the page. A search form will appear that permits you to search for users by:
 
 - Name
-- Organization name
+- Organisation name
 - User Id
 
 Add User Dialog Box Select User ID Dialog Box ![](pic/addUser.gif)
@@ -789,84 +789,84 @@ Administer Functions Form ![](pic/admFunc.gif)
 
 ########## Using the Page
 
-Clicking on any change button will produce a list of organizations, stations, or units for which you can delegate the selected function.
+Clicking on any change button will produce a list of organisations, stations, or units for which you can delegate the selected function.
 
-Organization List ![](pic/orgList.gif)
+Organisation List ![](pic/orgList.gif)
 
-Select the entities you wish to delegate for that user using the check box to left of each entity. Selecting an organization authorizes that function for any station and unit in that organization. Similarly, selecting a utility authorizes that function for any station and unit in that organization. Selecting a station authorizes that function for all units at that station. Selecting a unit does not authorize that function for other units at the associated station, utility, or member.
+Select the entities you wish to delegate for that user using the check box to left of each entity. Selecting an organisation authorises that function for any station and unit in that organisation. Similarly, selecting a utility authorises that function for any station and unit in that organisation. Selecting a station authorises that function for all units at that station. Selecting a unit does not authorise that function for other units at the associated station, utility, or member.
 
-After you complete selecting entities, click "OK" to return to the list of privileges for that user. If you are finished, click "Save" in the upper right hand corner of the page. If you wish to continue delegated privileges, you may click "Save" later. NOTE: If the "Save" button appears in black letters, unsaved changes remain to be saved. If the "Save" button is gray, all changes have been saved.
+After you complete selecting entities, click "OK" to return to the list of privileges for that user. If you are finished, click "Save" in the upper right hand corner of the page. If you wish to continue delegated privileges, you may click "Save" later. NOTE: If the "Save" button appears in black letters, unsaved changes remain to be saved. If the "Save" button is grey, all changes have been saved.
 
-_NOTE:  Certain functions, such as data entry, require the ability to at least view station level data even if the user only is authorized data entry for a single station at a unit.  For this reason, users that are assigned privileges for a single unit should also be assigned "View" data privileges for the associated station._
+_NOTE:  Certain functions, such as data entry, require the ability to at least view station level data even if the user only is authorised data entry for a single station at a unit.  For this reason, users that are assigned privileges for a single unit should also be assigned "View" data privileges for the associated station._
 
 When you are finished assigning security privileges, you may return to earlier pages using the "Back" button on your browser or on the top right portion of the page.
 
 ######## Update an existing user
 
-In the list of User Ids already configured for your organization,
+In the list of User Ids already configured for your organisation,
 click on the User's ID next to the User name (Each User ID in the list
 is a hyperlink). The form ![form](pic/admFunc.gif) for updating the user's security privileges will appear.
 
-To change the scope of data entry privileges for the user, click change and continue as you would for adding a new user. To remove privileges for a User ID, unchecked boxes next to organizations, stations, or units.
+To change the scope of data entry privileges for the user, click change and continue as you would for adding a new user. To remove privileges for a User ID, unchecked boxes next to organisations, stations, or units.
 
 ###### Administer Security by Function
 
 From the security menu click on "Administer by Function" and then
 click on the menu options below, which will be "As 'entity name'".
 
-This function is intended primarily for use by regional centers for monitoring the assignment of key DES functions.  As such, we recommend that you perform most of your DES security administration "by User" instead of "by Function".
+This function is intended primarily for use by regional centres for monitoring the assignment of key DES functions.  As such, we recommend that you perform most of your DES security administration "by User" instead of "by Function".
 
 ###### Reports
 
 Two reports are available for administering security:
-- [All Users](#all-users-in-organization-report) in your org - lists all users in the organizations for which your are able to administer security.
-- All Users in your org [with security](#users-with-privileges-in-your-organization-report) - lists all the DES capabilities
-  of each ID in your organization that has DES privileges
+- [All Users](#all-users-in-organisation-report) in your org - lists all users in the organisations for which your are able to administer security.
+- All Users in your org [with security](#users-with-privileges-in-your-organisation-report) - lists all the DES capabilities
+  of each ID in your organisation that has DES privileges
 
 
-####### All Users in Organization Report
+####### All Users in Organisation Report
 
 ######## Purpose
 
 This report shows all User IDs assigned to personnel in your
-organization. You can delegate DES privileges to these User IDs.
+organisation. You can delegate DES privileges to these User IDs.
 
 ######## Page Elements
 
 The list of User IDs is presented at the summary level, which is
-signified by plus signs next to organization names. User IDs are
-sorted by WANO Regional Center, WANO Member, utility, station, and
+signified by plus signs next to organisation names. User IDs are
+sorted by WANO Regional Centre, WANO Member, utility, station, and
 unit.
 
 ######## Using the Page
 
 Clicking on a plus sign will expand the User ID list to display the
 next level of detail. Continue clicking plus signs to get down to the
-unit level. User IDs are displayed beneath the organizational level to
+unit level. User IDs are displayed beneath the organisational level to
 which they are assigned. A minus sign indicates all detail is
 displayed at that level. Click the minus signs to compress the list.
 
 ![](pic/allUsers.gif)
 
-####### Users with Privileges in Your Organization Report
+####### Users with Privileges in Your Organisation Report
 
 ######## Purpose
 
 This report shows all User IDs with DES privileges in your
-organization. All data entry privileges for each User ID can be found
+organisation. All data entry privileges for each User ID can be found
 in this report.
 
 ######## Page Elements
 
 Information is presented at the summary level, which is signified by
-plus signs next to organization names. User IDs are sorted by WANO
-Regional Center, WANO Member, utility, station, and unit.
+plus signs next to organisation names. User IDs are sorted by WANO
+Regional Centre, WANO Member, utility, station, and unit.
 
 ######## Using the Page
 
 Clicking on a plus sign will expand the User ID list to display the
 next level of detail. Continue clicking plus signs to get down to the
-unit level. User IDs are displayed beneath the organizational level to
+unit level. User IDs are displayed beneath the organisational level to
 which they are assigned. A minus sign indicates all detail is
 displayed at that level. Click the minus signs to compress the list.
 
@@ -892,7 +892,7 @@ This page is used to select the units to be used in several report modules. The 
 
 2. Selection will be made through use of the drop-down menus.
 
-_Note: Only the locations for which you are authorized to enter data
+_Note: Only the locations for which you are authorised to enter data
 will be represented in the drop-down menus._
 
 	- Click on the down arrow to the right of the Region cell and select the appropriate region.
@@ -903,7 +903,7 @@ will be represented in the drop-down menus._
 3. After these four selections have been made, the options will differ according to the type of report you are creating.
 For instructions on how to generate a specific report, click on the appropriate link below.
 
-Timeliness Report - This report provides data for users to assess the punctuality of data provided to the regional centers. Data that is submitted to the appropriate WANO regional center in accordance with the associated Due Date (30 days from the end of the report quarter for Atlanta Center and 75 days for other centers) is deemed to be Timely.
+Timeliness Report - This report provides data for users to assess the punctuality of data provided to the regional centres. Data that is submitted to the appropriate WANO regional Centre in accordance with the associated Due Date (30 days from the end of the report quarter for Atlanta Centre and 75 days for other centres) is deemed to be Timely.
 
 Completeness Report - The report offers an additional selection value, Desired Quarter, so that a specific time frame can be chosen. This report helps Users determine the status of reporting of performance indicators by WANO members, and shows the amount of data that has been submitted by the station and reviewed and accepted by WANO.
 
@@ -935,7 +935,7 @@ There are four Quality Review Reports:
 
 You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus.
 
-_Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
+_Note: Only the locations for which you are authorised to enter data will be represented in the drop-down menus._
 
  To complete the Quality Review Report set-up, eight additional values and four report options have been added for selection:
 
@@ -1042,13 +1042,13 @@ Final Criteria Form ![](pic/selCriteria.gif)
 
 ##### Purpose of the Report
 
-This report provides data for users to assess the promptness and punctuality of data provided to the WANO Regional Centers. Data that is submitted to the appropriate WANO Regional Center in accordance with the associated Due Date (30 days for Atlanta Center and 75 days for other Centers from the end of the Reporting Quarter) is deemed to be Timely.
+This report provides data for users to assess the promptness and punctuality of data provided to the WANO Regional Centres. Data that is submitted to the appropriate WANO Regional Centre in accordance with the associated Due Date (30 days for Atlanta Centre and 75 days for other Centres from the end of the Reporting Quarter) is deemed to be Timely.
 
 ##### Page Elements
 
 You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus.
 
-_Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
+_Note: Only the locations for which you are authorised to enter data will be represented in the drop-down menus._
 
 
 To complete the Timeliness Report set-up, two additional values have been added for selection:
@@ -1070,11 +1070,11 @@ To complete the Timeliness Report set-up, two additional values have been added 
    generated. Untimely units will be listed under the identification
    banner.
 
-_Note: Data submittal dates were not recorded before 2001. As a result, this report will be valid only for reporting periods in the year 2001 or later._
+_Note: Data submitter dates were not recorded before 2001. As a result, this report will be valid only for reporting periods in the year 2001 or later._
 
 #### Pedigree Data Review
 
-The Pedigree Data Report allows individual users and WANO Regional Centers to determine pertinent operating and design basis data about WANO member stations.
+The Pedigree Data Report allows individual users and WANO Regional Centres to determine pertinent operating and design basis data about WANO member stations.
 
 ##### Page Elements
 
@@ -1082,7 +1082,7 @@ The Pedigree Data Report allows individual users and WANO Regional Centers to de
    Member, Utility and Station (see Unit Selection-Reports Help) by
    using the arrows to view the drop-down menus.
 
-_Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
+_Note: Only the locations for which you are authorised to enter data will be represented in the drop-down menus._
 
 Core Location Selection Elements ![](pic/coreLoc.gif)
 
@@ -1094,13 +1094,13 @@ Pedigree Report ![](pic/pedigree.gif)
 
 ##### Purpose of the Report
 
-This report shows the percentage of fields containing data in the WANO production database for selected time periods and categories. This percentage indicates how well stations have been able to fulfill their performance indicator data reporting commitment.
+This report shows the percentage of fields containing data in the WANO production database for selected time periods and categories. This percentage indicates how well stations have been able to fulfil their performance indicator data reporting commitment.
 
 ##### Page Elements
 
 You have seen how to make the core report selections of Region, Member, Utility and Station (see Unit Selection-Reports Help) by using the arrows to view the drop-down menus.
 
-_Note: Only the locations for which you are authorized to enter data will be represented in the drop-down menus._
+_Note: Only the locations for which you are authorised to enter data will be represented in the drop-down menus._
 
 
  To fill out the Completeness Report set-up, eight additional values
@@ -1121,18 +1121,18 @@ _Note: Only the locations for which you are authorized to enter data will be rep
 
 3. Click Go, and the Completeness Report you have designed will be generated.
 
-### Submittal
+### Submitter
 
 Use this module to submit or recall data from your WANO regional
-center. Two options are available:
+Centre. Two options are available:
 
-- Submit Data To Regional Center
-- Recall Data from Regional Center
+- Submit Data To Regional Centre
+- Recall Data from Regional Centre
 
 #### Submit to Regional Centre
 
 This page is used to select data to be submitted or recalled from your
-WANO Regional Center. Data is submitted and recalled in increments of
+WANO Regional Centre. Data is submitted and recalled in increments of
 unit, category, and time period. You may select data for as little as
 one unit, one time period, and one performance indicator category or
 many units, time periods, and categories.
@@ -1141,7 +1141,7 @@ The page title indicates whether this page was entered from the submit or recall
 
 ##### Submit Page Elements
 
-Two drop down lists are used to select the range of data to be searched for data available for submittal. Tables contain three columns showing data status: show which categories have sufficient data to be submitted and which categories are missing data (and cannot be submitted). Additionally, data that is in review at the WANO regional center also is shown.
+Two drop down lists are used to select the range of data to be searched for data available for submitter. Tables contain three columns showing data status: show which categories have sufficient data to be submitted and which categories are missing data (and cannot be submitted). Additionally, data that is in review at the WANO regional Centre also is shown.
 
 ###### Categories Ready
 
@@ -1153,7 +1153,7 @@ Shows categories that have utility level data but some fields are blank. Categor
 
 ###### Categories Submitted
 
-Shows categories successfully submitted to your WANO Regional Center and in Review status.
+Shows categories successfully submitted to your WANO Regional Centre and in Review status.
 
 ###### Category Abbreviations
 
@@ -1165,7 +1165,7 @@ Shows categories successfully submitted to your WANO Regional Center and in Revi
 
 #### Recall from Regional Centre
 
-The elements on the Recall page are similar to those on the Submit page, however some meanings are different. The Category Ready column now indicates data in Review status at the regional center that is available to recall. The Categories Recalled column indicates data that has been successfully recalled from the regional center.
+The elements on the Recall page are similar to those on the Submit page, however some meanings are different. The Category Ready column now indicates data in Review status at the regional Centre that is available to recall. The Categories Recalled column indicates data that has been successfully recalled from the regional Centre.
 
 Submit/Recall Page Elements ![](pic/selSubmit.gif)
 
@@ -1186,11 +1186,11 @@ _Note: In the above screen, the user will notice there are no units
 
 _Note: All stations for which your ID has authority to submit data will be listed under the Selectable Units list box._
 
-By clicking on the box to the left of the identified unit, that unit will be selected for placement in the Chosen Units table for submittal to the WANO Regional Center.
+By clicking on the box to the left of the identified unit, that unit will be selected for placement in the Chosen Units table for submitter to the WANO Regional Centre.
 
 ###### Chosen Units
 
-_Note: Notice that selected units move from the selectable table to the chosen table._
+_Note: Notice that selected units move from the Selectable table to the chosen table._
 
 Click "Go" to process your selection.
 
@@ -1204,7 +1204,7 @@ A link to the performance indicator definitions page.
 
 #### User Privileges
 
-Display User functions that are authorized.
+Display User functions that are authorised.
 
 #### View Help
 
@@ -1237,7 +1237,7 @@ The design of the Report System is similar as
 By selecting [Standard Reports](#standard-reports) or [Custom Reports](#custom-reports) from the drop-down menus at the top of the page, a WANO user can review performance of any unit or group of units as measured by the performance indicator programme. Performance charts and tables can be viewed, copied, and saved. Please remember that data confidentiality and limited distribution policies apply.
 
 ![](pic/rMenu1.bmp)
-![](pic/rMenu2.bmp)
+![](pic/rManu2.bmp)
 
 All results are for currently operating units reporting performance
 indicator data only
@@ -1290,9 +1290,9 @@ The Custom Reports currently include complete results through the most recent qu
 
 ### Standard Reports
 
-Currently, the only standard reports available are standard charts. The standard charts are trend charts showing performance of pre-identified groups, using 1-year (12-month) indicator values, generated for applicable indicators and reactor type. The median value of the group is trended over 20 quarters ending with the most recently released quarter's results. Over 330 chart reports are available. Supporting data tables are also available. Pre-identified groups within standard charts include regional centers, major WANO members, and a worldwide group. Customized charts using other groupings, periods, or results may be obtained by using Custom Reports.
+Currently, the only standard reports available are standard charts. The standard charts are trend charts showing performance of pre-identified groups, using 1-year (12-month) indicator values, generated for applicable indicators and reactor type. The median value of the group is trended over 20 quarters ending with the most recently released quarter's results. Over 330 chart reports are available. Supporting data tables are also available. Pre-identified groups within standard charts include regional centres, major WANO members, and a worldwide group. Customised charts using other groupings, periods, or results may be obtained by using Custom Reports.
 
-Standard Reports include: Group Index Ranking reports for pre-selected groups, Index Tables for each unit, and Regional Center Target Performance Reports. Standard reports also include five-year trend charts of the median of the 12-month indicator values of each unit/station within pre-identified groups.  Performance charts are updated each quarter.
+Standard Reports include: Group Index Ranking reports for pre-selected groups, Index Tables for each unit, and Regional Centre Target Performance Reports. Standard reports also include five-year trend charts of the median of the 12-month indicator values of each unit/station within pre-identified groups.  Performance charts are updated each quarter.
 
 #### Standard Report Selection
 
@@ -1310,14 +1310,14 @@ The following report types are available:
 
 ###### Group
 
-One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centers, major members, and a worldwide group.  These groups are also available to select in most custom reports.
+One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centres, major members, and a worldwide group.  These groups are also available to select in most custom reports.
 
 ###### Indicator
 Any of the currently active WANO performance indicators.  (To support the application some indicators are specially coded:  ISA1 is the Industrial Safety Accident Rate indicator calculated per 1,000,000 man-hours worked, whereas ISA2 is calculated per 200,000 man-hours worked.)
 
 ###### Unit of Measure (UOM)
 
-A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is microcuries (US) and the Metric unit of measure is Becquerel.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is micro-curies (US) and the Metric unit of measure is Becquerel.  For unit-less values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
 
 ###### Reactor Type
 
@@ -1357,7 +1357,7 @@ Within Custom Reports, an "index" value is an available option for a trend chart
 
 #### Summary Table
 
-The summary table is a data table showing a list of individual indicator results for the calendar quarter selected. The user selects a single result period, which is the number of months of data used to calculate a single result, e.g., 3, 12, 18, 24, or 36 months). The report also provides the median, mean, and upper and lower quartiles for the grouping of the selected units/stations. The user can select entire groups or select individual units/stations within centres to create a customized grouping.
+The summary table is a data table showing a list of individual indicator results for the calendar quarter selected. The user selects a single result period, which is the number of months of data used to calculate a single result, e.g., 3, 12, 18, 24, or 36 months). The report also provides the median, mean, and upper and lower quartiles for the grouping of the selected units/stations. The user can select entire groups or select individual units/stations within centres to create a customised grouping.
 
 ![](pic/sumTab1.PNG)
 ![](pic/sumTab1_1.PNG)
@@ -1377,14 +1377,14 @@ The following report types are available:
 
 ####### Group
 
-One of several pre-identified groups that comprise a different set of pre-selected units.  Pre-identified groups include regional centers, major members, and a worldwide group.  These groups are also available to select in Standard Charts and Custom Trend Charts.
+One of several pre-identified groups that comprise a different set of pre-selected units.  Pre-identified groups include regional centres, major members, and a worldwide group.  These groups are also available to select in Standard Charts and Custom Trend Charts.
 
 ![](pic/sumTab2.PNG)
 ![](pic/sumTab2_1.PNG)
 ![](pic/sumTab3.PNG)
 ![](pic/sumTab3_1.PNG)
-![](pic/sumTab4.PNG)
-![](pic/sumTab4_1.PNG)
+![](pic/sumTab14.PNG)
+![](pic/sumTab14_1.PNG)
 
 ####### Indicator
 
@@ -1421,7 +1421,7 @@ The last (most recent) quarter for which calculated results have been released b
 
 #### Trend Chart
 
-The custom trend chart shows performance of a user-selected unit, pre-identified group, or user customized grouping. The selected performance can be compared to another selection if desired. The user specifies the start and end quarters of the chart, using any available calculated indicator result period (as indicated by the number of months in a single calculated result, e.g., 3, 12, 18, 24 or 36). Supporting data tables are also available.
+The custom trend chart shows performance of a user-selected unit, pre-identified group, or user customised grouping. The selected performance can be compared to another selection if desired. The user specifies the start and end quarters of the chart, using any available calculated indicator result period (as indicated by the number of months in a single calculated result, e.g., 3, 12, 18, 24 or 36). Supporting data tables are also available.
 
 This page identifies the selection criteria for a custom trend chart.  These custom charts may be generated at any time and will be based on the latest results available.  Each field must have a selection, although some selections do have a default value.  Charting options are available.  Clicking on View Report will display the trend chart for the selected criteria.
 
@@ -1435,7 +1435,7 @@ The following report types are available:
 
 ###### Group
 
-One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centers, major members, and a worldwide group.  These groups are also available to select in Standard Reports and Custom Summary Tables.
+One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centres, major members, and a worldwide group.  These groups are also available to select in Standard Reports and Custom Summary Tables.
 
 ###### Indicator
 
@@ -1475,9 +1475,9 @@ The last (most recent) quarter for which calculated results have been released b
 
 The custom trend charts selection allows the user an option to obtain a trend of only one selection (for instance, a Base)  or two different selections (a Base and a Comparison).
 
-If only a Base is desired, only one selection is available (labeled Selection 1).  The options for the selection are statistic type and chart type.
+If only a Base is desired, only one selection is available (labelled Selection 1).  The options for the selection are statistic type and chart type.
 
-If both a Base and a Comparison are desired, two selections are made (labeled Selection 1 and Selection 2).  The options for each selection are statistic type and chart type.   If two selections are made, at least one selection must have a line chart type.
+If both a Base and a Comparison are desired, two selections are made (labelled Selection 1 and Selection 2).  The options for each selection are statistic type and chart type.   If two selections are made, at least one selection must have a line chart type.
 
 ###### Statistic Type
 
@@ -1503,14 +1503,14 @@ Worldwide Worst Quartile: To display CRE, FLR, or ISA worst quartile targets on 
 - Statistic Type must be "Quartiles"
 - For CRE, Reactor must be a specific reactor type (AGR, BWR, LWCGR, PHWR, or PWR)
 - For FLR, Reactor must be "All Reactors"
-- Data Set must have all available regional centers selected
+- Data Set must have all available regional centres selected
 
 Mean Performance: To display SP1, SP2, or SP5 mean performance target and result on a trend chart, the following must be selected:
 
 - Reports Period must be "36 Months"
 - Statistic Type must be "Mean"
 - For SP1 or SP2, Reactor must be a specific reactor type (AGR, BWR, LWCGR, PHWR, or PWR)
-- Data Set must have all available regional centers selected
+- Data Set must have all available regional centres selected
 
 ![](pic/trend5.PNG)
 ![](pic/trend6.PNG)
@@ -1535,7 +1535,7 @@ For example, a 1-year UCF result for a unit for the 4th quarter of 2001 would be
 ![](pic/uInfo.PNG)
 
 ![](pic/procRes1_1.PNG)
-![](pic/procRes1_2.PNG)
+
 
 #### Release Data
 
@@ -1561,7 +1561,7 @@ The following report types are available:
 
 ######## Group
 
-One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centers, major members, and a worldwide group.  These groups are also available to select in most custom reports.
+One of several pre-identified groups that comprise a different set of preselected units.  Predefined groups include regional centres, major members, and a worldwide group.  These groups are also available to select in most custom reports.
 
 ######## Indicator
 
@@ -1569,7 +1569,7 @@ Any of the currently active WANO performance indicators.  (To support the applic
 
 ######## Unit of Measure (UOM)
 
-A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is micro-curies (US) and the Metric unit of measure is Becquerel.  For unitless values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
+A unit of measure must be selected for a standard report for two indicators.  Available choices are US or Metric.  For CRE, a US selection will report results in man-rem; selecting Metric will use man-Sieverts.  For FRI, the US unit of measure is micro-curies (US) and the Metric unit of measure is Becquerel.  For unit-less values, US will be indicated as the default UOM.  The metric selection provides the same value (no conversion is made between the two) and the indicator has the same meaning.
 
 ######## Reactor Type
 
@@ -1613,7 +1613,6 @@ The ending quarter for a trend chart is the last quarter for which performance i
 ![](pic/group31.PNG)
 ![](pic/group4.PNG)
 ![](pic/group5.PNG)
-![](pic/group6.PNG)
 
 #### Chart Definitions
 
@@ -1723,7 +1722,7 @@ indicator results table published on the WANO Web site?_
 These headings identify the safety systems monitored by the safety
 system performance indicator. SP5 refers to the emergency AC power
 system. Other systems monitored vary according to reactor type. The
-table below explains what systems are referred to by the designators
+table below explains what systems are referred to by the designers
 SP1 and SP2.
 
 |Reactor Type|	SP1|	SP2|
@@ -1739,16 +1738,16 @@ SP1 and SP2.
 
 ### Performance Indicator Definition Interpretation Issues
 
-_In the Performance Indicator Reference Manual chapter for "UNPLANNED SCRAMS PER 7000 HOURS CRITICAL", a clarifying note states : "Each scram caused by intentional manual tripping of the turbine should be analysed to determine those which clearly involve a conscious decision by the operator to manually trip the turbine to protect important equipment or to minimize the effects of a transient. Scrams that involve such a decision are considered to be manual scrams." However, is the scram reported as a manual scram or automatic scram when the reactor scram is caused by the operator manually tripping the turbine unintentionally or unconsciously because of human error?_
+_In the Performance Indicator Reference Manual chapter for "UNPLANNED SCRAMS PER 7000 HOURS CRITICAL", a clarifying note states : "Each scram caused by intentional manual tripping of the turbine should be analysed to determine those which clearly involve a conscious decision by the operator to manually trip the turbine to protect important equipment or to minimise the effects of a transient. Scrams that involve such a decision are considered to be manual scrams." However, is the scram reported as a manual scram or automatic scram when the reactor scram is caused by the operator manually tripping the turbine unintentionally or unconsciously because of human error?_
 
 If an operator had no intention (did not involve a conscious decision)
-of tripping the turbine to protect important equipment or to minimize
+of tripping the turbine to protect important equipment or to minimise
 the effects of a transient (whether by human error or otherwise) and
 an automatic scram resulted from the operator actions, the reactor
 scram would be reported as an automatic scram. The clarifying note in
-the guidance is provided to characterize the intentional turbine trip
+the guidance is provided to characterise the intentional turbine trip
 that results in a reactor scram as "manual" because the intention of
-the operator was to protect important equipment or to minimize the
+the operator was to protect important equipment or to minimise the
 effects of a transient by tripping the turbine and the reactor (in
 other words, it was a conscious decision). When an unintentional trip
 of the turbine results in a reactor scram, it is reported as
@@ -1854,7 +1853,7 @@ indicators can be calculated in terms of "unavailability/train" for
 each of the three systems within the WANO PI program.
 
 _At a PWR, letdown flow normally includes flow through
-demineralizers. If the demineralizers are out of service the iodine
+demoralises. If the demineralizers are out of service the iodine
 concentrations in the reactor coolant increase. Does having the
 demineralizers out of service satisfy the steady state conditions
 needed for valid data collection? In other words, should fuel
@@ -1885,7 +1884,7 @@ restricted work accident.
 
 _Regarding the safety system performance indicators (SSPI), I
      understand that some other non-WANO indicators do not use the
-     same guidance for fault exposure as WANO, and some organizations
+     same guidance for fault exposure as WANO, and some organisations
      do not wish to include fault exposure hours in their
      calculations; are fault exposure hours still reportable to WANO
      for the WANO performance indicators?_
@@ -1941,7 +1940,7 @@ Based on the indicator definition, the indicator is measuring exposure
 counted. Non-station dose should not be counted.
 
 _Regarding Standby Emergency AC generators (2 out of 4 required), is a
-station penalized for the unavailability of one or two generators if
+station penalised for the unavailability of one or two generators if
 only two are required to meet the design criteria?_
 
 The unavailability incurred for any one or two generators when
@@ -1953,7 +1952,7 @@ service. Whether the plant is operating or shutdown, the train is
 considered to be required and any unavailable hours counted (and thus,
 are to be reported). An exception for a single- or multi-unit station
 with all units shut down, is that one emergency generator at a time
-may be electively taken out of service without incurring planned or
+may be effectively taken out of service without incurring planned or
 unplanned unavailable hours, providing that at least one operable
 emergency generator is available to supply emergency loads.
 
@@ -2175,7 +2174,7 @@ If _show chart_ function is active, the following charts will be shown.
 ![](pic/pa16.PNG)
 ![](pic/pa17.PNG)
 
-There are few different style to visualize the results.
+There are few different style to visualise the results.
 
 ![](pic/pa18.PNG)
 ![](pic/pa19.PNG)
@@ -2351,7 +2350,7 @@ The design of a data warehouse is very different from design of an on-line trans
 
 Dimensional modelling is used in the design of data warehouse databases to organise the data for efficiency of queries that are intended to analyse and summarise large volumes of data. The data warehouse schema is almost always very different and much simpler than the schema of an OLTP system designed using entity-relation modelling.
 
-The use of online analytical processing (OLAP) and data mining is potentially in scope for this phase, but will be dependent on the requirement gathering process. 
+The use of online analytically processing (OLAP) and data mining is potentially in scope for this phase, but will be dependent on the requirement gathering process. 
 
 All of the Extracting, Transforming and Loading (ETL) processes required to transfer data between the various databases will be completed using SQL Server Integration Services (SSIS).
 
@@ -2361,7 +2360,7 @@ The next picture shows the proposed data flows between WANO’s database servers
 
 As part of the requirements gathering process, we will need to obtain specifications for the key reports and dashboards. These will be built using SQL Server Reporting Services (SSRS) reports.
 
-Business intelligence and data analytics _might_ be facilitated using Microsoft Power BI. This includes a website element for publishing and sharing dashboards and reports, as well as a suite of BI tools, which include a standalone design application (Power BI Designer) and a number of add-ins for Excel (Power Pivot, Power View and Power Query). Consideration for this approach has been made over other BI products due to:
+Business intelligence and data analytic _might_ be facilitated using Microsoft Power BI. This includes a website element for publishing and sharing dashboards and reports, as well as a suite of BI tools, which include a standalone design application (Power BI Designer) and a number of add-ins for Excel (Power Pivot, Power View and Power Query). Consideration for this approach has been made over other BI products due to:
 
 -	Native integration with our existing technology stack
 -	A majority fit with requirements that have already been identified
