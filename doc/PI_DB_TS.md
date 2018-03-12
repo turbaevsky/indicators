@@ -1,6 +1,6 @@
 # Performance Indicators Application Functional Specification
 
-version 0.0.0.9003 from 01-Feb-2018 by
+version 0.0.0.9006 from 12-Mar-2018 by
 [Vladimir Turbayevsky](mailto:volodymyr.turbayevsky@wano.org) (partly
 based on information presented on the [DES](http://www.wano.org/Dk01Asp/dkw000.asp) and [Reports](http://www.wano.org/xwp10webapp/Confidentiality.aspx) websites)
 
@@ -32,7 +32,7 @@ started manually or automatically (every weekend).
 
 It seems reasonable _new system to calculate all the results on fly_.
 
-## History 
+## History
 
 The Performance Indicator Program (PIP) has started in 1990 and mainly used as a management tool. All WANO regional centres (RC), members and plants can monitor their performance and trends and set challenging goals for improvement and consistently compare their performance with other plants and nuclear industry. Performance indicators can also be used to assess industry performance, to support other WANO programs and to provide assistance to members if necessary.
 
@@ -2028,25 +2028,25 @@ The definitions for the early performance indicators (those in use before 2001) 
 ## Prototype functionality
 
 The aims of the development of the Performance Analysis (PA) prototype
-are:  
-- to cover all the uncovered report functionality  
-- to consolidate all the source data and results together  
+are:
+- to cover all the uncovered report functionality
+- to consolidate all the source data and results together
 - to have a direct access to the Operational Experience DB (OE DB)
-  directly from reporting page  
-- to provide some kind of on-fly calculations  
-- to cover all the uncovered by [Reports](#reports) calculations  
-- to modify the [QRR](#qrr) system  
-- to provide easy-to-use:  
-  - Quarter Report,  
-  - Long-Term Target Report,  
-  - Outliers Report,  
-  - Report for the Peer Review Team,  
-  - PI Metrics Report,  
-  - Units Status Report,  
-  - Data Submittal Report,  
-  - Scrams Summary Report  
-  - etc.  
-  
+  directly from reporting page
+- to provide some kind of on-fly calculations
+- to cover all the uncovered by [Reports](#reports) calculations
+- to modify the [QRR](#qrr) system
+- to provide easy-to-use:
+  - Quarter Report,
+  - Long-Term Target Report,
+  - Outliers Report,
+  - Report for the Peer Review Team,
+  - PI Metrics Report,
+  - Units Status Report,
+  - Data Submittal Report,
+  - Scrams Summary Report
+  - etc.
+
 All the functionality described below is already realised into PA Application prototype, and all the source code are available [here](https://wanolo.visualstudio.com/WANO%20PI/_versionControl?path=%24%2FWANO%20PI%2FWANO%20PI%2FCode%2FR-CRAN%2Fshiny&_a=contents)
 
 The top menu of the PA prototype is the follows ![pa-top](pic/pa-top.PNG)
@@ -2057,7 +2057,7 @@ In the first tab menu you can choose the unit, quarter, indicator _and source da
 
 Data window means the date range for date to be analysed. As it was described above, there are usually 3, 12, 18, 24 and 36 months calculation intervals are using.
 
-The _Show all the source data_ check-box means that all the source data will be showed instead of summary information.
+The _Show all the source data_ check-box means that all the source data will be shown instead of summary information.
 
 ![](pic/pa-menu.PNG)
 
@@ -2070,9 +2070,9 @@ The next one show the source data cumulative (based on analysing period) or deta
 ![](pic/pa01.PNG)
 
  The next one show all the available comments were provided. _It is vital to lock the source data when they need comments but comments were not provided_
- 
+
  The next table show the calculated indicator with calculation status.
- 
+
  Then we can see the indicator trend.
 
 ![](pic/pa02.PNG)
@@ -2083,9 +2083,9 @@ The next one is _one of the most useful function on this page_ - it provides us 
 
 ### Outliers
 
-This tab was developed to find the units which need more attention based on their performance analysis. 
+This tab was developed to find the units which need more attention based on their performance analysis.
 
-The menu form asks for a quarter, indicator and data window to be showed and has a slider to set the [IQR](https://en.wikipedia.org/wiki/Interquartile_range) to variate the results.
+The menu form asks for a quarter, indicator and data window to be shown and has a slider to set the [IQR](https://en.wikipedia.org/wiki/Interquartile_range) to variate the results.
 
 ![](pic/pa04.PNG)
 
@@ -2099,7 +2099,7 @@ Then the table with outliers positions and values is provided.
 
 ### Download reports
 
-This tab let us to check (or update) DB status from the DB Stage local storage. 
+This tab let us to check (or update) DB status from the DB Stage local storage.
 
 ![](pic/pa07.PNG)
 
@@ -2153,7 +2153,7 @@ PR Report specification can be find [here]()
 
 Long-Term Target Report is the _most important report_ for top management.
 
-The charts will be showed if the according check-box checked.
+The charts will be shown if the according check-box checked.
 
 To produce the sharable report the _(Re)create LTT report and update LTT data_ button might be pressed.
 
@@ -2161,7 +2161,7 @@ Then the sharable report might be downloaded by pressing _Download_ button.
 
 ![](pic/pa13.PNG)
 
-When the analysed quarter is selected, the world performance report will be showed.
+When the analysed quarter is selected, the world performance report will be shown.
 
 ![](pic/pa14.PNG)
 
@@ -2185,10 +2185,12 @@ It is _one of the most important report_ to be shared through top management.
 
 ![](pic/lttRep01.PNG)
 
-The pictures as shown below are also uses in the _public version of the performance report_ called _Trifold_. 
+The pictures as shown below are also uses in the _public version of the performance report_ called _Trifold_.
 
-![](pic/CRE_Centre.jpg)
-![](pic/CRE_ReactorType.jpg)
+![](pic/CRE.png)
+![](pic/FLR.png)
+
+The very similar pictures are created for the Annual Performance Indicators Report called Trifold. The only difference is that there is no Regional Centre performance information in there.
 
 There are some additional information and _analysis_ are included into report there.
 
@@ -2214,6 +2216,10 @@ If the chart was requested, the following picture will be shown.
 
 ![](pic/pa22.PNG)
 
+The summary metrics chart will be produced autamatically.
+
+![](pic/metrics.png)
+
 ### Indicator Trend
 
 One of the most _important and easy-to-understand_ reports is the report produces  here.
@@ -2222,7 +2228,7 @@ The Indicator and reactor type (if applicable) can be chosen in the top menu.
 
 ![](pic/pa23.PNG)
 
-Then the [boxplot](https://en.wikipedia.org/wiki/Box_plot) chart with the _Long-Term Targets_ will be shown. 
+Then the [boxplot](https://en.wikipedia.org/wiki/Box_plot) chart with the _Long-Term Targets_ will be shown.
 
 The filter allows you to select the country you are interested in.
 
@@ -2262,7 +2268,7 @@ Finally, some important DB statuses are shown.
 
 To follow the PI process the data submitting process should be strictly monitored.
 
-When you select the reporting period and choose whether you need the detailed information 
+When you select the reporting period and choose whether you need the detailed information
 
 ![](pic/pa31.PNG)
 
@@ -2350,7 +2356,7 @@ The design of a data warehouse is very different from design of an on-line trans
 
 Dimensional modelling is used in the design of data warehouse databases to organise the data for efficiency of queries that are intended to analyse and summarise large volumes of data. The data warehouse schema is almost always very different and much simpler than the schema of an OLTP system designed using entity-relation modelling.
 
-The use of online analytically processing (OLAP) and data mining is potentially in scope for this phase, but will be dependent on the requirement gathering process. 
+The use of online analytically processing (OLAP) and data mining is potentially in scope for this phase, but will be dependent on the requirement gathering process.
 
 All of the Extracting, Transforming and Loading (ETL) processes required to transfer data between the various databases will be completed using SQL Server Integration Services (SSIS).
 
@@ -2370,7 +2376,7 @@ Business intelligence and data analytic _might_ be facilitated using Microsoft P
 
 ### PI DB specific information
 
-The following picture shows the current location and configuration of WANO’s PI databases and reflects the existing data flows. PI DB consists of three (the fourth is updated DB) DB. PEOPLEAND PLACE DB (older DBAA DB) means database with all units and persons information, including their moving history. DES is Data Entry System. CDE is Consolidated Data Entry system (for US plants only). IndValues is a table with source data into DBWP database. QRR module is Quality Report Review system which allows finding mistake after the end of data entry. Results table is one table from DBWP DB to save calculated results. The results are calculation every weekend or by SA request. Third-part software means auxiliary software was developed by WANO LO to produce some additional reports. 
+The following picture shows the current location and configuration of WANO’s PI databases and reflects the existing data flows. PI DB consists of three (the fourth is updated DB) DB. PEOPLEAND PLACE DB (older DBAA DB) means database with all units and persons information, including their moving history. DES is Data Entry System. CDE is Consolidated Data Entry system (for US plants only). IndValues is a table with source data into DBWP database. QRR module is Quality Report Review system which allows finding mistake after the end of data entry. Results table is one table from DBWP DB to save calculated results. The results are calculation every weekend or by SA request. Third-part software means auxiliary software was developed by WANO LO to produce some additional reports.
 
 ![](pic/flow01.jpg)
 
@@ -2394,21 +2400,30 @@ The intention of this section is to cover all the necessary calculation.
 
 The development will be based on
 [Agile](https://en.wikipedia.org/wiki/Agile_software_development)
-methodology (details are also available [here](http://agilemethodology.org/)
+methodology (details are also available [here](http://agilemethodology.org/))
 
 ## Checklist
 
 - [x] Have the initial meeting
   - [x] Prototype demonstration
-- [ ] Have the first meeting to define/explain development strategy
+- [x] Have the first meeting to define/explain development strategy
   and to discuss all the related questions like communication
   protocol, minimal functional requirements etc.
   - [x] Have a chat with Ross and Sandor (beginning of week 4 2018)
   - [x] Have a meeting with datB (30 Jan 18)
-  - [ ] Have a meeting with datB (2 Feb 18)
-- [ ] Officially start the development (including clear definition of roles
+  - [x] Have a meeting with datB (2 Feb 18)
+- [x] Officially start the development (including clear definition of roles
   and tasks for all the members)
-- [ ] to demonstrate the first prototype during Feb 2018 PI Programme Meeting
+- [x] to demonstrate the first prototype during Feb 2018 PI Programme Meeting
+- [ ] do the trial operation of the DES module:
+  - [ ] enter very few source data and indicator calculation to check software correctness;
+  - [ ] check all the data flow from stationuser to londonsuperuser
+  - [ ] provide the access for very few users to check the system: Roland (WANO PC) and Oscarnham users reqyest for the access
+  - [ ] IMPORTANT add the data reviewer category
+- [ ] start to work with reporting module
+  - [ ] provide to datb access to the Shiny app
+- [ ] complete the import and export modules
+  - [ ] work with INPO to get their data directly
 
 ## Extra functionality
 
@@ -2424,10 +2439,15 @@ Some extra functionality must be provided. There are some of them:
 - possibility to lock and check source data before submitting;
 - easy to change/add elements and indicators;
 - automated data validation process;
-- Trifold should be produced automatically;
+- Trifold (pictures and table) should be produced automatically;
+- The descriptive analysis report should be produced;
+
+Some functionality requested from members:
+- possibility to compare station vs. station vs. region etc.
 
 Some extra functionality may be provided. There are some of them:
 
 - language support;
-- trend predictive model;
+- trend predictive model (predictive analysis);
+- [prescriprive](http://www.lynda.com/Data-Science-tutorials/Data-Analytics-Business-Professionals/609019-2.html) analysis would be appreciated;
 - user adjustable report;
