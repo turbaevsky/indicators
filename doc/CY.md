@@ -1,6 +1,6 @@
 # New Chemistry indicator
 
-## Intro 
+## Intro
 
 There are currently two main problems to check the progress in the chemistry related area in power plants. Firstly, the CPI does not clearly reflect any significant parameter deviations because the result is always very close to 1.00; secondly, CPI has 14 limitation value groups for 10 calculations. For the CPI calculation unification and to improve chemistry control at the NPPs the following changes should be implemented.
 
@@ -16,7 +16,7 @@ A day is a 24-hour period extending from midnight to midnight (however, portions
 
 #### Reporting of Values Less Than Lowest Measurable Level
 
-Values that are less than the lowest measurable level are reported as equal to the limit of quantification (LOQ).  The limit of quantification is defined as the lowest concentration of a parameter that must be present before the measurement of that concentration is considered a quantitative result.  Not reporting a value for a parameter for the month will result in no CEI-W value being calculated for the unit and a loss of CEI-W points for that condition.  
+Values that are less than the lowest measurable level are reported as equal to the limit of quantification (LOQ).  The limit of quantification is defined as the lowest concentration of a parameter that must be present before the measurement of that concentration is considered a quantitative result.  Not reporting a value for a parameter for the month will result in no CEI-W value being calculated for the unit and a loss of CEI-W points for that condition.
 
 #### Chemistry Analysis Equipment Problems
 
@@ -27,7 +27,7 @@ Basic rules for reporting data when the parameter analytical equipment is OOS or
 - If the 28-day analysis grace period crosses a month, the same reported value being used at the end of the previous month is used.  The duration time for a value greater than L-1 resets at the first of the month and then continues until analysis shows the parameter is less than L-1 value.
 - After the 28th day, the reported value (max value) is reported as one significant digit greater than L-1 value (for example, if FW iron L-1 value is 5.00 ppb, the value reported is 5.01 ppb).  This value is called the _Penalty Value_ (for long-term unavailable key analytical equipment).  Duration hours continue to accumulate until analysis shows the parameter is less than L-1 value.
 - If the unit is reduced below mode-1 operation and the analytical problem is not resolved by the time the parameter is required to be reported, the _Penalty Value_ must be reported and the duration hours begin (or resume) for that month until analysis capability is restored to show less than L-1 value exists.  This also applies if the analytical problem did not exist before the outage but was not available after the outage.
-- The maximum value reported for the month is the largest value of either the highest measured value for the month or the _Penalty Value_. 
+- The maximum value reported for the month is the largest value of either the highest measured value for the month or the _Penalty Value_.
 - The duration time is the summation of all hours when analysis values are greater than L-1 plus the hours that the _Penalty Value_ had to be used.
 _Note:  For feedwater metals, the reported value and duration time starts when the filters are placed in service and ends when the next set of filters is placed in service._
 
@@ -39,15 +39,15 @@ Monthly Chemistry Effectiveness Indicator (CEI-W) data element values will be av
 
 1.	Some stations may have reported quarterly values or rolling three-month values as monthly data.  This is incorrect.  By including data over a longer time period, the effects of chemistry excursions are masked to a greater extent.  Because these excursions can have a significant effect on a plant, it is mandatory to identify them monthly (on the day(s) they occur).  (Some of the confusion comes from differences between the INPO and the WANO definitions.  This indicator was initially developed and used in the U.S.  U.S. data has always been collected on a monthly basis.  Later, WANO adopted many of the U.S. indicators.  At that time, WANO allowed less frequent reporting in order to obtain a higher level of participation worldwide.).  Now data will be collected monthly and reported at least quarterly.
 
-2.	At some stations, personnel have erroneously believed that following a startup they should only include samples (especially metal transport data) taken after the plant chemistry values have stabilized.  This is incorrect one of the objectives is to monitor chemistry excursions during startup after the required power levels are reached.  Corrosion product samples should be initiated at the correct power level as indicated in the appropriate reactor type section of this manual.
+2.	At some stations, personnel have erroneously believed that following a startup they should only include samples (especially metal transport data) taken after the plant chemistry values have stabilized.  This is incorrectone of the objectives is to monitor chemistry excursions during startup after the required power levels are reached.  Corrosion product samples should be initiated at the correct power level as indicated in the appropriate reactor type section of this manual.
 
 3.	Some stations assume that if they only operated a portion of a day and had been shut down the rest of the month, that portion of a day did not count for CEI-W data collection.  This is incorrect.  If any time during the month the power or temperature requirements for a monthly CEI-W data element are met, then data must be collected and reported.
 
 ### Reactor Type Groups
 
-| Group | Reactors 
+| Group | Reactors
 |---|---
-|Group A	|BWR / LWCGR 
+|Group A	|BWR / LWCGR
 |Group B	|PWR (RSG) / PHWR / VVER / Fast Breeder
 |Group C	|PWR (OTSG)
 |Group D	|AGR / GCR / Magnox
@@ -66,15 +66,15 @@ At all times the reactor coolant system is greater than 200 degrees Fahrenheit (
 At all times the reactor above 10% power
 
 - Feedwater Iron  ppb
-- Feedwater Copper ppb 
+- Feedwater Copper ppb
 - Feedwater Dissolved Oxygen ppb
 - RCS Chloride ppb
 - RCS Sulfate ppb
 - RCS ECP values SHE
 - RCS Conductivity uS/cm
 - RCS Hydrogen Availability
-
-At all times that reactor coolant temperature is greater than 200 degrees Fahrenheit (93 Celsius) | Number of Hours RCS > 200F (93C) | This is the total hours that the reactor coolant system was greater than 200F during the month. Hours when reactor coolant system is greater than 200F are reported to the nearest 0.1 hours. If the reactor coolant system does not exceed 200F any time during the month, enter 0.0 and select “Final” for the status.
+ 
+##### At all times that reactor coolant temperature is greater than 200 degrees Fahrenheit (93 Celsius) | Number of Hours RCS > 200F (93C) | This is the total hours that the reactor coolant system was greater than 200F during the month. Hours when reactor coolant system is greater than 200F are reported to the nearest 0.1 hours. If the reactor coolant system does not exceed 200F any time during the month, enter 0.0 and select “Final” for the status.
 
 ###### Hours RCS Hydrogen Unavailable When > 200 F (93 C)
 
@@ -120,11 +120,11 @@ This is the summation of all hours that:
 - the ECP monitor readings are > -350 mV SHE during the month when reactor power is greater than 10%
 - total number of hours that temperature or flow failed to meet vendor-specified limits (if ECP is located in the MMS).
 
-Hours are reported to the nearest 0.1 hours. 
+Hours are reported to the nearest 0.1 hours.
 
 If the reactor power does not exceed 10% any time during the month, enter 0.0 and select “Final” for the status.
 
-###### Feedwater Iron Duration hours > L-1 
+###### Feedwater Iron Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -152,7 +152,7 @@ Elevated sample values during transients are expected to be included in the comp
 
 The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Iron Peak after an outage going below mode-1 is excluded from the values used to determine the maximum Feedwater Iron value measured in ppb during the month.  Before or after the seven-day outage period, the maximum peak value is reported for the month.  If the only period of operation during the month with power >10 percent the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
@@ -170,26 +170,26 @@ This is the summation of hours that feedwater iron was above L-1 S/U limit durin
 
 Hours above the L-1 S/U limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 10% power after the completion of an outage.  For all other months, enter 0.0 and select “Final” for the status.
 
-###### Feedwater Copper Duration hours > L-1 
+###### Feedwater Copper Duration hours > L-1
 
-This is the summation of all hours that this parameter was above the specified L-1 limit during the month.  
+This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 All occurrences are added together for a total number of hours > L-1 limit.  Hours above the L-1 limit are reported to the nearest 0.1 hours.
 
-Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is at or above 10%. 
+Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is at or above 10%.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated at or above 10% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Peak ppb 
+###### Feedwater Copper Peak ppb
 
 Feedwater copper concentration is normally obtained based on a seven-day integrated value.
 
@@ -201,13 +201,13 @@ Elevated sample values during transients are expected to be included in the comp
 
 The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Copper Peak after an outage below mode-1 is excluded from the values used to determine the maximum Feedwater Copper value measured in ppb during the month.  After the seven-day outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power > 10 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
-If the unit is not operated at or above 10% power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above 10% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Duration hours Power and Time Weighted following a shutdown below mode-1 
+###### Feedwater Copper Duration hours Power and Time Weighted following a shutdown below mode-1
 
 This is the summation of all hours that feedwater copper was above L-1 S/U limit during the first seven days after initially reaching 10% power after startup from an outage going below mode-1.  Power and Time weight averaging over the seven-day sample integration period following power escalation from less than mode-1 may be used for calculation of peak ppb and duration hours in accordance with the following:
 
@@ -219,8 +219,8 @@ This is the summation of all hours that feedwater copper was above L-1 S/U limit
 
 Hours above the L-1 S/U limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 10% power units after the completion of a refueling outage.  For all other months, enter 0.0 and select “Final” for the status.
@@ -243,7 +243,7 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry. 
+Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry.
 
 If the plant is not operated at or greater than 10% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
@@ -267,7 +267,7 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken operated above 10% power units at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken operated above 10% power units at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 ###### RCS Specific Conductivity Duration hours > L-1
 
@@ -289,7 +289,7 @@ Reported conductivity values may be adjusted for the presence of iron and zinc c
 
 Reported conductivity = measured conductivity – ((calculated conductivity with Fe & Zn) – (calculated conductivity without Fe & Zn))
 
-If the unit is not operated above 10% power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated above 10% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 ###### RCS Sulfate Duration hours > L-1
 
@@ -309,7 +309,7 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not operated above 10% power units at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated above 10% power units at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 #### Group B
 
@@ -330,14 +330,14 @@ At all times the reactor is is in Mode 1 Power Operations
 
 At all times the reactor above 30% power
 
-- Feedwater Copper ppb 
+- Feedwater Copper ppb
 - Feedwater Iron ppb
 
 At all times the reactor above the Midpower Value (MPV)
 
 - SG Chloride in ppb
 - SG Sodium in ppb
-- SG Sulfate in ppb 
+- SG Sulfate in ppb
 - Feedwater Dissolved Oxygen ppb
 
 Mid-Power Value Guidance for PWR RSG
@@ -364,9 +364,9 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### RCS Fluoride Duration hours > L-1 
+###### RCS Fluoride Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -384,9 +384,9 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### RCS Sulfate Duration hours > L-1 
+###### RCS Sulfate Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -404,11 +404,11 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 ##### At all times that the reactor is in mode one power operations
 
-###### Outside RCS Cover Gas Control Band hours 
+###### Outside RCS Cover Gas Control Band hours
 
 This is the summation of all hours that this parameter was outside the station selected specified cover gas control limits during the month when the unit is operated in mode-1.
 
@@ -431,7 +431,7 @@ If the unit is not operated in Mode-1 at any time during the month, enter 0.0 an
 
 This is the summation of all hours that this parameter was outside the station selected specified control limits for controlling RCS pH during the month when the unit is operated in mode-1.
 
-All occurrences are added together for a total number of hours outside the specified control limits 
+All occurrences are added together for a total number of hours outside the specified control limits
 
 During unit startup, out-of-spec hours outside the specified control limits start to accumulate 72 hours after entering Mode-1 or at xenon equilibrium, whichever occurs first after a unit startup.
 
@@ -451,13 +451,13 @@ All occurrences are added together for a total number of hours > L-1 limit.  Hou
 
 Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is above 30% power.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Peak ppb 
+###### Feedwater Copper Peak ppb
 
 Feedwater copper concentration is normally obtained based on a seven-day integrated value.
 
@@ -467,15 +467,15 @@ The value reported is the maximum value measured in ppb for the month, reported 
 
 Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power above 30% .  A stabilization time nor a grace before entering AL-1 applies for reporting feedwater metals.  Collection and reporting begin when the power requirements above are met, even for periods of time less than a full day.
 
-The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Copper Peak after an outage below mode-1 is excluded from the values used to determine the maximum Feedwater Copper value measured in ppb during the month.  After the seven-day outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power >30 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status. 
+The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Copper Peak after an outage below mode-1 is excluded from the values used to determine the maximum Feedwater Copper value measured in ppb during the month.  After the seven-day outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power >30 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Duration hours Power and Time Weighted following a shutdown below mode-1 
+###### Feedwater Copper Duration hours Power and Time Weighted following a shutdown below mode-1
 
 This is the summation of all hours that feedwater copper was above L-1 S/U limit during the first seven days after initially reaching 30% for PWR after startup from an outage going below mode-1.  Power and Time weight averaging over the seven-day sample integration period following power escalation from less than mode-1 may be used for calculation of peak ppb and duration hours in accordance with the following:
 
@@ -483,19 +483,19 @@ This is the summation of all hours that feedwater copper was above L-1 S/U limit
 2.	The power/time weighted average ppb for each sample (when the corrosion product filter is changed out) is the average power (percent power, times the time for each power reading, divided by the total time) while the sample filter has been in use, times the analyzed ppb results for the sample.
 3.	Multiply the power/time weighted average ppb for the sample by the percent of the week (time the sample was in service divided by 168 hours) to get the corrected value.
 4.	Sum all the corrected values for the samples during the week to get the reported ppb value
-5.	The duration hours to report is determined by summing all the hours that for the samples during the startup week that exceeded the L-1 S/U limit. 
+5.	The duration hours to report is determined by summing all the hours that for the samples during the startup week that exceeded the L-1 S/U limit.
 
 Unit Shutdown Occurrence Records and daily Unit Power levels reported to the NRC with the morning report are used to validate appropriate reporting of these values with reactor taken critical as the point of validation.
 
 Hours above the L-1 S/U limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of a refueling outage.  For all other months, enter 0.0 and select “Final” for the status.
 
-###### Feedwater Copper Peak Power and Time Weighted following a shutdown below mode-1ppb 
+###### Feedwater Copper Peak Power and Time Weighted following a shutdown below mode-1ppb
 
 Feedwater copper concentration is normally obtained based on a seven-day integrated value.
 
@@ -511,19 +511,19 @@ The value reported is the maximum value measured in ppb for first seven days aft
 
 Report the feedwater copper concentration to the nearest 0.001 ppb.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operations at or above 30% power units after the completion of a refueling outage.  For all other months, enter 0.000 and select “Final” for the status.
 
-###### Steam Generator Copper Removal Efficiency % 
+###### Steam Generator Copper Removal Efficiency %
 
 For units that add polyacrylic acid (PAA) dispersant to the steam generators, enter the steam generator blowdown copper removal efficiency time-weighted average in percent (xx.x%), calculated by (mass of SGBD Cu)/(mass of FFWCu).
 
 The parameter value to be entered is based on the weekly or monthly time-weighted average value (VT) as defined by the following:
 
-$$VT=\frac{\sum V_i \cdot T_i}{\sum T_i}$$
+$$VT=\frac{\sum{V_i\cdot\T_i}}{\sum{T_i}}$$
 
 Use whole days in the calculation.
 
@@ -533,10 +533,10 @@ The maximum allowable value for entry is 100%.
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Duration hours > L-1 
+###### Feedwater Iron Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
-	
+
 All occurrences are added together for a total number of hours > L-1 limit.
 
 Hours above the L-1 limit are reported to the nearest 0.1 hours.
@@ -545,7 +545,7 @@ Elevated sample values during startups and transients are expected to be include
 
 When a plant trips, the corrosion product filters should be changed out as soon as possible and the analysis should be reported in the monthly data.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
@@ -569,7 +569,7 @@ For example, if the weekly metals sample is collected on Tuesday the 29th and a 
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Duration hours Power and Time Weighted After a shutdown below mode-1 
+###### Feedwater Iron Duration hours Power and Time Weighted After a shutdown below mode-1
 
 This is the summation of hours that feedwater iron was above L-1 S/U limit during the first seven days after initially reaching 30% power after startup from an outage going to below mode-1.  Power and Time weight averaging over the seven-day sample integration period following power escalation from less than mode-1 may be used for calculation of peak ppb and duration hours in accordance with the following:
 
@@ -583,13 +583,13 @@ Unit Shutdown Occurrence Records and daily Unit Power levels reported to the NRC
 
 Hours above the L-1 S/U limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of an outage.  For all other months, enter 0.0 and select “Final” for the status.
 
-###### Feedwater Iron Peak ppb Power and Time Weighted After a shutdown below mode-1 
+###### Feedwater Iron Peak ppb Power and Time Weighted After a shutdown below mode-1
 
 Feedwater iron concentration is normally obtained based on a seven-day integrated value.
 
@@ -603,19 +603,19 @@ For plants whose feedwater has a high concentration of metal transport, this may
 
 Report the feedwater iron concentration to the nearest 0.001 ppb.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of a outage.  For all other months, enter 0 and select “Final” for the status.
 
-###### Steam Generator Iron Removal Efficiency % 
+###### Steam Generator Iron Removal Efficiency %
 
 For stations that add polyacrylic acid (PAA) dispersant to the steam generators, enter the steam generator blowdown iron removal efficiency time-weighted average in percent (xx.x%), calculated by (mass of SGBD Fe)/(mass of FFW Fe).
 
 The parameter value to be entered is based on the weekly or monthly time-weighted average value (VT) as defined by the following:
 
-$$VT=\frac{\sum V_i \cdot T_i}{\sum T_i}$$
+$$VT=\frac{\sum{V_i\cdot\T_i}}{\sum{T_i}}$$
 
 for the period
 
@@ -631,7 +631,7 @@ If the unit is not operated at or above 30% power at any time during the month, 
 
 ##### At all times that the reactor is above the MPV
 
-###### SG Chloride Duration hours > L-1 
+###### SG Chloride Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month after reaching MPV.
 
@@ -649,9 +649,9 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not operated at or above MPV power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above MPV power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### SG Sodium Duration hours > L-1 
+###### SG Sodium Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month after reaching MPV.
 
@@ -679,7 +679,7 @@ The maximum value is reported to the nearest 0.001 ppb.  (Note:  The peak value 
 
 Zero is not an acceptable value.
 
-If the unit is not operated at or above MPV power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above MPV power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 ###### SG Sulfate Duration hours > L-1
 
@@ -699,9 +699,9 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not operated at or above MPV power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above MPV power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Dissolved Oxygen Duration hours > L-1 
+###### Feedwater Dissolved Oxygen Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit when power is greater than MPV during the month.
 
@@ -719,7 +719,7 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry. 
+Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry.
 
 If the plant is not operated at greater than MPV power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
@@ -742,7 +742,7 @@ At all times the reactor is is in Mode 1 Power Operations
 
 At all times the reactor above 30% power
 
-- Feedwater Copper ppb 
+- Feedwater Copper ppb
 - Feedwater Iron ppb
 - Feedwater Dissolved Oxygen ppb
 - Feedwater Chloride in ppb
@@ -769,9 +769,9 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### RCS Fluoride Duration hours > L-1 
+###### RCS Fluoride Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -789,9 +789,9 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### RCS Sulfate Duration hours > L-1 
+###### RCS Sulfate Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -809,7 +809,7 @@ The maximum value is reported to the nearest 0.01 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not taken critical at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 ##### At all times that the reactor is in mode one power operations
 
@@ -817,7 +817,7 @@ If the unit is not taken critical at any time during the month, leave the value 
 
 This is the summation of all hours that this parameter was outside the specified control limits during the month.
 
-All occurrences are added together for a total number of hours outside the specified control limits 
+All occurrences are added together for a total number of hours outside the specified control limits
 
 During unit startup, out-of-spec hours outside the specified control limits start to accumulate 72 hours after entering Mode-1 or at xenon equilibrium, whichever occurs first after a unit startup.
 
@@ -846,7 +846,7 @@ If the unit is not operated in Mode-1 at any time during the month, enter 0.0 an
 
 ##### At all times that the reactor is above 30% power
 
-###### Feedwater Copper Duration hours > L-1 
+###### Feedwater Copper Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -854,13 +854,13 @@ All occurrences are added together for a total number of hours > L-1 limit.  Hou
 
 Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is above 30% power.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated above MPV at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Peak ppb 
+###### Feedwater Copper Peak ppb
 
 Feedwater copper concentration is normally obtained based on a seven-day integrated value.
 
@@ -872,11 +872,11 @@ Elevated sample values during transients are expected to be included in the comp
 
 The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Copper Peak after an outage below mode-1 is excluded from the values used to determine the maximum Feedwater Copper value measured in ppb during the month.  After the seven-day  outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power >30 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
-If the unit is not operated at or above 30% power  at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above 30% power  at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 ###### Feedwater Copper Duration hours Power and Time Weighted following a shutdown below mode-1
 
@@ -892,7 +892,7 @@ Unit Shutdown Occurrence Records and daily Unit Power levels reported to the NRC
 
 Hours above the 0.2 ppb limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
@@ -914,16 +914,16 @@ The value reported is the maximum value measured in ppb for first seven days aft
 
 Report the feedwater copper concentration to the nearest 0.001 ppb.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operations at or above 30% power units after the completion of a refueling outage.  For all other months, enter 0.000 and select “Final” for the status.
 
-###### Feedwater Iron Duration hours > L-1 
+###### Feedwater Iron Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
-	
+
 All occurrences are added together for a total number of hours > L-1 limit.
 
 Hours above the L-1 limit are reported to the nearest 0.1 hours.
@@ -932,13 +932,13 @@ Elevated sample values during startups and transients are expected to be include
 
 When a plant trips, the corrosion product filters should be changed out as soon as possible and the analysis should be reported in the monthly data.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Peak ppb 
+###### Feedwater Iron Peak ppb
 
 Feedwater iron concentration is normally obtained based on a seven-day integrated value.
 
@@ -970,8 +970,8 @@ Unit Shutdown Occurrence Records and daily Unit Power levels reported to the NRC
 
 Hours above the L-1 S/U limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of an outage.  For all other months, enter 0.0 and select “Final” for the status.
@@ -990,13 +990,13 @@ For plants whose feedwater has a high concentration of metal transport, this may
 
 Report the feedwater iron concentration to the nearest 0.001 ppb.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of a outage.  For all other months, enter 0 and select “Final” for the status.
 
-###### Feedwater Dissolved Oxygen Duration hours > L-1 
+###### Feedwater Dissolved Oxygen Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit when power is greater than MPV during the month.
 
@@ -1014,7 +1014,7 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry. 
+Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry.
 
 If the plant is not operated at greater than MPV power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
@@ -1022,7 +1022,7 @@ If the plant is not operated at greater than MPV power at any time during the mo
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
-All occurrence hours are added together for a total number of hours > L-1 limit.  Hours above the L-1 limit are reported to the nearest 0.1 hours. 
+All occurrence hours are added together for a total number of hours > L-1 limit.  Hours above the L-1 limit are reported to the nearest 0.1 hours.
 
 If the unit is not operated at or above 30% power at any time during the month, enter 0.0 and select “Final” for the status.
 
@@ -1048,7 +1048,7 @@ A 24-hour grace period is given for reporting the duration hours for sodium peak
 
 If the unit is not operated at or above 30% power at any time during the month, enter 0.0 and select “Final” for the status.
 
-###### Feedwater Sodium Duration hrs > L-1 
+###### Feedwater Sodium Duration hrs > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -1073,9 +1073,9 @@ For power changes that result in a feedwater sodium spike:
 - To avoid a feedwater sodium concentration spike that may not be representative of actual feedwater conditions that exceeds the L-2 value for 30 minutes or less, the on-line sodium monitor data after reaching the L-2 value may be time-weight averaged and reported as the peak value over the 30 minute period.
 - If the sodium spike lasts more than 30 minutes, then the actual peak value must be reported (not the time-weighted value).
 
-If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Sulfate Duration hours > L-1 
+###### Feedwater Sulfate Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -1093,7 +1093,7 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 #### Group D
 
@@ -1107,7 +1107,7 @@ RCS Cover Gas availability
 
 At all times the reactor above 30% power
 
-- Feedwater Copper ppb 
+- Feedwater Copper ppb
 - Feedwater Iron ppb
 - Feedwater Dissolved Oxygen ppb
 - Feedwater Chloride in ppb
@@ -1116,7 +1116,7 @@ At all times the reactor above 30% power
 
 ##### At all times that the reactor is in mode one power operations
 
-###### Outside RCS Cover Gas Control Band hours 
+###### Outside RCS Cover Gas Control Band hours
 
 This is the summation of all hours that this parameter was outside the station selected specified control limits during the month.
 
@@ -1138,7 +1138,7 @@ If the unit is not operated in Mode-1 at any time during the month, enter 0.0 an
 
 ##### At all times that the reactor is above 30% power
 
-###### Feedwater Copper Duration hours > L-1 
+###### Feedwater Copper Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -1146,13 +1146,13 @@ All occurrences are added together for a total number of hours > L-1 limit.  Hou
 
 Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is above 30% power.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Peak ppb 
+###### Feedwater Copper Peak ppb
 
 Feedwater copper concentration is normally obtained based on a seven-day integrated value.
 
@@ -1164,7 +1164,7 @@ Elevated sample values during transients are expected to be included in the comp
 
 The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Copper Peak after an outage below mode-1 is excluded from the values used to determine the maximum Feedwater Copper value measured in ppb during the month.  After the seven-day outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power >30 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
@@ -1178,13 +1178,13 @@ This is the summation of all hours that feedwater copper was above L-1 S/U limit
 2.	The power/time weighted average ppb for each sample (when the corrosion product filter is changed out) is the average power (percent power, times the time for each power reading, divided by the total time) while the sample filter has been in use, times the analyzed ppb results for the sample.
 3.	Multiply the power/time weighted average ppb for the sample by the percent of the week (time the sample was in service divided by 168 hours) to get the corrected value.
 4.	Sum all the corrected values for the samples during the week to get the reported ppb value
-5.	The duration hours to report is determined by summing all the hours that for the samples during the startup week that exceeded the L-1 S/U limit. 
+5.	The duration hours to report is determined by summing all the hours that for the samples during the startup week that exceeded the L-1 S/U limit.
 
 Unit Shutdown Occurrence Records and daily Unit Power levels reported to the NRC with the morning report are used to validate appropriate reporting of these values with reactor taken critical as the point of validation.
 
 Hours above the 0.2 ppb limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
@@ -1206,8 +1206,8 @@ The value reported is the maximum value measured in ppb for first seven days aft
 
 Report the feedwater copper concentration to the nearest 0.001 ppb.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operations at or above 30% power units after the completion of a refueling outage.  For all other months, enter 0.000 and select “Final” for the status
@@ -1218,7 +1218,7 @@ For units that add polyacrylic acid (PAA) dispersant to the steam generators, en
 
 The parameter value to be entered is based on the weekly or monthly time-weighted average value (VT) as defined by the following:
 
-$$VT=\frac{\sum V_i \cdot T_i}{\sum T_i}$$
+$$VT=\frac{\sum{V_i\cdot\T_i}}{\sum{T_i}}$$
 
 for the period
 
@@ -1230,10 +1230,10 @@ The maximum allowable value for entry is 100%.
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Duration hours > L-1 
+###### Feedwater Iron Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
-	
+
 All occurrences are added together for a total number of hours > L-1 limit.
 
 Hours above the L-1 limit are reported to the nearest 0.1 hours.
@@ -1242,13 +1242,13 @@ Elevated sample values during startups and transients are expected to be include
 
 When a plant trips, the corrosion product filters should be changed out as soon as possible and the analysis should be reported in the monthly data.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Peak ppb 
+###### Feedwater Iron Peak ppb
 
 Feedwater iron concentration is normally obtained based on a seven-day integrated value.
 
@@ -1256,7 +1256,7 @@ For plants whose feedwater has a high concentration of metal transport, this may
 
 The value reported is the maximum value measured in ppb during the month, reported to the nearest 0.001 ppb (not averaged with other measurements, and not power adjusted).
 
-Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is > 30%.  A stabilization time nor a grace before entering AL-1 applies for reporting feedwater metals.  Collection and reporting begin when the power requirements above are met. 
+Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is > 30%.  A stabilization time nor a grace before entering AL-1 applies for reporting feedwater metals.  Collection and reporting begin when the power requirements above are met.
 
 The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Iron Peak after an outage going below mode-1 is excluded from the values used to determine the maximum Feedwater Iron value measured in ppb during the month.  After the seven-day outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power >30 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
@@ -1280,8 +1280,8 @@ Unit Shutdown Occurrence Records and daily Unit Power levels reported to the NRC
 
 Hours above the L-1 S/U limit are reported to the nearest 0.1 hours.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of an outage.  For all other months, enter 0.0 and select “Final” for the status.
@@ -1300,13 +1300,13 @@ For plants whose feedwater has a high concentration of metal transport, this may
 
 Report the feedwater iron concentration to the nearest 0.001 ppb.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
-  
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1 S/U limit, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
+
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1 S/U limit, hours >L-1 S/U limit will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 Only report a value for the first seven days of operation at or above 30% power after the completion of a outage.  For all other months, enter 0 and select “Final” for the status.
 
-###### Feedwater Copper Duration hours > L-1 
+###### Feedwater Copper Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -1314,34 +1314,34 @@ All occurrences are added together for a total number of hours > L-1 limit.  Hou
 
 Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power is above 30% power.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated above MPV at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Copper Peak ppb 
+###### Feedwater Copper Peak ppb
 
 Feedwater copper concentration is normally obtained based on a seven-day integrated value.
 
 For plants whose feedwater has a high concentration of metal transport, this may not be feasible.  Integrated values obtained on a frequency of less than seven days may be used.
 
-The value reported is the maximum value measured in ppb for the month, reported to the nearest 0.001 ppb. 
+The value reported is the maximum value measured in ppb for the month, reported to the nearest 0.001 ppb.
 
 Elevated sample values during transients are expected to be included in the computed hours greater than L-1 when power above 30% .  A stabilization time nor a grace before entering AL-1 applies for reporting feedwater metals.  Collection and reporting begin when the power requirements above are met, even for periods of time less than a full day.
 
 The peak value during the seven-day period following a refueling outage that is reported as the Feedwater Copper Peak after an outage below mode-1 is excluded from the values used to determine the maximum Feedwater Copper value measured in ppb during the month.  After the seven-day  outage period, the normal peak value is reported for the month.  If the only period of operation during the month with power >30 percent is the seven-day period following an outage, report a value of 0.000 and select “Final” for Status.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
-If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Duration hours > L-1 
+###### Feedwater Iron Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
-	
+
 All occurrences are added together for a total number of hours > L-1 limit.
 
 Hours above the L-1 limit are reported to the nearest 0.1 hours.
@@ -1350,13 +1350,13 @@ Elevated sample values during startups and transients are expected to be include
 
 When a plant trips, the corrosion product filters should be changed out as soon as possible and the analysis should be reported in the monthly data.
 
-When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis. 
+When a single integrated sampling period starts in one month and ends in a second month, the value obtained from the analysis of this sample is counted for the sampling period from both months.  If the analysis indicates >L-1, then the out-of-spec duration for the first month shall include the time period from the start of the sample until the end of the last day of the first month.  Additionally, the out-of-spec duration for the second month shall include the time period from the start of the first day of the second month until the time the sample is removed for analysis.
 
 For example, if the weekly metals sample is collected on Tuesday the 29th and a new seven day sample is started the same day, the next seven day sample collected on Tuesday the 5th will be used as data for the 30th and 31st of the previous month and the period in the next month up to the 5th.  If Tuesday the 5th sample results were above L-1, hours >L-1 will be reported for the 30th and 31st of the previous month and for the first five days of the current month.
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Iron Peak ppb 
+###### Feedwater Iron Peak ppb
 
 Feedwater iron concentration is normally obtained based on a seven-day integrated value.
 
@@ -1374,7 +1374,7 @@ For example, if the weekly metals sample is collected on Tuesday the 29th and a 
 
 If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
-###### Feedwater Dissolved Oxygen Duration hours > L-1 
+###### Feedwater Dissolved Oxygen Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit when power is greater than MPV during the month.
 
@@ -1392,7 +1392,7 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry. 
+Note:  For short oxygen spikes above L-1, the peak value reported may be based on the time-weighted average value of oxygen over the first 30 minutes after exceeding L-1 and can be used in calculating duration hours.  This is normally due to an electronic spike or an air bubble going through the monitor and not representative of actual chemistry conditions and should not have an effect on steam generator chemistry.
 
 If the plant is not operated at greater than MPV power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
@@ -1400,7 +1400,7 @@ If the plant is not operated at greater than MPV power at any time during the mo
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
-All occurrence hours are added together for a total number of hours > L-1 limit.  Hours above the L-1 limit are reported to the nearest 0.1 hours. 
+All occurrence hours are added together for a total number of hours > L-1 limit.  Hours above the L-1 limit are reported to the nearest 0.1 hours.
 
 If the unit is not operated at or above 30% power at any time during the month, enter 0.0 and select “Final” for the status.
 
@@ -1426,7 +1426,7 @@ A 24-hour grace period is given for reporting the duration hours for sodium peak
 
 If the unit is not operated at or above 30% power at any time during the month, enter 0.0 and select “Final” for the status.
 
-###### Feedwater Sodium Duration hrs > L-1 
+###### Feedwater Sodium Duration hrs > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -1446,7 +1446,7 @@ Zero is not an acceptable value.
 
 _Note: If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status._
 
-###### Feedwater Sulfate Duration hours > L-1 
+###### Feedwater Sulfate Duration hours > L-1
 
 This is the summation of all hours that this parameter was above the specified L-1 limit during the month.
 
@@ -1464,24 +1464,24 @@ The maximum value is reported to the nearest 0.001 ppb.
 
 Zero is not an acceptable value.
 
-If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status. 
+If the unit is not operated at or above 30% power at any time during the month, leave the value blank and select “Final-DN” for the status.
 
 
 ## CY: Feedwater
 
-|Reactor types|Fe[^1]|Cu[^1]|Dis.O~2~[^1]|Na[^1]|Cl[^1]|SO~4~[^1]|pH|Cat.Cond[^2]
+|Reactor types|Fe, ppb|Cu, ppb|Dis.O~2~, ppb|Na, ppb|Cl, ppb|SO~4~, ppb|pH|Cat.Cond, uS/cm
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-
-|BWR|2.5|0.2|30-50[^3] 									
-|RSG PWR, PHWR, FBR|3|0.2[^4]|3		
-|OTSG PWR, AGR, Magnox|	3|0.2|3|0.3|0.5|0.75					
+|BWR|2.5|0.2|30-50[^3]
+|RSG PWR, PHWR, FBR|3|0.2[^4]|3
+|OTSG PWR, AGR, Magnox|	3|0.2|3|0.3|0.5|0.75
 |LWCGR|||20|||||0.1
-|VVER-440|||5||||>=8.8<=9.2[^5]|0.5
-|VVER-1000 with copper alloy|||5||||>=9.0<=9.2[^5]|0.25
-|VVER-1000 without copper alloy|||3||||>=9.5<=9.7[^5]|0.3
+|VVER-440|||5||||≥8.8≤9.2[^5]|0.5
+|VVER-1000 with copper alloy|||5||||≥9.0≤9.2[^5]|0.25
+|VVER-1000 without copper alloy|||3||||≥9.5≤9.7[^5]|0.3
 
 ## CY: Steam Generators
 
-|Reactor Types|Na|Cl|SO~4~|Cat.Cond[^2]
+|Reactor Types|Na|Cl|SO~4~|Cat.Cond, uS/cm
 |:-:|:-:|:-:|:-:|:-
 |BWR
 |RSG PWR, PHWR, FBR|2|2|2
@@ -1494,20 +1494,20 @@ If the unit is not operated at or above 30% power at any time during the month, 
 
 ## CY: Primary coolant
 
-|Reactors|F[^6]|Cl[^6]|SO~4~[^6]|pH[^3]|Cov.gas|ECP|Cond.[^2]|Co|Dis.O~2~[^6]|H~2~[^6]
+|Reactors|F, ppb|Cl, ppb|SO~4~, ppb|pH[^3]|Cov.gas|ECP|Cond., uS/cm|Co|Dis.O~2~, ppb|H~2~, ppb
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-
-|BWR||1|2||99% avail.[^3]|<=350SHE[^3]|0.25|<1.0E-4 uCi/ml Co^60^
+|BWR||1|2||99% avail.[^3]|<-350SHE[^3]|0.25|<1.0E-4 uCi/ml Co^60^
 |RSG PWR, PHWR, FBR|15|20|15|>=7.0|(>30<50 cc/kg)[^3]|||< 1.0E-3 uCi/ml Co^58^&Co^60^
 |OTSG PWR, AGR, Magnox|15|20|15|>=7.0|(>30<50 cc/kg)[^3]|||< 1.0E-3 uCi/ml Co^58^&Co^60^
 |LWCGR||11|20||||0.25
-|VVER (all)||70||>=5.8<=10.3|||||5|>=2.2<=4.5[^7]
+|VVER (all)||70||≥5.8≤10.3|||||5|≥2.2≤4.5[^7]
 
 
 ## CY: calculation
 
 $$CPI=\frac{Max \cdot Hrs}{168 \cdot Lim}$$
 
-where 
+where
 
 - Max - Reported maximaml value for the month
 - Hrs - Duration hours more than limit
@@ -1550,17 +1550,11 @@ Any CY (actually, any significant) changes will be provided either:
 - We agree (after PI Programme meeting next month) that LO calculates/reports CY separately (based on existing source data);
 - We agree (after PI Programme meeting next month) that LO will create new pilot CY calculation based on updated CY source data.
 
-[^1]: The units for the Iron, Cooper, Dissolved oxygen, Sodium, Chloride and Sulphate is micrograms per cubic decimetre
-
-[^2]: For conductivity the unit is micro Siemens per cm
-
 [^3]: Report hours outside established control band; for RCS pH would be the control band for Li or K or the hours when pH is < 7.0
 
 [^4]: Excludes S/G with I-800 tubes
 
 [^5]: Total hours outside control band
-
-[^6]: The units for the Fluoride, Dissolved oxygen, Chloride, Sulphate and Hydrogen is micrograms per cubic decimetre
 
 [^7]: VVER-1000 with copper alloy only: total hours outside control band; indicator is only taken above 30% reactor power
 
