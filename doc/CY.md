@@ -39,7 +39,7 @@ Monthly Chemistry Effectiveness Indicator (CEI-W) data element values will be av
 
 1.	Some stations may have reported quarterly values or rolling three-month values as monthly data.  This is incorrect.  By including data over a longer time period, the effects of chemistry excursions are masked to a greater extent.  Because these excursions can have a significant effect on a plant, it is mandatory to identify them monthly (on the day(s) they occur).  (Some of the confusion comes from differences between the INPO and the WANO definitions.  This indicator was initially developed and used in the U.S.  U.S. data has always been collected on a monthly basis.  Later, WANO adopted many of the U.S. indicators.  At that time, WANO allowed less frequent reporting in order to obtain a higher level of participation worldwide.).  Now data will be collected monthly and reported at least quarterly.
 
-2.	At some stations, personnel have erroneously believed that following a startup they should only include samples (especially metal transport data) taken after the plant chemistry values have stabilized.  This is incorrectone of the objectives is to monitor chemistry excursions during startup after the required power levels are reached.  Corrosion product samples should be initiated at the correct power level as indicated in the appropriate reactor type section of this manual.
+2.	At some stations, personnel have erroneously believed that following a startup they should only include samples (especially metal transport data) taken after the plant chemistry values have stabilized.  This is incorrect one of the objectives is to monitor chemistry excursions during startup after the required power levels are reached.  Corrosion product samples should be initiated at the correct power level as indicated in the appropriate reactor type section of this manual.
 
 3.	Some stations assume that if they only operated a portion of a day and had been shut down the rest of the month, that portion of a day did not count for CEI-W data collection.  This is incorrect.  If any time during the month the power or temperature requirements for a monthly CEI-W data element are met, then data must be collected and reported.
 
@@ -72,9 +72,9 @@ At all times the reactor above 10% power
 - RCS Sulfate ppb
 - RCS ECP values SHE
 - RCS Conductivity uS/cm
-- RCS Hydrogen Availability
- 
-##### At all times that reactor coolant temperature is greater than 200 degrees Fahrenheit (93 Celsius) | Number of Hours RCS > 200F (93C) | This is the total hours that the reactor coolant system was greater than 200F during the month. Hours when reactor coolant system is greater than 200F are reported to the nearest 0.1 hours. If the reactor coolant system does not exceed 200F any time during the month, enter 0.0 and select “Final” for the status.
+- RCS Hydrogen Availabili
+
+At all times that reactor coolant temperature is greater than 200 degrees Fahrenheit (93 Celsius) | Number of Hours RCS > 200F (93C) | This is the total hours that the reactor coolant system was greater than 200F during the month. Hours when reactor coolant system is greater than 200F are reported to the nearest 0.1 hours. If the reactor coolant system does not exceed 200F any time during the month, enter 0.0 and select “Final” for the status.
 
 ###### Hours RCS Hydrogen Unavailable When > 200 F (93 C)
 
@@ -523,7 +523,7 @@ For units that add polyacrylic acid (PAA) dispersant to the steam generators, en
 
 The parameter value to be entered is based on the weekly or monthly time-weighted average value (VT) as defined by the following:
 
-$$VT=\frac{\sum{V_i\cdot\T_i}}{\sum{T_i}}$$
+$$VT=\frac{\sum V_i \cdot T_i}{\sum T_i}$$
 
 Use whole days in the calculation.
 
@@ -615,7 +615,7 @@ For stations that add polyacrylic acid (PAA) dispersant to the steam generators,
 
 The parameter value to be entered is based on the weekly or monthly time-weighted average value (VT) as defined by the following:
 
-$$VT=\frac{\sum{V_i\cdot\T_i}}{\sum{T_i}}$$
+$$VT=\frac{\sum V_i \cdot T_i}{\sum T_i}$$
 
 for the period
 
@@ -1218,7 +1218,7 @@ For units that add polyacrylic acid (PAA) dispersant to the steam generators, en
 
 The parameter value to be entered is based on the weekly or monthly time-weighted average value (VT) as defined by the following:
 
-$$VT=\frac{\sum{V_i\cdot\T_i}}{\sum{T_i}}$$
+$$VT=\frac{\sum V_i \cdot T_i}{\sum T_i}$$
 
 for the period
 
@@ -1475,9 +1475,9 @@ If the unit is not operated at or above 30% power at any time during the month, 
 |RSG PWR, PHWR, FBR|3|0.2[^4]|3
 |OTSG PWR, AGR, Magnox|	3|0.2|3|0.3|0.5|0.75
 |LWCGR|||20|||||0.1
-|VVER-440|||5||||≥8.8≤9.2[^5]|0.5
-|VVER-1000 with copper alloy|||5||||≥9.0≤9.2[^5]|0.25
-|VVER-1000 without copper alloy|||3||||≥9.5≤9.7[^5]|0.3
+|VVER-440|||5||||>=8.8<=9.2[^5]|0.5
+|VVER-1000 with copper alloy|||5||||>=9.0<=9.2[^5]|0.25
+|VVER-1000 without copper alloy|||3||||>=9.5<=9.7[^5]|0.3
 
 ## CY: Steam Generators
 
@@ -1500,7 +1500,7 @@ If the unit is not operated at or above 30% power at any time during the month, 
 |RSG PWR, PHWR, FBR|15|20|15|>=7.0|(>30<50 cc/kg)[^3]|||< 1.0E-3 uCi/ml Co^58^&Co^60^
 |OTSG PWR, AGR, Magnox|15|20|15|>=7.0|(>30<50 cc/kg)[^3]|||< 1.0E-3 uCi/ml Co^58^&Co^60^
 |LWCGR||11|20||||0.25
-|VVER (all)||70||≥5.8≤10.3|||||5|≥2.2≤4.5[^7]
+|VVER (all)||70||>=5.8<=10.3|||||5|>=2.2<=4.5[^7]
 
 
 ## CY: calculation
