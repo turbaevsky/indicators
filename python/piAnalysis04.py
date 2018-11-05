@@ -296,11 +296,13 @@ def report(uname,periodIndex,yr):    # Picture generation ----------------------
         period = 36
     else:
         period = 3
-        
-    top.status.SetRange(len(iList))
+
+    if __name__ == '__main__':
+        top.status.SetRange(len(iList))
     unumber = cursor.execute('select UnitLocID from Units where UnitName = ?',(uname,)).fetchone()[0]
     print(unumber)
-    top.St(str(unumber))
+    if __name__ == '__main__':
+        top.St(str(unumber))
     r = cursor.execute('select UnitName,Centre,Reactor,RUP from Units where UnitLocID=?',(unumber,)).fetchall()[0]
     meta = cursor.execute('select * from metadata').fetchall()
     name = r[0]
@@ -316,7 +318,8 @@ def report(uname,periodIndex,yr):    # Picture generation ----------------------
                             (reactor,centre,)).fetchone()[0])
 
     fname = name+'-'+str(yr)+'.pdf'
-    top.St('Title page producing...')
+    if __name__ == '__main__':
+        top.St('Title page producing...')
     c = canvas.Canvas(fname, pagesize=landscape(letter))
     title = True
     if title:
@@ -339,14 +342,16 @@ WANO Long-term Performance Targets values')
         c.drawImage('almaraz1.jpg',20*mm,90*mm,220*mm-40*mm,113*mm-40*mm)
 
         c.showPage()
-    top.St('Title page produced')
+        if __name__ == '__main__':
+            top.St('Title page produced')
     # --------------
     cnt = 0
     for ccode in iList:
         print(ccode)
         cnt += 1
-        top.Sv(cnt)
-        top.St(ccode)
+        if __name__ == '__main__':
+            top.Sv(cnt)
+            top.St(ccode)
         # Distributions -----------------------------------------------
         ww = cursor.execute('select Value from Results where Indicator=? and EndDate=? \
             and Value is not null and Code = "None" order by Value asc',(ccode,yr)).fetchall() # Worldwide distr
@@ -402,7 +407,7 @@ WANO Long-term Performance Targets values')
         except:
             uvalue = 'N/A'
         ustat = cursor.execute('select Code from Results where Indicator=? and EndDate=? \
-            and UnitID=?',(ccode,yr,unumber)).fetchone()[0] # Unit value status (missed data?)
+            and UnitID=?',(ccode,yr,unumber)).fetchone()[0]  # Unit value status (missed data?)
         ustat = statuses[ustat]
         # Draw the picture
         c.drawString(left,down+height*2+border*5,'Unit %s (station for SP5 and ISA) data for %s. ' % (name,ccode))
@@ -437,6 +442,7 @@ WANO Long-term Performance Targets values')
         c.showPage()
         # Here add code for the next page
     c.save()
+    return 'Report created'
         
 # =============================================================
 
@@ -450,11 +456,23 @@ WANO Long-term Performance Targets values')
 # report()
 # sspi(2014)
 
-app = wx.App(redirect=  False)   # Error messages go to popup window
-top = Frame("Unit Report Generator v.0.3")
-top.Show()
-app.MainLoop()
+if __name__ == '__main__':
+    app = wx.App(redirect=  False)   # Error messages go to popup window
+    top = Frame("Unit Report Generator v.0.3")
+    top.Show()
+    app.MainLoop()
 
-##print('Finished')    
-connection.commit()
-connection.close()
+    ##print('Finished')
+    connection.commit()
+    connection.close()
+else:
+    connection = sqlite3.connect('pr.sqlite')
+    connection.text_factory = str
+    cursor = connection.cursor()
+    try:
+        r = cursor.execute('select UnitLocID,UnitName from Units where IsActive=1 order by UnitName').fetchall()
+        yr = cursor.execute('select max(EndDate) from Results').fetchone()[0]
+        #print(yr)
+    except:
+        print("There is not database file")
+        quit()

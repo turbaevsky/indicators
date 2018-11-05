@@ -6,7 +6,8 @@ from tqdm import tqdm
 
 import pandas as pd
 from sqlalchemy import create_engine
-engine = create_engine('sqlite:///PI.sqlite')
+engine = create_engine('sqlite:///../PI.sqlite')
+#print(engine)
 
 #pwd = ['205.152.199.21','London_PIDB','Wan0$PIDB']
 #pwd = ['SQLLON03\IT','PIDBConnect','Wan0$PIDB']
@@ -72,7 +73,7 @@ def localdbupdateall(startdate,enddate):
     cursor.execute('UPDATE metadata SET value = ? WHERE name = ?',(lastResult.strftime('%Y-%m-%d'),'LastResult'))
     cursor.execute('UPDATE metadata SET value = ? WHERE name = ?',(datetime.now().strftime('%Y-%m-%d'),'LastDBUpdate'))
     print('Done')
-    connection.commit()
+    #connection.commit()
             
 def unitcopy():
 
@@ -83,39 +84,47 @@ def unitcopy():
 
     print('Request Unit data')
     # TODO: select active units only
-    dbaa = pd.read_sql('Select P.LocId, P.AbbrevLocName from PI_Place as P, PI_PlaceAttribute as PA \
-    WHERE PA.LocId = P.LocId \
-    AND PA.AttributeTypeId = 7 \
-    AND PA.PlaceAttributeId = 22 \
-    ORDER BY P.AbbrevLocName', engine)
-    print(dbaa.head())
-    ulist = []
-    factories = [10117,10118,10119,10120,10121,10122,10123,10213,1871,1872] #Sellafield and La Hague and Kozloduy 3,4
-    for i in tqdm(range(len(dbaa))):
-        #print i
-        if not dbaa['LocId'].iloc[i].values[0][0] in factories:
-            ulist.append(dbaa['LocId'].iloc[i].values[0][0])
+    dbaa = pd.read_sql('SELECT P.LocId FROM PI_Place P INNER JOIN PI_PlaceAttribute PA ON P.LocId = PA.LocId \
+        WHERE AttributeTypeId = 7 AND P.LocId NOT IN (10117,10118,10119,10120,10121,10122,10123,10213,1871,1872)', engine)
+    #print(dbaa.head())
+    ulist = dbaa
+    #factories = [10117,10118,10119,10120,10121,10122,10123,10213,1871,1872]  #Sellafield, La Hague and Kozloduy 3,4
+    #for i in tqdm(range(len(dbaa))):
+    #    #print i
+    #    if not dbaa['LocId'].iloc[i].values[0][0] in factories:
+    #        ulist.append(dbaa['LocId'].iloc[i].values[0][0])
     print('Done, there are %d active units in the DB' % len(ulist))
 
     cursor.execute('DELETE FROM Units')
+    #print('({})'.format(list(ulist.LocId)).replace('[','').replace(']',''))
+    #station = pd.read_sql('Select DISTINCT ParentLocId FROM PI_PlaceRelationship WHERE LocId IN ({}) \
+    #            AND RelationId = 4'.format(list(ulist.LocId)).replace('[','').replace(']',''), engine)
+    #print(station)
 
-    for u in ulist:
-        dot()
-        station = dbaa.execute_scalar('Select ParentLocId FROM PI_PlaceRelationships WHERE LocId = %d \
-            AND RelationId = 4',u)
-        cnt = CentreByName[dbaa.execute_scalar('Select P.LocAcronym FROM PI_Place as P,\
-            PI_PlaceRelationships as R \
-            WHERE R.LocId = %d AND R.RelationId = 1 AND P.LocId = R.ParentLocId \
-            AND R.EndDate >= %f',(u,datetime.today()))]
-        reactor = dbaa.execute_scalar('Select NSSSType FROM dbo.UnitData WHERE LocId = %d',u)
-        mwrate = dbaa.execute_scalar('Select MweRating FROM dbo.UnitData WHERE LocId = %d',u)
-        uname = dbaa.execute_scalar('Select AbbrevLocName FROM dbo.Place WHERE LocId = %d',u)
-        cursor.execute('INSERT INTO Units (UnitName,StLocId,Centre,Reactor,SubType,RUP,IsActive,UnitLocId) \
+    for u in tqdm(list(ulist.LocId)):
+        try:
+            station = str(pd.read_sql('Select DISTINCT ParentLocId FROM PI_PlaceRelationship WHERE LocId ={} \
+                        AND RelationId = 4'.format(u), engine).values[0][0])
+            cnt = pd.read_sql('Select P.LocAcronym FROM PI_Place as P INNER JOIN PI_PlaceRelationship as R '
+                                       'ON P.LocId = R.ParentLocId WHERE R.LocId = {} AND RelationId = 1'.format(u),
+                                       engine).values[0][0]
+            cnt = CentreByName[cnt]
+            reactor = pd.read_sql('Select NSSSType FROM PI_UnitData D '
+                              'INNER JOIN PI_NsssTypeLookup N ON N.NsssTypeId = D.NsssTypeId'
+                              ' WHERE LocId = {}'.format(u), engine).values[0][0]
+            mwrate = pd.read_sql('Select MweRating FROM PI_UnitData WHERE LocId = {}'.format(u), engine).values[0][0]
+            uname = pd.read_sql('Select AbbrevLocName FROM PI_Place WHERE LocId = {}'.format(u), engine).values[0][0]
+            print(uname,station,cnt,reactor,'',mwrate,1,u)
+            cursor.execute('INSERT INTO Units (UnitName,StLocId,Centre,Reactor,SubType,RUP,IsActive,UnitLocId) \
             VALUES (?,?,?,?,?,?,?,?)', (uname.strip(),station,cnt,reactor.strip(),'',mwrate,1,u))
+        except:
+            print('Error in getting data for unit {}'.format(u))
          
 #===========================================================================
-unitcopy()
-localdbupdateall('201306','201806')    # Last available data
+
+if __name__ == '__main__':
+    unitcopy()
+    #localdbupdateall('201306','201806')    # Last available data
 
 connection.commit()
 connection.close() 
