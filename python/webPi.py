@@ -4,7 +4,7 @@ import piAnalysis04
 unitlist = []
 for i in piAnalysis04.r:
     unitlist.append(i[1])
-print(unitlist)
+#print(unitlist)
 
 @route('/select')
 #@view('select')
