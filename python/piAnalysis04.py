@@ -29,9 +29,6 @@ UA7: 378/392; 244/250 PWR; 95/98 in PC
 
 import os
 import time
-##import math
-#import sys
-##import xlwt
 import sqlite3
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
