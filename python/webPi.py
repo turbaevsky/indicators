@@ -1,5 +1,5 @@
 from bottle import post, request, run, route, view, template
-import piAnalysis04
+import piAnalysis04, ms2lite
 
 unitlist = []
 for i in piAnalysis04.r:
@@ -15,8 +15,14 @@ def select():
 def do_login():
     unit = request.forms.get('unit')
     period = request.forms.get('period') or 0
-    if piAnalysis04.report(unit, period, 201806):
+    #print('req:',request.forms.get('upd'))
+    if request.forms.get('create') == 'Create' and piAnalysis04.report(unit, period, piAnalysis04.yr):
         return "<p>Report created succesfully</p>"
+    elif request.forms.get('upd') == 'Update':
+        ms2lite.unitcopy()
+        ms2lite.localdbupdateall('201306',piAnalysis04.yr)
+        ms2lite.cls()
+        return "<p>DB succesfully updated</p>"
     else:
         return "<p>Something went wrong</p>"
 

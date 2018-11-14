@@ -50,6 +50,8 @@ border = 10*mm
 
 # Global variables
 pr = 0
+sname = ''
+rcs = {'A':'Atlanta', 'P':'Paris', 'M':'Moscow', 'T':'Tokyo'}
 
 iList = ['UA7','US7','SP1','SP2','SP5','CPI','CRE','FRI','FLR','ISA2']
 #iList = ['ISA2']
@@ -131,12 +133,6 @@ class Frame(wx.Frame):
         self.edithear2 = wx.ComboBox(panel, pos=(150, 40), size=(200, -1), \
                                     choices=self.periodList, style=wx.CB_DROPDOWN)
         
-##        self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox, self.edithear)
-
-##    def EvtComboBox(self, event):
-##        #self.logger.AppendText('EvtComboBox: %s\n' % event.GetCurrentSelection())
-##        print 'EvtComboBox: %s\n' % self.edithear.GetCurrentSelection()
-        
     def OnClick(self,event):
         report(self.edithear.GetValue(),self.edithear2.GetSelection(),yr)
         wx.Bell()
@@ -158,11 +154,6 @@ class Frame(wx.Frame):
         if result == wx.ID_OK:
             self.Destroy()
 
-##    def OnAbout(self, event):
-##        dlg = AboutBox()
-##        dlg.ShowModal()
-##        dlg.Destroy()
-
 # Data for plotting -------------------------------------------
 def data_processing(r):
 # Array normalisation
@@ -170,7 +161,6 @@ def data_processing(r):
     for i in r:
         #if i[0]<>'':
         rn.append(i[0])
-    #print len(rn)
     # Distribution by ranges
     data = np.array(rn)
     mn = min(rn)
@@ -185,6 +175,7 @@ def data_processing(r):
 
 #Plotting -----------------------------------------------------
 def plot(ranges,hist,bins,quantiles,name,uvalue,ustat,ccode,distr,reactor):
+    global sname
     fig = Figure()
     #w=0.35
     canvas = FigureCanvas(fig)
@@ -241,201 +232,225 @@ def plot(ranges,hist,bins,quantiles,name,uvalue,ustat,ccode,distr,reactor):
         if it<=len(hist):
             ax.plot(xt,yt,label = 'indusry target',c = 'orange')
     
-    tx = (uvalue-min(bins))*(len(bins)-1)/maxval
+    if ccode not in plants:
+        for uv, i in zip(uvalue, range(len(uvalue))):
+            tx = (uv - min(bins)) * (len(bins) - 1) / maxval
+            ax.annotate('%s value = %1.4f' %
+                        (name[i], uv), xy=(tx, 0), xytext=(max(x)*0.5, max(hist)*(0.85-0.05*i)),
+                        arrowprops=dict(facecolor='black'))
+    else:
+        tx = (uvalue - min(bins)) * (len(bins) - 1) / maxval
+        ax.annotate('%s value = %1.4f' % (sname, uvalue),
+                    xy=(tx, 0), xytext=(max(x) / 2, max(hist) / 2),
+                    arrowprops=dict(facecolor='black'))
 
-    ax.annotate('Unit %s\nvalue = %1.4f\nindividual target = %s,\
-        \nindustry target = %s,\ndata status: %s\nBest Quantile:%1.4f\nMedian:%1.4f\nWorst Quantile:%1.4f' \
-        % (name,uvalue,indiv_limit,indust_limit,ustat,quantiles[0],quantiles[1],quantiles[2]),\
-        xy=(tx,0),xytext=(max(x)/2,max(hist)/2),\
-        arrowprops=dict(facecolor='black'))
+    #ax.annotate('Unit %s\nvalue = %1.4f\nindividual target = %s,\
+    #    \nindustry target = %s,\ndata status: %s\nBest Quantile:%1.4f\nMedian:%1.4f\nWorst Quantile:%1.4f' \
+    #    % (name,uvalue,indiv_limit,indust_limit,ustat,quantiles[0],quantiles[1],quantiles[2]),\
+    #    xy=(tx,0),xytext=(max(x)/2,max(hist)/2),\
+    #    arrowprops=dict(facecolor='black'))
 
     ax.set_xlabel(xl)
     ax.set_ylabel('Number of units')
     ax.set_title('%s %s among %d units' % (ccode,distr,sum(hist)))
-    fn = name+'-'+ccode+'-'+distr+'.png'
+    fn = name[0]+'-'+ccode+'-'+distr+'.png'
     canvas.print_figure(fn)
-    
-# Plot the trend ----------------------------------------------
+
+
 def trend(utrend,ccode,name,period):
+    '''
+    Plot the trend
+    '''
+    global sname
     fig = Figure()
     #w=0.35
     canvas = FigureCanvas(fig)
     ax = fig.add_subplot(111)
-    x = np.arange(len(utrend))
+    #x = np.arange(len(utrend[0]))
     hist=[]
-    bins=[]
-    for i in range(len(utrend)):
-        hist.append(utrend[i][1])
-        bins.append(utrend[i][0])
-        
-    #ax.bar(x,hist,alpha=0.5)
+    #bins=[u[0] for u in utrend[0]] # dates
+    mx, mn = 0, 1e3
 
-    ax.plot(x,hist,'bo-',linewidth=2)
-    
-    #ax.text(1,max(hist)-max(hist)/8,\
-    #         'Best Quantile:%1.4f\nMedian:%1.4f\nWorst Quantile:%1.4f'\
-    #         %(quantiles[0],quantiles[1],quantiles[2]))
+    for i in range(len(utrend)):
+        hist.append([u[1] for u in utrend[i]])
+        ax.plot(hist[i],'o-',linewidth=2)
+        if mx < max(hist[i]):
+            mx = max(hist[i])
+        if mn > min(hist[i]):
+            mn = min(hist[i])
+
+    if ccode not in plants:
+        ax.legend(name)
+    else:
+        #print(sname)
+        ax.legend([sname])
+
     ax.grid()
-    ax.set_xticklabels(bins, rotation=30, size=10)
-    ax.set_xticks(x)
-    #ax.annotate('Unit %s\nvalue = %1.4f\ndata status: %s' % (name,uvalue,ustat),\
-    #    xy=(uvalue*len(hist)/max(bins),0),xytext=(max(x)/2,max(hist)/2),\
-    #    arrowprops=dict(facecolor='black'))
-    ax.set_xlabel('Year')
+    ### TODO: check x axis for multiunit plants
+    #ax.set_xticklabels(bins, rotation=40, size=10)
+    #ax.set_xticks(range(len(bins)))
+    ax.set_xlabel('Quarters')
+    ax.set_xticklabels([])
+    ax.set_ylim(mn, mx)
     ax.set_ylabel('%s value' % ccode)
     ax.set_title('%s trend (%d months data period)' % (ccode,period))
-    fn = name+'-'+ccode+'-trend'+'.png'
+    fn = name[0]+'-'+ccode+'-trend'+'.png'
     canvas.print_figure(fn)
     
 def report(uname,periodIndex,yr):    # Picture generation ------------------------------------------
-    print(uname,periodIndex,yr)
+    global sname
+    sname = uname
     if periodIndex in [-1,0]:
         period = 36
-    else:
-        period = 3
 
-    if __name__ == '__main__':
-        top.status.SetRange(len(iList))
-    unumber = cursor.execute('select UnitLocID from Units where UnitName = ?',(uname,)).fetchone()[0]
-    print(unumber)
-    if __name__ == '__main__':
-        top.St(str(unumber))
-    r = cursor.execute('select UnitName,Centre,Reactor,RUP from Units where UnitLocID=?',(unumber,)).fetchall()[0]
+    station = cursor.execute('select UnitLocID from Units where UnitName = ?',(uname,)).fetchone()[0]
+    units = cursor.execute('select UnitLocID from Units where StLocId = ? AND IsStation = 0',(station,)).fetchall()
+
+    fname = uname + '-' + str(yr) + '.pdf'
+    c = canvas.Canvas(fname, pagesize=landscape(letter))
+
+    r = cursor.execute('select UnitName,Centre,Reactor,RUP from Units where StLocID=? AND UnitLocId <> StLocId', (station,)).fetchall()
+    #print(r)
     meta = cursor.execute('select * from metadata').fetchall()
-    name = r[0]
-    centre = r[1]
-    reactor = r[2]
-    RUP = r[3]
-    print(name, centre, reactor)
+    name = [a[0] for a in r]
+    centre = [a[1] for a in r]
+    reactor = [a[2] for a in r]
+    RUP = [a[3] for a in r]
+    #print(name, centre, reactor, RUP)
+
+    if centre[0] != centre[1] or reactor[0] != reactor[1]:
+        print('There are different reactor types and/or Regional centre, the separated reports should be requested')
+        exit(1)
+
     # Number of units
     n = []
-    n.append(cursor.execute('select count(*) from Units where IsActive=1').fetchone()[0])
-    n.append(cursor.execute('select count(*) from Units where IsActive=1 and Reactor = ?', (reactor,)).fetchone()[0])
-    n.append(cursor.execute('select count(*) from Units where IsActive=1 and Reactor = ? and Centre = ?',\
-                            (reactor,centre,)).fetchone()[0])
+    n.append(cursor.execute('select count(*) from Units where IsStation=0').fetchone()[0])
+    n.append(cursor.execute('select count(*) from Units where IsStation=0 and Reactor = ?', (reactor[0],)).fetchone()[0])
+    n.append(cursor.execute('select count(*) from Units where IsStation=0 and Reactor = ? and Centre = ?', \
+                            (reactor[0], centre[0],)).fetchone()[0])
 
-    fname = name+'-'+str(yr)+'.pdf'
-    if __name__ == '__main__':
-        top.St('Title page producing...')
-    c = canvas.Canvas(fname, pagesize=landscape(letter))
-    title = True
-    if title:
-        
-        # The title page -----------------------------------
-        c.drawString(left,down+height*2+border*5,'Unit %s data. Data is actual (last DB copy) by %s, \
-last unit`s data for %s' % (name,meta[1][1],meta[0][1]))
-        c.drawString(left,down+height*2+border*5-10*mm,'Unit related to %s regional centre, reactor type is %s' % (centre,reactor))
-        c.drawString(20*mm,70*mm,'Three-year values are presented for indicators (except FRI: most recent operating quarter)')
-        c.drawString(20*mm,60*mm,'The most recent worldwide results are used for distribution charts. The period of chart data is %d months' % period)
-        c.drawString(20*mm,50*mm,'The most recent station results available are used for trends and comparison to \
-WANO Long-term Performance Targets values')
-        c.drawString(20*mm,40*mm,'Individual Long-Term Targets is marked by red line, and industry ones - by yellow line')
-        c.drawString(20*mm,30*mm,'Report generated on %s' % time.strftime("%a, %d %b %Y at %H:%M"))
-        c.drawString(20*mm,20*mm,'Unit vs. WANO Worldwide, WANO Worldwide %s and WANO %s Centre for %s type. Charts included qualified data only.' \
-                     % (reactor,centre,reactor))
-        c.drawString(20*mm,10*mm,'The total number of units in the DB is %d, %d have the same reactor type, and %d of them belong the same RC' %\
-                     (n[0],n[1],n[2]))
-        c.drawImage('wano.png',220*mm,180*mm,51*mm,13*mm)
-        c.drawImage('almaraz1.jpg',20*mm,90*mm,220*mm-40*mm,113*mm-40*mm)
+    # The title page -----------------------------------
+    c.drawString(left, down + height * 2 + border * 5, 'Plant %s data.' % (uname))
+    c.drawString(left, down + height * 2 + border * 5 - 10 * mm,
+                 'Belongs to %s regional centre, reactor type is %s' % (rcs[centre[0]], reactor[0]))
+    c.drawString(20 * mm, 70 * mm,
+                 'Three-year values are presented for indicators (except FRI: most recent operating quarter)')
+    c.drawString(20 * mm, 60 * mm,
+                 'The most recent worldwide results are used for distribution charts. The period of chart data is %d months' % period)
+    c.drawString(20 * mm, 50 * mm, 'The most recent station results available are used for trends and comparison to '
+                                   'WANO Long-term Performance Targets values')
+    c.drawString(20 * mm, 40 * mm,
+                 'Individual Long-Term Targets is marked by red line, and industry ones - by yellow one')
+    c.drawString(20 * mm, 30 * mm, 'Report generated on %s' % time.strftime("%a, %d %b %Y at %H:%M"))
+    c.drawString(20 * mm, 20 * mm,
+                 'Unit vs. WANO Worldwide, WANO Worldwide %s and WANO %s Centre for %s type. Charts included qualified data only.' \
+                 % (reactor[0], centre[0], reactor[0]))
+    c.drawString(20 * mm, 10 * mm,
+                 'The total number of units in the DB is %d, %d have the same reactor type, and %d of them belong the same RC' % \
+                 (n[0], n[1], n[2]))
+    c.drawImage('wano.png', 220 * mm, 180 * mm, 51 * mm, 13 * mm)
+    c.drawImage('almaraz1.jpg', 20 * mm, 90 * mm, 220 * mm - 40 * mm, 113 * mm - 40 * mm)
+    c.showPage()
 
-        c.showPage()
-        if __name__ == '__main__':
-            top.St('Title page produced')
-    # --------------
+    unumber = [u[0] for u in units]
     cnt = 0
+
     for ccode in iList:
         print(ccode)
+        sn = cursor.execute('select StLocId from Units where UnitLocID = ?', (unumber[0],)).fetchone()[0]
         cnt += 1
-        if __name__ == '__main__':
-            top.Sv(cnt)
-            top.St(ccode)
+
         # Distributions -----------------------------------------------
         ww = cursor.execute('select Value from Results where Indicator=? and EndDate=? \
             and Value is not null and Code = "None" order by Value asc',(ccode,yr)).fetchall() # Worldwide distr
 
         # Is it plant-based data?
-        #print('ccode=',ccode)
+        ut = []
         if ccode in plants:
-            unumber = cursor.execute('select StLocId from Units where UnitLocID = ?',(unumber,)).fetchone()[0]
-            print(unumber,centre,ccode,yr,reactor)
             wr = cursor.execute('select Results.Value from Results,Units where Results.Indicator=? and Results.EndDate=? \
                 and Units.Reactor=? and Units.StLocId = Results.UnitID \
                 and Results.Value is not null and Results.Code = "None" group by Units.StLocId'\
-                ,(ccode,yr,reactor,)).fetchall() # Worldwide distr by reactor type
+                ,(ccode,yr,reactor[0],)).fetchall() # Worldwide distr by reactor type
             rcr = cursor.execute('select Results.Value from Results,Units where Units.Centre = ? and Results.Indicator=? and Results.EndDate=? \
                 and Results.Value is not null and Units.Reactor=? and Units.StLocId = Results.UnitID \
                 and Results.Code = "None" group by Units.StLocId, Units.Centre'\
-                ,(centre,ccode,yr,reactor,)).fetchall() # RC distr by reactor type
-            if period == 36:
-                utrend = cursor.execute('select EndDate,Value from Results where Indicator=? and UnitID=? \
-                and Value is not null and Code = "None" order by EndDate asc',\
-                (ccode,unumber)).fetchall() # trend for current unit
-            else:
-                utrend = cursor.execute('select EndDate,Value from Results3 where Indicator=? and UnitID=? \
-                and Value is not null and Code = "None" order by EndDate asc',\
-                (ccode,unumber)).fetchall() # trend for current unit
-
+                ,(centre[0],ccode,yr,reactor[0],)).fetchall() # RC distr by reactor type
+            utrend = cursor.execute('select EndDate,Value from Results where Indicator=? and UnitID=? \
+            and Value is not null and Code = "None" order by EndDate asc',\
+            (ccode,sn,)).fetchall() # trend for current unit
+            #print(utrend)
+            ut.append(utrend)
+            #print('Trend:',ut)
         else:
-            unumber = cursor.execute('select UnitLocID from Units where UnitName = ?',(uname,)).fetchone()[0]
-            print(unumber,centre,ccode,yr,reactor)
+            #unumber = cursor.execute('select UnitLocID from Units where UnitName = ?',(uname,)).fetchone()[0]
             wr = cursor.execute('select Results.Value from Results,Units where Results.Indicator=? and Results.EndDate=? \
                 and Results.Value is not null and Units.Reactor=? and Units.UnitLocID = Results.UnitID \
                 and Results.Code = "None" order by Results.Value asc'\
-                ,(ccode,yr,reactor,)).fetchall() # Worldwide distr by reactor type
+                ,(ccode,yr,reactor[0],)).fetchall() # Worldwide distr by reactor type
             rcr = cursor.execute('select Results.Value from Results,Units where Units.Centre = ? and Results.Indicator=? and Results.EndDate=? \
                 and Results.Value is not null and Units.Reactor=? and Units.UnitLocID = Results.UnitID \
                 and Results.Code = "None" order by Results.Value asc'\
-                ,(centre,ccode,yr,reactor,)).fetchall() # RC distr by reactor type
-            if period == 36:
-                utrend = cursor.execute('select EndDate,Value from Results where Indicator=? and UnitID=? \
-                and Value is not null and Code = "None" order by EndDate asc',\
-                (ccode,unumber)).fetchall() # trend for current unit
-            else:
-                utrend = cursor.execute('select EndDate,Value from Results3 where Indicator=? and UnitID=? \
-                and Value is not null and Code = "None" order by EndDate asc',\
-                (ccode,unumber)).fetchall() # trend for current unit
-
+                ,(centre[0],ccode,yr,reactor[0],)).fetchall() # RC distr by reactor type
+            ustr = ','.join(str(u) for u in unumber)
+            for u in unumber:
+                req = 'select EndDate,Value from Results where Indicator="%s" and UnitID = %s \
+                and Value is not null and Code = "None" order by EndDate asc' % (ccode, u)
+                utrend = cursor.execute(req).fetchall() # trend for current unit
+                ut.append(utrend)
+            #print('Trend:', ut)
         # Lengths
         print(len(ww),len(wr),len(rcr))
         # Unit details ------------------------------------------------
-        try:
+        if ccode in plants:
             uvalue = cursor.execute('select Value from Results where Indicator=? and EndDate=? \
-            and UnitID=?',(ccode,yr,unumber)).fetchone()[0] # Unit value
-        except:
-            uvalue = 'N/A'
-        ustat = cursor.execute('select Code from Results where Indicator=? and EndDate=? \
-            and UnitID=?',(ccode,yr,unumber)).fetchone()[0]  # Unit value status (missed data?)
-        ustat = statuses[ustat]
+                and UnitID=?',(ccode,yr,sn,)).fetchone()[0] # Unit value
+            ustat = cursor.execute('select Code from Results where Indicator=? and EndDate=? \
+                and UnitID=?', (ccode, yr, sn,)).fetchone()[0]  # Unit value status (missed data?)
+            ustat = statuses[ustat]
+            print('Uvalues:', uvalue)
+        else:
+            ustr = ','.join(str(u) for u in unumber)
+            req = 'select Value from Results where Indicator="%s" and EndDate=%d \
+                and UnitID IN (%s)' % (ccode,yr,ustr)
+            uvalue = cursor.execute(req).fetchall() # Unit value
+            uvalue = [u[0] for u in uvalue]
+            req = 'select Code from Results where Indicator="%s" and EndDate=%d \
+                and UnitID IN (%s)' % (ccode,yr,ustr)
+            ustat = cursor.execute(req).fetchall()  # Unit value status (missed data?)
+            ustat = [u[0] for u in ustat]
+            ustat = [statuses[u] for u in ustat]
+            print('Uvalues:',uvalue)
+
         # Draw the picture
-        c.drawString(left,down+height*2+border*5,'Unit %s (station for SP5 and ISA) data for %s. ' % (name,ccode))
+        c.drawString(left,down+height*2+border*5,'Station %s data for %s. ' % (uname,ccode))
         # Check the selection availability
-        
+
         # Processing
         if ccode not in ['FRI']:
             out = data_processing(ww)
-            plot(ranges,out['hist'],out['bins'],out['quant'],name,uvalue,ustat,ccode,distrs[0],reactor)
-            fn = name+'-'+ccode+'-'+distrs[0]+'.png'
+            plot(ranges,out['hist'],out['bins'],out['quant'],name,uvalue,ustat,ccode,distrs[0],reactor[0])
+            fn = name[0]+'-'+ccode+'-'+distrs[0]+'.png'
             c.drawImage(fn,left,down+height+border*2,left+width,down+height)
             os.remove(fn)
 
         out = data_processing(wr)
-        plot(ranges,out['hist'],out['bins'],out['quant'],name,uvalue,ustat,ccode,distrs[1],reactor)
-        fn = name+'-'+ccode+'-'+distrs[1]+'.png'
+        plot(ranges,out['hist'],out['bins'],out['quant'],name,uvalue,ustat,ccode,distrs[1],reactor[0])
+        fn = name[0]+'-'+ccode+'-'+distrs[1]+'.png'
         c.drawImage(fn,left+width+border,down+height+border*2,left+width,\
                 down+height)
         os.remove(fn)
-        
+
         out = data_processing(rcr)
-        plot(ranges,out['hist'],out['bins'],out['quant'],name,uvalue,ustat,ccode,distrs[2],reactor)
-        fn = name+'-'+ccode+'-'+distrs[2]+'.png'
+        plot(ranges,out['hist'],out['bins'],out['quant'],name,uvalue,ustat,ccode,distrs[2],reactor[0])
+        fn = name[0]+'-'+ccode+'-'+distrs[2]+'.png'
         c.drawImage(fn,left,down,left+width,down+height)
         os.remove(fn)
 
-        trend(utrend,ccode,name,period)
-        fn = name+'-'+ccode+'-trend'+'.png'
+        trend(ut,ccode,name,period)
+        fn = name[0]+'-'+ccode+'-trend'+'.png'
         c.drawImage(fn,left+width+border,down,left+width,down+height)
         os.remove(fn)
-        
+
         c.showPage()
         # Here add code for the next page
     c.save()
@@ -445,21 +460,12 @@ WANO Long-term Performance Targets values')
 
 # DB connection -----------------------------------------------
 
-# missdata(yr)
-# pris_num_comp()
-# rup()
-# wanoToPris()
-# priscompar()
-# report()
-# sspi(2014)
-
 if __name__ == '__main__':
     app = wx.App(redirect=  False)   # Error messages go to popup window
     top = Frame("Unit Report Generator v.0.3")
     top.Show()
     app.MainLoop()
 
-    ##print('Finished')
     connection.commit()
     connection.close()
 else:
@@ -467,9 +473,9 @@ else:
     connection.text_factory = str
     cursor = connection.cursor()
     try:
-        r = cursor.execute('select UnitLocID,UnitName from Units where IsActive=1 order by UnitName').fetchall()
+        r = cursor.execute('select UnitLocID,UnitName from Units where IsStation=1 order by UnitName').fetchall()
         yr = cursor.execute('select max(EndDate) from Results').fetchone()[0]
-        #print(yr)
+        print(yr)
     except:
         print("There is not database file")
         quit()
