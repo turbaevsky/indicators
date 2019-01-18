@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TODO:
+History
 - [07/05/15] Indicator trend generation – currently I can generate annual-based (not a quarter-based) trend for each indicator because I use annual result spreadsheets;
 - Index method definition – current index 4 method is not quite appropriate because it was developed for all indicators but not for small group;
 - SOER data using (if need);
@@ -17,15 +17,52 @@ on the graph as well?
 - Third, for the x-axis, can we spread those out more?  Prehaps at the right most bucket
 of stations, make it like the number of stations over some high value?
 
-
 Name differences request:
 SELECT pris.Unit,units.name FROM pris,units where pris.auto_wano_id='False' and pris.wano_id=units.id
 """
 
-"""
-Correct data for Almaraz 1 201503 should be:
-UA7: 378/392; 244/250 PWR; 95/98 in PC
-"""
+'''
+# TODO:
+- [ ] 	Header Page
+  - [ ] Change “The most recent worldwide results are used” to display the actual quarter value that is used
+    - [ ] Users of the report are not intimately familiar enough with when data is released to know what that value is based on the report generated date
+    - [ ] There have also been times when data was held and not released as expected which would make the assumption off of the report generated date inaccurate
+  - [ ] Update “Unit vs WANO Worldwide…” to be “Station/Unit vs WANO Worldwide…”
+  - [ ] Display what systems are represented in the SSPI indicators based on reactor type
+  - [ ] Revise the last statement “The total number of units in the DB is 432, 294 have the same reactor type, and 108 of them belong the same RC”
+    - [ ] Replace generic statements with specific
+      - [ ] “same reactor type” with “PWR”
+      - [ ] “same RC” with “WANO-PC”
+    - [ ] Fix typo “…belong to the same…”
+    - [ ] Clarify that 108 is the same RC and reactor type, not just same RC
+- [ ] 	Page setup
+  - [ ] Display full indicator name in header
+  - [ ]	Make the font larger and centered
+  - [ ]	Ensure table headers do not get cut off. This may be achieved by:
+    - [ ] removing indicator name (since it will be in page header)
+    - [ ] replacing “Distribution among current RC” with “WANO-AC”/”WANO-PC”/”WANO-TC”/”WANO-MC”
+    - [ ] replacing “same reactors” with the abbreviation for the reactor type, for example PWR, BWR, PHWR, etc.
+  - [ ] Remove reactor comparison distribution charts from station level indicators (SP5 and ISA2)
+    - [ ] This display indicates there may be a relationship between the type of reactor and the indicator when there is not.  
+    - [ ] Also, some stations have units of different reactor types and make this chart display even more misleading.
+- [ ]	Chart setup
+  - [ ] Identify LTT and display LTT values on chart
+  - [ ] Identify Industry targets and display values on chart
+  - [ ] Display count of stations/units represented by each bar on or above the bar
+  - [ ] Keep bins identical for each of the distribution charts for a particular indicator to improve the ability to quickly compare the distribution charts.
+    - [ ] For example, see Doel UA7 charts the WW and WW PWR use the same bin sizes but the WANO-PC PWR uses much smaller bin sizes.  For Doel SP2 all three charts have different bin sizes.
+  - [ ] Correct x-axis labels to display what the value is
+    - [ ]For example, see Doel UA7 instead of “Value distribution coeff” use “Scram Rate”
+  - [ ] Display quarter labels in the x-axis of the trend charts instead of just the label “Quarters”
+  - [ ] Remove “value” from the unit labels
+    - [ ] For example, display “Doel 1 = 1.0000” instead of “Doel 1 value = 1.0000”
+  - [ ] Make value lines (black arrows) thinner
+- [ ] Data
+  - [ ] Review how missing data is handled and keep consistent
+    - [ ] For example, see Doel CPI Unit 3 is displayed as 0 in one distribution chart but missing from the others and the trend line stops
+    - [ ] I recommend not changing how the trend chart is displaying and keeping the Doel 3 label but display the reason it is missing instead of the value.  For example, display “Doel 3 = insufficient data”
+
+'''
 
 import os
 import time
@@ -39,6 +76,17 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 
 import wx
+
+from sqlalchemy import create_engine
+import pandas as pd
+import sys
+
+sys.path.append('../python')
+import functions as f
+import xlsGenerator as x
+
+import logging
+logging.basicConfig(level=logging.INFO)
 
 #Constantes
 # for pfd-generator
@@ -457,17 +505,101 @@ def report(uname,periodIndex,yr):    # Picture generation ----------------------
     return 'Report created'
         
 # =============================================================
+def tend(x18,x36,indicator=''):
+    """ return tendency sign(s) depending from 18 and 36-mns comparison"""
+    s = ['--','-','0','+','++']  # sign of trend
+    v = [x36*0.7, x36, x36*1.3] if indicator != 'UCF  ' else [x36*1.3, x36, x36*0.7]
+    return s[0] if x18<v[0] else s[1] if x18>=v[0] and x18<v[1] else s[2] \
+        if x18==v[1] else s[3] if x18>v[1] and x18<=v[2] else s[4] if x18>v[2] else 'NA'
 
+
+def quartile(res, Id, indicator, distribution):
+    """ in which quartile is units value """
+    #logging.debug((len(res), Id, indicator, len(distribution)))
+    d = res[(res.LocId.isin(distribution)) & (res.IndicatorCode==indicator) & (res.NumOfMonths==36)].ResultsValue
+    r = d.quantile([0.0,0.25,0.5,0.75,0.9,1.0]).tolist() if indicator != 'UCF  ' \
+        else d.quantile([1.0, 0.75, 0.5, 0.25, 0.1, 0.0]).tolist()
+    uRes = res[(res.LocId==Id) & (res.IndicatorCode==indicator) & (res.NumOfMonths==36)].ResultsValue.values[0]
+    uRes18 = res[(res.LocId == Id) & (res.IndicatorCode == indicator) & (res.NumOfMonths == 18)].ResultsValue.values[0]
+    ln = ['X' if uRes >= r[i] and uRes <= r[i+1] else '' for i in range(5)]
+    r = ['%.2f'%(i) for i in r[1:4]]
+    dict = {'Indicator': indicator.strip(), 'Top Quartile': r[0],  'Median': r[1], 'Bottom Quartile': r[2],
+            'Unit': f.name(Id), 'PI-36 Result': uRes.round(3), 'Performance Tendency': tend(uRes18, uRes),
+            'Units reporting': len(d), 'Top Quart.': ln[0], '2nd Quart.': ln[1],
+            '3rd Quart.': ln[2], 'Bott. Quart.': ln[3], 'Bott. 10 perc.': ln[4]}
+    return pd.DataFrame(dict, index=[0])
+
+
+def paris_df(res, units, date, distribution='Worldwide'):
+    engine = create_engine('sqlite:///../PI.sqlite')
+    plants = ('SP5  ', 'ISA1 ', 'ISA2 ', 'CISA1', 'CISA2', 'TISA2')
+    df = pd.DataFrame()
+    for indicator in ('CISA2', 'ISA2 ', 'CRE  ', 'CY   ', 'FLR  ', 'GRLF ', 'SP1  ', 'SP2  ', 'SP5  ', 'UA7  ', 'UCF  ',
+                      'UCLF ', 'US7  '):
+        print('.',end='')
+        for u in units:
+            active = x.active_unit(date).LocId.tolist()  # all active units and plants
+            centre = f.centre(x.cnt(u), date, False)  # list of units in the same centre
+            reactor = pd.read_sql('select D.LocId from PI_NsssTypeLookup T inner join PI_UnitData D \
+            on T.NsssTypeId=D.NsssTypeId where T.NsssType="{}"'.format(x.reactor(u, False)), engine).LocId
+            ar = set(reactor) & set(active)
+            r = set([f.station(u, date) for u in ar])
+            r = set(reactor) | set(r)
+            # TODO: to be checked
+            RandC = set(centre) & set(r)
+            distr = active if distribution=='Worldwide' else r if distribution=='Same reactor type' \
+                else RandC if distribution=='Same reactor type and RC' else None
+            Id = f.station(u,date) if indicator in plants else u
+            if distr is not None:
+                df = df.append(quartile(res, Id, indicator, distr), ignore_index=False)
+            else:
+                sys.exit(3)
+            if Id != u:
+                break
+    return df
+
+
+def paris(units, date):
+    """
+    table in WANO PC style
+    :param units: list of units to be analysed
+    :return: df in WANO PC style
+    """
+
+    engine = create_engine('sqlite:///../PI.sqlite')
+
+
+    req = 'select LocId, IndicatorCode, NumOfMonths, ResultsValue from PI_Results where PeriodEndYrMn={} ' \
+          'and NumOfMonths in (36,18) and NonQualCode=" "'.format(date)
+    res = pd.read_sql(req, engine)
+    repType = ['Worldwide', 'Same reactor type', 'Same reactor type and RC']
+
+    for d in repType:
+        report = paris_df(res, units, date, d)
+        report.to_excel(str(units[0])+d+str(date)+'.xls', index=False)
+        if d==repType[0]:
+            dfw = report
+        elif d==repType[1]:
+            dfr = report
+        else:
+            dfrc = report
+
+
+
+    return dfw, dfr, dfrc
+# =============================================================
+import sys
 # DB connection -----------------------------------------------
 
 if __name__ == '__main__':
-    app = wx.App(redirect=  False)   # Error messages go to popup window
-    top = Frame("Unit Report Generator v.0.3")
-    top.Show()
-    app.MainLoop()
+    #app = wx.App(redirect=False)   # Error messages go to popup window
+    #top = Frame("Unit Report Generator v.0.3")
+    #top.Show()
+    #app.MainLoop()
 
-    connection.commit()
-    connection.close()
+    #connection.commit()
+    #connection.close()
+    print(paris([1936],201809))
 else:
     connection = sqlite3.connect('pr.sqlite')
     connection.text_factory = str
@@ -478,4 +610,4 @@ else:
         print(yr)
     except:
         print("There is not database file")
-        quit()
+        sys.exit()

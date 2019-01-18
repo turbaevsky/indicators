@@ -2,7 +2,7 @@
 import sys
 import sqlite3
 from datetime import datetime
-from tqdm import tqdm
+from tqdm import tqdm,tgrange
 
 import pandas as pd
 from sqlalchemy import create_engine
@@ -22,7 +22,7 @@ def localdbupdateall(startdate,enddate):
 
     cursor.execute('DELETE FROM Results')
     cursor.execute('DELETE FROM Results3')
-    req = 'Select * from PI_Results where PeriodEndYrMn>={} AND (NumOfMonths = 3 OR NumOfMonths = 36)'.format(startdate)
+    req = 'Select * from PI_Results where PeriodEndYrMn>={} AND NumOfMonths = 36'.format(startdate)
     dbwp = pd.read_sql(req, engine)
     #print(dbwp.head())
     #counter = 0
@@ -121,7 +121,7 @@ def unitcopy():
 
 if __name__ == '__main__':
     unitcopy()
-    #localdbupdateall('201306','201806')    # Last available data
+    localdbupdateall('201306','201809')    # Last available data
 
 def cls():
     connection.commit()
