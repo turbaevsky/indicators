@@ -158,7 +158,8 @@ def result(date):  # copy all available results
 
 def source(date):  # copy all necessary source data for TISA
     req = "select * from PI_IndValues where YrMn >= '{}' and ElementCode in \
-    ('M1   ','M2   ','M3   ','M4   ','M5   ','M6   ','M7   ','M8   ')".format(date-300)
+    ('M1   ','M2   ','M3   ','M4   ','M5   ','M6   ','M7   ','M8   ') and SourceCode = '  ' and RecStatus = ' '"\
+        .format(date-300)
     return pd.read_sql(req,engine)
 
 
@@ -168,14 +169,17 @@ def d2d(date):  # convert from 201806 into date
 
 
 def tisa(IV, uid, date, period=36, nom=2E5):
+    #logging.debug('station ID = {}'.format(station(uid)))
     m = ['M1   ','M2   ','M3   ','M4   ','M5   ','M6   ','M7   ','M8   ']
     d = [t.strftime("%Y%m") for t in pd.date_range(start=d2d(date), periods=period/3, freq='-3M')]
     t = IV[(IV.SourceId == station(uid)) & (IV.YrMn.isin(d)) & (IV.SourceCode == '  ')]
+    #logging.debug('Matrics len is {}'.format([[len(t[t.ElementCode==a]),len(t[t.ElementCode==m[0]]),a] for a in m]))
     if all(len(t[t.ElementCode==a]) == len(t[t.ElementCode==m[0]]) for a in m):
         M = [t.ElementValue[t.ElementCode == el].values.sum() for el in m]
         tisa = (M[0]+M[1]+M[2]+M[4]+M[5]+M[7])/(M[3]+M[6])*nom
         return tisa.round(3)
     else:
+        logging.warning('No valid TISA results for {}'.format(name(uid)))
         return 'N/A'
 
 
@@ -202,6 +206,7 @@ def ind(res, u, indicator, months, round=3, factor=1.0):
 def xls(date):
     logging.info(f'Copying data for {date}...')
     un = only(active_unit(date))
+    #un = [1612]  # debugging
     df = pd.DataFrame()
     res = result(date)
     IV = source(date)
@@ -411,11 +416,11 @@ if __name__ == '__main__':
     writer = pd.ExcelWriter(fn)
     xls(date).to_excel(writer,sheet_name='PI Spreadsheet', index=False)
     logging.info(f'Spreadsheet successfully written into {fn}')
-    DES(date,'T').to_excel(writer, sheet_name='PI-DES', index=False)
-    logging.info(f'DES successfully written into {fn}')
-    WER(int(str(date)[:4])).to_excel(writer, sheet_name='WER', index=False)
-    logging.info(f'WER successfully written into {fn}')
-    SOER(date,'T').to_excel(writer, sheet_name='SOER', index=False)
-    logging.info(f'SOER successfully written into {fn}')
+    #DES(date,'T').to_excel(writer, sheet_name='PI-DES', index=False)
+    #ogging.info(f'DES successfully written into {fn}')
+    #WER(int(str(date)[:4])).to_excel(writer, sheet_name='WER', index=False)
+    #logging.info(f'WER successfully written into {fn}')
+    #SOER(date,'T').to_excel(writer, sheet_name='SOER', index=False)
+    #logging.info(f'SOER successfully written into {fn}')
     writer.save()
     logging.info(f'All successfully written into {fn}')
